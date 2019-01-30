@@ -1,5 +1,9 @@
 // pages/index/index.js
 
+const api = require('../../utils/api.js');
+var Base64 = require('../../utils/base64.js');
+var MD5 = require('../../utils/md5.js');
+
 Page({
 
   /**
@@ -13,14 +17,18 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    wx.cloud.init();
-    wx.cloud.callFunction({
-      name: 'getOpenId',
-      complete: res => {
-        console.log(res);
-      }
-    })
-    
+    // wx.cloud.init();
+    // wx.cloud.callFunction({
+    //   name: 'getOpenId',
+    //   complete: res => {
+    //     console.log(res);
+    //   }
+    // })
+
+    var token = api.token;
+    var appkey = api.appKey;
+    var signKey = api.signKey;
+    console.log(MD5('cba'));
   },
 
   /**
