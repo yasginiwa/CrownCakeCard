@@ -4,7 +4,7 @@
 		"ignore": []
 	},
 	"setting": {
-		"urlCheck": true,
+		"urlCheck": false,
 		"es6": true,
 		"postcss": true,
 		"minified": true,
@@ -19,7 +19,6 @@
 		"hidedInDevtools": []
 	},
 	"isGameTourist": false,
-	"cloudfunctionRoot": "cloud-functions/",
 	"condition": {
 		"search": {
 			"current": -1,
