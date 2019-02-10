@@ -1,11 +1,18 @@
 {
   "pages": [
-    "pages/index/index"
+    "pages/index/index",
+    "pages/registry/registry"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "WeChat",
     "navigationBarTextStyle": "black"
+  },
+  "plugins": {
+    "Crypto": {
+      "version": "0.0.003",
+      "provider": "wxf25d506ff81e19fb"
+    }
   }
 }

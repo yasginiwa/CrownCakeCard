@@ -1,8 +1,8 @@
 // pages/index/index.js
 
 const api = require('../../utils/api.js');
-var CryptoJS = require('../../utils/cryptojs.js');
 const dateUtil = require('../../utils/util.js');
+var urlSafeBase64 = require('../../utils/safebase64.js');
 
 Page({
 
@@ -10,68 +10,113 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    operations: [
+      {
+        image: '../../assets/blueCard.png',
+        name: '领取福利券',
+        desc: '福利券发放人员入口（需注册认证）',
+        indicator: '../../assets/arrow.png',
+        tap: 'getTicket'
+      },
+      {
+        image: '../../assets/yellowCard.png',
+        name: '接收福利券',
+        desc: '员工入口',
+        indicator: '../../assets/arrow.png',
+        tap: 'recieveTicket'
+      }
+    ]
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    var token = api.token;
-    var appKey = api.appKey;
-    var signKey = api.signKey;
-    var ticketGen = api.ticketGen;
-    var ticketQuery = api.ticketQuery;
 
     var now = dateUtil.formatTime(new Date());
-
     var content = {
-      'productid': 1608,
-      'startdate': '2019-02-01',
+      'productid': 1014519,
+      'startdate': '2019-02-10',
       'enddate': '2019-06-30',
-      'sellprice': 123.00,
       'customername': '皇冠蛋糕',
+      'datasource': 11,
       'timestamp': now
     }
 
+    var ticketGenUrl = api.ticketGenUrl;
+    var ticketQueryUrl = api.ticketQueryUrl;
+    // var encContent = urlSafeBase64.encode(api.encryptContent(content));
+    // var sign = api.sign(content);
+    // var token = api.token;
+
+    // wx.request({
+    //   url: ticketGenUrl,
+    //   method: 'POST',
+    //   header: {
+    //     "Content-Type": "application/x-www-form-urlencoded"
+    //   },
+    //   data: {
+    //     token: token,
+    //     sign: sign,
+    //     content: encContent
+    //   },
+    //   success: function (res) {
+    //     var data = JSON.parse(res.data);
+    //     var content = api.decryptContent(data.content);
+    //     console.log(content);
+    //   },
+    //   fail: function (res) {
+
+    //   },
+    //   complete: function (res) {
+
+    //   }
+    // })
+
+    var queryContent = {
+      'ticketcode': '402946641730261286',
+      'datasource': 11,
+      'timestamp': now
+    }
+
+    var encContent = urlSafeBase64.encode(api.encryptContent(queryContent));
+    var sign = api.sign(queryContent);
+    var token = api.token;
+
     wx.request({
-      url: ticketGen,
+      url: ticketQueryUrl,
+      method: 'POST',
+      header: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
       data: {
         token: token,
-        sign: CryptoJS.MD5(signKey + 'token' + token + 'content' + JSON.stringify(content) + signKey).toString(),
-        content: CryptoJS.AES.encrypt(JSON.stringify(content), appKey).toString()
+        sign: sign,
+        content: encContent
       },
-      method: 'POST',
       success: function (res) {
-        console.log(res);
+        var data = JSON.parse(res.data);
+        var content = api.decryptContent(data.content);
+        console.log(content);
       },
       fail: function (res) {
-        console.log(res);
+
       },
-      complete: function (res) { },
+      complete: function (res) {
+
+      }
     })
 
-    // // md5
-    // var md5Str = CryptoJS.MD5('123').toString();
-    // console.log('MD5 '+ md5Str);
+  },
 
-    // //Base64编码
-    // var src = CryptoJS.enc.Utf8.parse("anlige");
-    // var base64string = CryptoJS.enc.Base64.stringify(src);
-    // console.log('Base64编码 ' + base64string.toString());
+  getTicket: function() {
+    wx.navigateTo({
+      url: '../registry/registry',
+    })
+  },
 
-    // //Base64解码
-    // var base64string = CryptoJS.enc.Base64.parse("YW5saWdl");
-    // console.log('Base64解码 ' + CryptoJS.enc.Utf8.stringify(base64string));
-
-    // // AES Encrypt
-    // var ciphertext = CryptoJS.AES.encrypt('my message', 'secret key 123');
-    // console.log('AES加密 ' + ciphertext);
-
-    // // AES Decrypt
-    // var bytes = CryptoJS.AES.decrypt(ciphertext.toString(), 'secret key 123');
-    // var plaintext = bytes.toString(CryptoJS.enc.Utf8);
-    // console.log('AES解密 ' + plaintext);
+  recieveTicket: function () {
+    console.log('recieveTicket');
   },
 
   /**

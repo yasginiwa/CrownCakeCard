@@ -1,1 +1,72 @@
 /* pages/index/index.wxss */
+page {
+  height: 100%;
+  width: 100%;
+}
+
+.banner {
+  background-color: #0079C0;
+  width: 100%;
+  height: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.banner image {
+  height: 350rpx;
+  width: 600rpx;
+}
+
+.banner text {
+  margin-top: 80rpx;
+  font-size: 32rpx;
+  color: white;
+}
+
+.tableView {
+  width: 100%;
+  height: 50%;
+  display: flex;
+  flex-direction: column;
+}
+
+.cell {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 170rpx;
+  width: 100%;
+  border-bottom: solid #eee 2rpx;
+  margin-left: 30rpx;
+}
+
+.cell .icon {
+  width: 200rpx;
+  height: 120rpx;
+}
+
+.cell .textDesc {
+  display: flex;
+  flex-direction: column;
+  margin-left: 20rpx;
+}
+
+.cell .textDesc .name {
+  font-size: 38rpx;
+  margin-bottom: 5rpx;
+}
+
+.cell .textDesc .desc {
+  font-size: 28rpx;
+  color: #bebebe;
+  margin-top: 5rpx;
+}
+
+.cell .indicator {
+  position: absolute;
+  right: 20rpx;
+  width: 40rpx;
+  height: 40rpx;
+}

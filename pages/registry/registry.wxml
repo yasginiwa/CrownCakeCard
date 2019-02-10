@@ -1,0 +1,12 @@
+<!--pages/registy/registry.wxml-->
+<view class='formContainer'>
+  <form class='tableView' bindsubmit='registrySubmit'>
+    <view class='cell' wx:for='{{registryInfo}}' wx:key='{{registry}}'>
+      <text>{{item.desc}}</text>
+      <view class='inputContainer'>
+        <input placeholder='{{item.placeH}}' placeholder-class='placeHolder' focus='{{item.focus}}' type='{{item.type}}' name='{{item.name}}' bindinput='{{item.bindInput}}'></input>
+      </view>
+    </view>
+    <button class='submit' form-type='submit' disabled='{{!submitBtnStatus}}'>提 交</button>
+  </form>
+</view>

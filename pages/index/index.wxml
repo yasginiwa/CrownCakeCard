@@ -1,2 +1,16 @@
 <!--pages/index/index.wxml-->
-<text>pages/index/index.wxml</text>
+<view class='banner'>
+  <image src='../../assets/banner.png'></image>
+  <text>在线领取、接收员工生日蛋糕福利券</text>
+</view>
+
+  <view class='tableView'>
+    <view class='cell' wx:for='{{operations}}' wx:key='{{operate}}' bindtap='{{item.tap}}'>
+      <image class='icon' src='{{item.image}}'></image>
+      <view class='textDesc'>
+        <text class='name'>{{item.name}}</text>
+        <text class='desc'>{{item.desc}}</text>
+      </view>
+      <image class='indicator' src='{{item.indicator}}'></image>
+    </view>
+</view>

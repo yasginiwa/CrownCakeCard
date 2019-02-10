@@ -1,0 +1,47 @@
+/* pages/registy/registry.wxss */
+page {
+  background-color: #f0f0f0;
+}
+
+.formContainer {
+  margin-top: 50rpx;
+}
+
+.cell {
+  width: 100%;
+  margin-top: 20rpx;
+}
+
+.cell text {
+  font-size: 26rpx;
+  color: #999;
+  margin-left: 15rpx;
+  margin-right: 15rpx;
+}
+
+.cell .inputContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: white;
+  border-top: solid 2rpx #d9d9d9;
+  border-bottom: solid 2rpx #d9d9d9;
+  height: 80rpx;
+}
+
+.cell input {
+  height: 70rpx;
+  margin-left: 10rpx;
+  width: 100%;
+}
+
+.placeHolder {
+  font-size: 30rpx;
+}
+
+.submit {
+  margin-top: 50rpx;
+  width: 70%;
+  background-color: #0079C0;
+  color: white;
+}
