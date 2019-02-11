@@ -48,6 +48,9 @@ Page({
     console.log(e.detail.value);
   },
 
+  /**
+   * 监听输入公司名称
+   */
   companyInput: function (e) {
     this.setData({
       company: e.detail.value
@@ -56,6 +59,9 @@ Page({
     this.onInput();
   },
 
+  /**
+   * 监听输入联系人
+   */
   contactInput: function (e) {
     this.setData({
       contact: e.detail.value
@@ -64,6 +70,9 @@ Page({
     this.onInput();
   },
 
+  /**
+   * 监听输入电话号码
+   */
   phoneInput: function (e) {
     this.setData({
       phone: e.detail.value
@@ -72,6 +81,9 @@ Page({
     this.onInput();
   },
 
+  /**
+   * 判断输入时的提交按钮状态
+   */
   onInput: function () {
     if (this.data.company.length && this.data.contact.length && this.data.phone.length) {
       this.setData({

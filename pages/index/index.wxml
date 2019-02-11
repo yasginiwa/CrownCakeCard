@@ -1,7 +1,7 @@
 <!--pages/index/index.wxml-->
 <view class='banner'>
   <image src='../../assets/banner.png'></image>
-  <text>在线领取、接收员工生日蛋糕福利券</text>
+  <text>在线发放、领取员工生日蛋糕福利券</text>
 </view>
 
   <view class='tableView'>

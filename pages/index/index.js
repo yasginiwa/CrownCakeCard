@@ -13,14 +13,14 @@ Page({
     operations: [
       {
         image: '../../assets/blueCard.png',
-        name: '领取福利券',
-        desc: '福利券发放人员入口（需注册认证）',
+        name: '发放福利券',
+        desc: '福利发放人员入口(需注册认证)',
         indicator: '../../assets/arrow.png',
         tap: 'getTicket'
       },
       {
         image: '../../assets/yellowCard.png',
-        name: '接收福利券',
+        name: '领取福利券',
         desc: '员工入口',
         indicator: '../../assets/arrow.png',
         tap: 'recieveTicket'
