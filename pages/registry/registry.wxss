@@ -10,6 +10,7 @@ page {
 .cell {
   width: 100%;
   margin-top: 20rpx;
+  margin-bottom: 5rpx;
 }
 
 .cell text {
@@ -37,6 +38,12 @@ page {
 
 .placeHolder {
   font-size: 30rpx;
+}
+
+.notice {
+  margin-left: 20rpx;
+  font-size: 30rpx;
+  color: red;
 }
 
 .submit {

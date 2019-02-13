@@ -1,4 +1,7 @@
 // pages/registy/registry.js
+var customerRegUrl = require('../../utils/api.js');
+var api = require('../../utils/api.js');
+
 Page({
 
   /**
@@ -34,6 +37,9 @@ Page({
     company: '',
     contact: '',
     phone: '',
+    authstatus: 0,
+    recievestatus: 0,
+    ticket: '',
     submitBtnStatus: false,
   },
 
@@ -45,9 +51,74 @@ Page({
   },
 
   registrySubmit: function (e) {
-    console.log(e.detail.value);
-  },
+    //  获取openid
+    wx.login({
+      success: function(res) {
+        wx.request({
+          url: 'https://api.weixin.qq.com/sns/jscode2session',
+          data: {
+            appid: 'wx7fc7b53df0fe91d2',
+            secret: '64fa906971b92a829115e5011ba92aa5',
+            js_code: res.code,
+            grant_type: 'authorization_code'
+          },
+          method: 'GET',
+          success: function(result) {
+            wx.setStorageSync('openid', result.data.openid);
+          },
+          fail: function(res) {},
+          complete: function(res) {}
+        })
+      },
+      fail: function(res) {},
+      complete: function(res) {},
+    })
 
+    //  注册请求
+    var customerRegUrl = api.customerRegUrl;
+    var that = this;
+
+    wx.showLoading({
+      title: '提交中...',
+    })
+    wx.request({
+      url: customerRegUrl,
+      method: 'POST',
+      data: {
+        openid: wx.getStorageSync('openid'),
+        company: that.data.company,
+        contact: that.data.contact,
+        phone: that.data.phone,
+        authstatus: that.data.authstatus,
+        recievestatus: that.data.recievestatus,
+        ticket: that.data.ticket
+      },
+      success: function(res) {
+        wx.hideLoading();
+        if (res.data.code == 0){
+          wx.showToast({
+            title: '注册信息有误!',
+            icon: 'none',
+            mask: 'true',
+            duration: 3000
+          })
+        } else {
+          wx.navigateTo({
+            url: '../verify/verify',
+          })
+        }
+      },
+      fail: function(res) {
+        wx.hideLoading();
+        wx.showToast({
+          title: '网络错误，请检查手机网络连接',
+          icon: 'none',
+          mask: 'true',
+          duration: 3000
+        })
+      }
+    })
+  },
   /**
    * 监听输入公司名称
    */

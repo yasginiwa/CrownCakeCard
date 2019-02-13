@@ -1,7 +1,8 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/registry/registry"
+    "pages/registry/registry",
+    "pages/verify/verify"
   ],
   "window": {
     "backgroundTextStyle": "light",

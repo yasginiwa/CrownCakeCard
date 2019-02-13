@@ -7,6 +7,7 @@
         <input placeholder='{{item.placeH}}' placeholder-class='placeHolder' focus='{{item.focus}}' type='{{item.type}}' name='{{item.name}}' bindinput='{{item.bindInput}}'></input>
       </view>
     </view>
+    <text class='notice'>注册信息后无法更改，请仔细核对!</text>
     <button class='submit' form-type='submit' disabled='{{!submitBtnStatus}}'>提 交</button>
   </form>
 </view>
