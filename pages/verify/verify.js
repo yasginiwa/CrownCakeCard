@@ -1,66 +1,44 @@
 // pages/verify/verify.js
+const dateUtil = require('../../utils/util.js');
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    processData: [
-      {
-        name: '预约',
-        start: '#fff',
-        end: '#aaa',
-        icon: '../../assets/process1.png'
-      },
-      {
-        name: '已接单',
-        start: '#aaa',
-        end: '#aaa',
-        icon: '../../assets/process1.png'
-      },
-      {
-        name: '开始维修',
-        start: '#aaa',
-        end: '#aaa',
-        icon: '../../assets/process1.png'
-      },
-      {
-        name: '维修结束',
-        start: '#aaa',
-        end: '#aaa',
-        icon: '../../assets/process1.png'
-      },
-      {
-        name: '已确认',
-        start: '#aaa',
-        end: '#fff',
-        icon: '../../assets/process1.png'
-      }
-    ],
     progress: [
       {
-        word: "进度1",
+        word: "完成注册",
         state: 1
       }, {
-        word: "进度2",
+        word: "等待审核",
         state: 1
       }, {
-        word: "进度3",
-        state: 1
-      }, {
-        word: "进度4",
-        state: 0
-      }, {
-        word: "进度5",
+        word: "审核通过",
         state: 0
       }
-    ]
+    ],
+
+    date: '',
+    company: '',
+    contact: '',
+    phone: ''
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    var today = dateUtil.formatDate(new Date());
+
+    this.setData({
+      date: today,
+      company: options.company,
+      contact: options.contact,
+      phone: options.phone
+    })
+
     this.setPeocessIcon();
   },
 
@@ -69,7 +47,7 @@ Page({
    */
   setPeocessIcon: function () {
     var index = 0 //记录状态为1的最后的位置
-    var processArr = this.data.processData
+    var processArr = this.data.progress
     for (var i = 0; i < this.data.progress.length; i++) {
       var item = this.data.progress[i]
       processArr[i].name = item.word

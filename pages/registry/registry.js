@@ -1,5 +1,4 @@
 // pages/registy/registry.js
-var customerRegUrl = require('../../utils/api.js');
 var api = require('../../utils/api.js');
 
 Page({
@@ -39,7 +38,6 @@ Page({
     phone: '',
     authstatus: 0,
     recievestatus: 0,
-    ticket: '',
     submitBtnStatus: false,
   },
 
@@ -75,23 +73,21 @@ Page({
     })
 
     //  注册请求
-    var customerRegUrl = api.customerRegUrl;
+    var registryUrl = api.registryUrl;
     var that = this;
 
     wx.showLoading({
       title: '提交中...',
     })
     wx.request({
-      url: customerRegUrl,
+      url: registryUrl,
       method: 'POST',
       data: {
         openid: wx.getStorageSync('openid'),
         company: that.data.company,
         contact: that.data.contact,
         phone: that.data.phone,
-        authstatus: that.data.authstatus,
-        recievestatus: that.data.recievestatus,
-        ticket: that.data.ticket
+        authstatus: that.data.authstatus
       },
       success: function(res) {
         wx.hideLoading();
@@ -103,8 +99,8 @@ Page({
             duration: 3000
           })
         } else {
-          wx.navigateTo({
-            url: '../verify/verify',
+          wx.reLaunch({
+            url: `../verify/verify?company=${that.data.company}&contact=${that.data.contact}&phone=${that.data.phone}`,
           })
         }
       },
