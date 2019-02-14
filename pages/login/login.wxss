@@ -26,7 +26,7 @@
 }
 
 .login .user {
-  border-bottom: solid black 2rpx;
+  border-bottom: solid #bbb 2rpx;
 }
 
 .login .user .title {
@@ -45,7 +45,7 @@
 
 .login .pwd {
   margin-top: 40rpx;
-  border-bottom: solid black 2rpx;
+  border-bottom: solid #bbb 2rpx;
 }
 
 .login .pwd .title {

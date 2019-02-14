@@ -76,9 +76,9 @@ Page({
       success: function (res) {
         wx.hideLoading();
         if (res.data.result) {
-          if (password === res.data.result.password) {
+          if (password === res.data.result[0].password) {
             wx.navigateTo({
-              url: '../authorization/authorization',
+              url: '../auth/auth',
             })
           } else {
             wx.showToast({

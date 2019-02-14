@@ -1,0 +1,5 @@
+<!--pages/auth/auth.wxml-->
+<view class='norecord' wx:if='{{clients.length == 0}}'>
+  <image src='../../assets/norecord.png'></image>
+  <text>暂无客户！</text>
+</view>
