@@ -33,6 +33,32 @@ Page({
    */
   onLoad: function (options) {
 
+    //  获取openid
+    wx.login({
+      success: function (res) {
+        wx.request({
+          url: 'https://api.weixin.qq.com/sns/jscode2session',
+          data: {
+            appid: 'wx7fc7b53df0fe91d2',
+            secret: '64fa906971b92a829115e5011ba92aa5',
+            js_code: res.code,
+            grant_type: 'authorization_code'
+          },
+          method: 'GET',
+          success: function (result) {
+            wx.setStorage({
+              key: 'openid',
+              data: result.data.openid,
+            });
+          },
+          fail: function (res) { },
+          complete: function (res) { }
+        })
+      },
+      fail: function (res) { },
+      complete: function (res) { },
+    })
+
     var now = dateUtil.formatTime(new Date());
     var content = {
       'productid': 1014519,
@@ -117,6 +143,12 @@ Page({
 
   recieveTicket: function () {
     console.log('recieveTicket');
+  },
+
+  onSupervise: function () {
+    wx.navigateTo({
+      url: '../login/login',
+    })
   },
 
   /**

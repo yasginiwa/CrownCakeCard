@@ -41,8 +41,9 @@ page {
 }
 
 .notice {
-  margin-left: 20rpx;
-  font-size: 30rpx;
+  margin-left: 10rpx;
+  margin-bottom: 50rpx;
+  font-size: 26rpx;
   color: red;
 }
 

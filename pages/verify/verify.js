@@ -17,13 +17,18 @@ Page({
       }, {
         word: "审核通过",
         state: 0
+      },
+      {
+        word: "开始领券",
+        state: 0
       }
     ],
-
-    date: '',
-    company: '',
-    contact: '',
-    phone: ''
+    regInfo: {
+      date: '',
+      company: '',
+      contact: '',
+      phone: ''
+    }
   },
 
   /**
@@ -54,16 +59,16 @@ Page({
       if (item.state == 1) {
         index = i
         processArr[i].icon = "../../assets/process3.png"
-        processArr[i].start = "#45B2FE"
-        processArr[i].end = "#45B2FE"
+        processArr[i].start = "#5ABF46"
+        processArr[i].end = "#5ABF46"
       } else {
         processArr[i].icon = "../../assets/process1.png"
-        processArr[i].start = "#aaa"
-        processArr[i].end = "#aaa"
+        processArr[i].start = "#c9caca"
+        processArr[i].end = "#c9caca"
       }
     }
     processArr[index].icon = "../../assets/process2.png"
-    processArr[index].end = "#aaa"
+    processArr[index].end = "#c9caca"
     processArr[0].start = "#fff"
     processArr[this.data.progress.length - 1].end = "#fff"
     this.setData({

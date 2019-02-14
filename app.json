@@ -2,7 +2,10 @@
   "pages": [
     "pages/index/index",
     "pages/registry/registry",
-    "pages/verify/verify"
+    "pages/verify/verify",
+    "pages/admin/admin",
+    "pages/login/login",
+    "pages/authorization/authorization"
   ],
   "window": {
     "backgroundTextStyle": "light",

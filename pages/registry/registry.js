@@ -1,5 +1,6 @@
 // pages/registy/registry.js
 var api = require('../../utils/api.js');
+const dateUtil = require('../../utils/util.js');
 
 Page({
 
@@ -49,31 +50,10 @@ Page({
   },
 
   registrySubmit: function (e) {
-    //  获取openid
-    wx.login({
-      success: function(res) {
-        wx.request({
-          url: 'https://api.weixin.qq.com/sns/jscode2session',
-          data: {
-            appid: 'wx7fc7b53df0fe91d2',
-            secret: '64fa906971b92a829115e5011ba92aa5',
-            js_code: res.code,
-            grant_type: 'authorization_code'
-          },
-          method: 'GET',
-          success: function(result) {
-            wx.setStorageSync('openid', result.data.openid);
-          },
-          fail: function(res) {},
-          complete: function(res) {}
-        })
-      },
-      fail: function(res) {},
-      complete: function(res) {},
-    })
 
     //  注册请求
     var registryUrl = api.registryUrl;
+    var today = dateUtil.formatDate(new Date());
     var that = this;
 
     wx.showLoading({
@@ -87,13 +67,14 @@ Page({
         company: that.data.company,
         contact: that.data.contact,
         phone: that.data.phone,
-        authstatus: that.data.authstatus
+        authstatus: that.data.authstatus,
+        regdate: today
       },
       success: function(res) {
         wx.hideLoading();
         if (res.data.code == 0){
           wx.showToast({
-            title: '注册信息有误!',
+            title: '注册信息有误！',
             icon: 'none',
             mask: 'true',
             duration: 3000
@@ -107,7 +88,7 @@ Page({
       fail: function(res) {
         wx.hideLoading();
         wx.showToast({
-          title: '网络错误，请检查手机网络连接',
+          title: '网络错误，请检查手机网络连接！',
           icon: 'none',
           mask: 'true',
           duration: 3000

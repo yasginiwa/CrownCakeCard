@@ -1,13 +1,13 @@
 <!--pages/verify/verify.wxml-->
 <view class='top'>
   <image src='../../assets/checked.png'></image>
-  <text>注册申请已提交成功!请耐心等待审核结果。</text>
+  <text>注册申请已提交成功！请耐心等待审核结果。</text>
 </view>
 <view class='middle'>
-  <text class='date'>注册日期: {{date}}</text>
-  <text class='company'>注册公司: {{company}}</text>
-  <text class='contact'>注册姓名: {{contact}}</text>
-  <text class='phone'>注册电话: {{phone}}</text>
+  <text class='date'>注册日期： {{date}}</text>
+  <text class='company'>注册公司： {{company}}</text>
+  <text class='contact'>注册姓名： {{contact}}</text>
+  <text class='phone'>注册电话： {{phone}}</text>
 </view>
 <view class='order_process'>
   <view class='process_wrap' wx:for="{{processData}}" wx:key="">

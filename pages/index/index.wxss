@@ -19,6 +19,16 @@ page {
   width: 600rpx;
 }
 
+.banner .supervise {
+  border: none;
+  opacity: 0;
+  position: absolute;
+  left: 33%;
+  top: 20%;
+  width: 80rpx;
+  height: 50rpx;
+}
+
 .banner text {
   margin-top: 80rpx;
   font-size: 32rpx;
