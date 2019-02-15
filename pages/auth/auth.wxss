@@ -1,1 +1,84 @@
 /* pages/auth/auth.wxss */
+page{
+  background-color: #eee;
+}
+
+.noclient image {
+  position: absolute;
+  width: 150rpx;
+  height: 150rpx;
+  left: 50%;
+  top:50%;
+  margin-left: -75rpx;
+  margin-top: -180rpx;
+}
+
+.noclient text {
+  font-size: 30rpx;
+  position: absolute;
+  color: #bfbfbf;
+  left: 50%;
+  top: 50%;
+  margin-left: -115rpx;
+  margin-top: -10rpx;
+}
+
+.cell {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  background-color: white;
+  height: 120rpx;
+  width: 100%;
+  margin-bottom: 10rpx;
+}
+
+.cell .icon {
+  width: 90rpx;
+  height: 90rpx;
+  margin-left: 20rpx;
+}
+
+.cell .content {
+  margin-left: 20rpx;
+}
+
+.cell .content .company {
+  font-size: 28rpx;
+  font-weight: bold;
+}
+
+.cell .detail
+{
+  display: flex;
+  flex-flow: row nowrap;
+  font-size: 20rpx;
+}
+
+.cell .detail .phone {
+  margin-left: 20rpx;
+}
+
+.cell .detail .regdate {
+  margin-left: 120rpx;
+}
+
+.cell .auth {
+  position: absolute;
+  right: 48rpx;
+  width: 80rpx;
+  height: 80rpx;
+}
+
+.cell .authBtn {
+  margin-right: 10rpx;
+  margin-bottom: 30rpx;
+  width: 60rpx;
+  height: 60rpx;
+  border: none;
+  background-color:rgba(0, 0, 0, 0);
+}
+
+.cell button::after {
+  border: none;
+}

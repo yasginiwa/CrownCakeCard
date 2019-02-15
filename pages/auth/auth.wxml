@@ -1,5 +1,22 @@
 <!--pages/auth/auth.wxml-->
-<view class='norecord' wx:if='{{clients.length == 0}}'>
+<view class='noclient' wx:if='{{clients.length == 0}}'>
   <image src='../../assets/norecord.png'></image>
   <text>暂无客户！</text>
+</view>
+
+<view class='cell' wx:if='{{clients.length > 0}}' wx:for='{{clients}}' wx:key='client'>
+  <image class='icon' src='../../assets/customer.png'></image>
+
+  <view class='content'>
+    <text class='company'>{{item.company}}
+  </text>
+    <view class='detail'>
+      <text class='contact'>{{item.contact}}</text>
+      <text class='phone'>{{item.phone}}</text>
+      <text class='regdate'>{{item.regdate}}</text>
+    </view>
+  </view>
+
+  <image class='auth' src='../../assets/unauth.png' bindtap='onAuthorized'></image>
+  <button class='authBtn' loading='{{!btnLoadStatus}}' data-idx='{{idx}}'></button>
 </view>

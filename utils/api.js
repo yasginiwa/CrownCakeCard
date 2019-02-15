@@ -4,8 +4,9 @@ var safeBase64 = require('../utils/safebase64.js')
 var ticketGenUrl = 'http://192.168.10.20:27777/icapi/tmticket';
 var ticketQueryUrl = 'http://192.168.10.20:27777/icapi/tmticketquery';
 var registryUrl = 'http://192.168.10.214:18000/registry';
-var loginUrl = 'http://192.168.0.172:18000/login';
-var authUrl = 'http://192.168.0.172:18000/auth';
+var loginUrl = 'http://192.168.10.214:18000/login';
+var authUrl = 'http://192.168.10.214:18000/auth';
+var authupdateUrl = 'http://192.168.10.214:18000/authupdate';
 var token = 'HGCakeECSell';
 var appKey = 'SEdDYWtlT3JkZXJBbmRTZWxsMjAxOA==';
 var signKey = 'BPe2XMzYP6UydzAuWiPuthAWVrMWkbmC';
@@ -51,6 +52,7 @@ module.exports = {
   registryUrl: registryUrl,
   loginUrl: loginUrl,
   authUrl: authUrl,
+  authupdateUrl: authupdateUrl,
   encryptContent: encryptContent,
   decryptContent: decryptContent
 };

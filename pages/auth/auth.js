@@ -7,7 +7,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    clients: []
+    clients: [],
+    btnLoadStatus: 'false',
   },
 
   /**
@@ -32,14 +33,36 @@ Page({
         that.setData({
           clients: res.data.result
         })
-        console.log(that.data.clients);
       },
       fail: function(res) {
 
       },
       complete: function(res) {
-
+        wx.hideLoading();
       }
+    })
+  },
+
+  onAuthorized: function(e) {
+    var authupdateUrl = api.authupdateUrl;
+    var that = this;
+    var unAuthCustomer = that.data.clients[e.currentTarget.dataset.idx];
+    console.log(unAuthCustomer);
+
+    wx.request({
+      url: authupdateUrl,
+      method: 'POST',
+      data: {
+        authstatus: 'authstatus',
+        sqlValue: 1,
+        r_id: 'r_id',
+        rangValue: that.data.clients[idx].r_id
+      },
+      success: function(res) {
+        console.log(res);
+      },
+      fail: function(res) {},
+      complete: function(res) {}
     })
   },
 
