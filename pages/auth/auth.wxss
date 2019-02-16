@@ -1,5 +1,6 @@
 /* pages/auth/auth.wxss */
-page{
+
+page {
   background-color: #eee;
 }
 
@@ -7,20 +8,16 @@ page{
   position: absolute;
   width: 150rpx;
   height: 150rpx;
-  left: 50%;
-  top:50%;
-  margin-left: -75rpx;
-  margin-top: -180rpx;
+  left: 40%;
+  top: 35%;
 }
 
 .noclient text {
   font-size: 30rpx;
   position: absolute;
   color: #bfbfbf;
-  left: 50%;
-  top: 50%;
-  margin-left: -115rpx;
-  margin-top: -10rpx;
+  left: 42%;
+  top: 49%;
 }
 
 .cell {
@@ -41,44 +38,56 @@ page{
 
 .cell .content {
   margin-left: 20rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .cell .content .company {
   font-size: 28rpx;
   font-weight: bold;
+  margin-bottom: 5rpx;
 }
 
-.cell .detail
-{
+.cell image {
+  width: 24rpx;
+  height: 24rpx;
+}
+
+.cell .detail {
   display: flex;
   flex-flow: row nowrap;
-  font-size: 20rpx;
+  font-size: 24rpx;
+  margin-top: 5rpx;
+}
+
+.cell text {
+  margin-left: 5rpx;
+}
+
+.cell .detail .contact {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .cell .detail .phone {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   margin-left: 20rpx;
 }
 
 .cell .detail .regdate {
-  margin-left: 120rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 60rpx;
 }
 
 .cell .auth {
   position: absolute;
-  right: 48rpx;
+  right: 20rpx;
   width: 80rpx;
   height: 80rpx;
-}
-
-.cell .authBtn {
-  margin-right: 10rpx;
-  margin-bottom: 30rpx;
-  width: 60rpx;
-  height: 60rpx;
-  border: none;
-  background-color:rgba(0, 0, 0, 0);
-}
-
-.cell button::after {
-  border: none;
 }

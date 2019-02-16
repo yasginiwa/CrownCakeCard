@@ -7,6 +7,7 @@ var registryUrl = 'http://192.168.10.214:18000/registry';
 var loginUrl = 'http://192.168.10.214:18000/login';
 var authUrl = 'http://192.168.10.214:18000/auth';
 var authupdateUrl = 'http://192.168.10.214:18000/authupdate';
+var queryauthUrl = 'http://192.168.10.214:18000/queryauth';
 var token = 'HGCakeECSell';
 var appKey = 'SEdDYWtlT3JkZXJBbmRTZWxsMjAxOA==';
 var signKey = 'BPe2XMzYP6UydzAuWiPuthAWVrMWkbmC';
@@ -52,6 +53,7 @@ module.exports = {
   registryUrl: registryUrl,
   loginUrl: loginUrl,
   authUrl: authUrl,
+  queryauthUrl: queryauthUrl,
   authupdateUrl: authupdateUrl,
   encryptContent: encryptContent,
   decryptContent: decryptContent

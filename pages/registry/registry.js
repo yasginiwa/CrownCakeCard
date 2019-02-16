@@ -3,7 +3,6 @@ var api = require('../../utils/api.js');
 const dateUtil = require('../../utils/util.js');
 
 Page({
-
   /**
    * 页面的初始数据
    */
@@ -34,9 +33,7 @@ Page({
         bindInput: 'phoneInput'
       }
     ],
-    company: '',
-    contact: '',
-    phone: '',
+    regInfo: {},
     authstatus: 0,
     recievestatus: 0,
     submitBtnStatus: false,
@@ -50,12 +47,30 @@ Page({
   },
 
   registrySubmit: function (e) {
+    var today = dateUtil.formatDate(new Date());
+    console.log(e);
+    var regInfo = {
+      date: today,
+      company: e.detail.value.company,
+      contact: e.detail.value.contact,
+      phone: e.detail.value.phone
+    }
+
+    // 设置本地data数据
+    this.setData({
+      regInfo: regInfo
+    })
+
+    // 注册信息存储到本地
+    wx.setStorage({
+      key: 'regInfo',
+      data: regInfo,
+    })
 
     //  注册请求
     var registryUrl = api.registryUrl;
-    var today = dateUtil.formatDate(new Date());
-    var that = this;
 
+    var that = this;
     wx.showLoading({
       title: '提交中...',
     })
@@ -64,11 +79,11 @@ Page({
       method: 'POST',
       data: {
         openid: wx.getStorageSync('openid'),
-        company: that.data.company,
-        contact: that.data.contact,
-        phone: that.data.phone,
+        company: that.data.regInfo.company,
+        contact: that.data.regInfo.contact,
+        phone: that.data.registryInfo.phone,
         authstatus: that.data.authstatus,
-        regdate: today
+        regdate: that.data.regInfo.date
       },
       success: function(res) {
         wx.hideLoading();
@@ -133,7 +148,10 @@ Page({
    * 判断输入时的提交按钮状态
    */
   onInput: function () {
-    if (this.data.company.length && this.data.contact.length && this.data.phone.length) {
+    var company = this.data.regInfo.company;
+    var contact = this.data.regInfo.contact;
+    var phone = this.data.regInfo.phone;
+    if (company.length && contact.length && phone.length) {
       this.setData({
         submitBtnStatus: true
       })

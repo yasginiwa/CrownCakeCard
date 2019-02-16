@@ -11,12 +11,24 @@
     <text class='company'>{{item.company}}
   </text>
     <view class='detail'>
-      <text class='contact'>{{item.contact}}</text>
-      <text class='phone'>{{item.phone}}</text>
-      <text class='regdate'>{{item.regdate}}</text>
+      <view class='contact'>
+        <image src='../../assets/contact.png'></image>
+        <text>{{item.contact}}</text>
+      </view>
+
+      <view class='phone'>
+        <image src='../../assets/phone.png'></image>
+        <text>{{item.phone}}</text>
+      </view>
+
+      <view class='regdate'>
+        <image src='../../assets/regdate.png'></image>
+        <text>{{item.regdate}}</text>
+      </view>
     </view>
   </view>
 
-  <image class='auth' src='../../assets/unauth.png' bindtap='onAuthorized'></image>
-  <button class='authBtn' loading='{{!btnLoadStatus}}' data-idx='{{idx}}'></button>
+  <image wx:if='{{item.authstatus === 0}}' class='auth' src='../../assets/unauth.png' bindtap='onAuthorized' data-idx='{{item.r_id}}'></image>
+
+  <image wx:if='{{item.authstatus === 1}}' class='auth' src='../../assets/auth.png'></image>
 </view>

@@ -23,34 +23,27 @@ Page({
         state: 0
       }
     ],
-    regInfo: {
-      date: '',
-      company: '',
-      contact: '',
-      phone: ''
-    }
+
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    var today = dateUtil.formatDate(new Date());
+
+    var regInfo = wx.getStorageSync('regInfo');
 
     this.setData({
-      date: today,
-      company: options.company,
-      contact: options.contact,
-      phone: options.phone
+      regInfo: regInfo
     })
 
-    this.setPeocessIcon();
+    this.setProcessIcon();
   },
 
   /**
    * 设置进度
    */
-  setPeocessIcon: function () {
+  setProcessIcon: function () {
     var index = 0 //记录状态为1的最后的位置
     var processArr = this.data.progress
     for (var i = 0; i < this.data.progress.length; i++) {

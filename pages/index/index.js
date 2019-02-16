@@ -16,14 +16,14 @@ Page({
         name: '发放福利券',
         desc: '福利发放人员入口(需注册认证)',
         indicator: '../../assets/arrow.png',
-        tap: 'getTicket'
+        tap: 'onDistributeTicket'
       },
       {
         image: '../../assets/yellowCard.png',
         name: '领取福利券',
         desc: '员工入口',
         indicator: '../../assets/arrow.png',
-        tap: 'recieveTicket'
+        tap: 'onGetTicket'
       }
     ]
   },
@@ -99,52 +99,96 @@ Page({
     //   }
     // })
 
-    var queryContent = {
-      'ticketcode': '402946641730261286',
-      'datasource': 11,
-      'timestamp': now
+    // var queryContent = {
+    //   'ticketcode': '402946641730261286',
+    //   'datasource': 11,
+    //   'timestamp': now
+    // }
+
+    // var encContent = urlSafeBase64.encode(api.encryptContent(queryContent));
+    // var sign = api.sign(queryContent);
+    // var token = api.token;
+
+    // wx.request({
+    //   url: ticketQueryUrl,
+    //   method: 'POST',
+    //   header: {
+    //     "Content-Type": "application/x-www-form-urlencoded"
+    //   },
+    //   data: {
+    //     token: token,
+    //     sign: sign,
+    //     content: encContent
+    //   },
+    //   success: function (res) {
+    //     var data = JSON.parse(res.data);
+    //     var content = api.decryptContent(data.content);
+    //     console.log(content);
+    //   },
+    //   fail: function (res) {
+
+    //   },
+    //   complete: function (res) {
+
+    //   }
+    // })
+
+  },
+
+  /**
+   * 点击发放福利券
+   */
+  onDistributeTicket: function () {
+    // 查询审核是否通过的网络请求 然后跳转至相应的页面
+
+    var openid = wx.getStorageSync('openid');
+    var regInfo = wx.getStorageSync('regInfo');
+
+    if (regInfo.toString().length == 0) {
+      wx.navigateTo({
+        url: '../registry/registry',
+      })
+    } else {
+      var queryauthUrl = api.queryauthUrl;
+      var authstatus = 1; //0位审核未通过的客户 1为审核通过的客户
+      var sqlParams = ['openid', 'company', 'authstatus'];
+      var sqlValues = [openid, regInfo.company, authstatus];
+
+      wx.request({
+        url: queryauthUrl,
+        method: 'POST',
+        data: {
+          sqlParams: sqlParams,
+          sqlValues: sqlValues
+        },
+        success: function (res) {
+          console.log(res);
+          if (res.data.result.length == 0) {
+            wx.reLaunch({
+              url: '../verify/verify',
+            })
+          } else {
+            wx.navigateTo({
+              url: '../distributeticket/distributeticket',
+            })
+          }
+        },
+        fail: function (res) {},
+        complete: function (res) {}
+      })
     }
-
-    var encContent = urlSafeBase64.encode(api.encryptContent(queryContent));
-    var sign = api.sign(queryContent);
-    var token = api.token;
-
-    wx.request({
-      url: ticketQueryUrl,
-      method: 'POST',
-      header: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      data: {
-        token: token,
-        sign: sign,
-        content: encContent
-      },
-      success: function (res) {
-        var data = JSON.parse(res.data);
-        var content = api.decryptContent(data.content);
-        console.log(content);
-      },
-      fail: function (res) {
-
-      },
-      complete: function (res) {
-
-      }
-    })
-
   },
 
-  getTicket: function() {
-    wx.navigateTo({
-      url: '../registry/registry',
-    })
+  /**
+   * 点击领取福利券
+   */
+  onGetTicket: function () {
+    console.log('onGetTicket');
   },
 
-  recieveTicket: function () {
-    console.log('recieveTicket');
-  },
-
+  /**
+   * 点击进入审核管理
+   */
   onSupervise: function () {
     wx.navigateTo({
       url: '../login/login',

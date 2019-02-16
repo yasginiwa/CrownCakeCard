@@ -8,7 +8,6 @@ Page({
    */
   data: {
     clients: [],
-    btnLoadStatus: 'false',
   },
 
   /**
@@ -31,7 +30,7 @@ Page({
       },
       success: function(res) {
         that.setData({
-          clients: res.data.result
+          clients: res.data.result.reverse()
         })
       },
       fail: function(res) {
@@ -44,10 +43,21 @@ Page({
   },
 
   onAuthorized: function(e) {
-    var authupdateUrl = api.authupdateUrl;
+
     var that = this;
-    var unAuthCustomer = that.data.clients[e.currentTarget.dataset.idx];
-    console.log(unAuthCustomer);
+    var idx = e.currentTarget.dataset.idx
+    var client = {};
+    var obj = {};
+    //遍历client对象数组
+    for (var i in that.data.clients) { 
+      obj = that.data.clients[i]
+      if (obj.r_id === idx) {
+        client = obj;
+        break;
+      }
+    }
+
+    var authupdateUrl = api.authupdateUrl;
 
     wx.request({
       url: authupdateUrl,
@@ -56,10 +66,10 @@ Page({
         authstatus: 'authstatus',
         sqlValue: 1,
         r_id: 'r_id',
-        rangValue: that.data.clients[idx].r_id
+        rangeValue: client.r_id
       },
       success: function(res) {
-        console.log(res);
+        that.onLoad();
       },
       fail: function(res) {},
       complete: function(res) {}
@@ -98,7 +108,8 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-
+    this.onLoad();
+    wx.stopPullDownRefresh();
   },
 
   /**
