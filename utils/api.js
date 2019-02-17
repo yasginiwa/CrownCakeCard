@@ -1,16 +1,16 @@
 const crypto = requirePlugin('Crypto');
 var safeBase64 = require('../utils/safebase64.js')
 
-var ticketGenUrl = 'http://192.168.10.20:27777/icapi/tmticket';
-var ticketQueryUrl = 'http://192.168.10.20:27777/icapi/tmticketquery';
-var registryUrl = 'http://192.168.10.214:18000/registry';
-var loginUrl = 'http://192.168.10.214:18000/login';
-var authUrl = 'http://192.168.10.214:18000/auth';
-var authupdateUrl = 'http://192.168.10.214:18000/authupdate';
-var queryauthUrl = 'http://192.168.10.214:18000/queryauth';
-var token = 'HGCakeECSell';
-var appKey = 'SEdDYWtlT3JkZXJBbmRTZWxsMjAxOA==';
-var signKey = 'BPe2XMzYP6UydzAuWiPuthAWVrMWkbmC';
+var ticketGenUrl = 'http://192.168.10.20:27777/icapi/tmticket',
+    ticketQueryUrl = 'http://192.168.10.20:27777/icapi/tmticketquery',
+    registryUrl = 'http://192.168.0.172:18000/registry',
+    loginUrl = 'http://192.168.0.172:18000/login',
+    authUrl = 'http://192.168.0.172:18000/auth',
+    authupdateUrl = 'http://192.168.0.172:18000/authupdate',
+    queryauthUrl = 'http://192.168.0.172:18000/queryauth',
+    token = 'HGCakeECSell',
+    appKey = 'SEdDYWtlT3JkZXJBbmRTZWxsMjAxOA==',
+    signKey = 'BPe2XMzYP6UydzAuWiPuthAWVrMWkbmC';
 
 /**
  * 返回加盐后签名

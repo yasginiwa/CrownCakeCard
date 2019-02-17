@@ -37,6 +37,9 @@ Page({
     authstatus: 0,
     recievestatus: 0,
     submitBtnStatus: false,
+    tmpCompany: '',
+    tmpContact: '',
+    tmpPhone: ''
   },
 
   /**
@@ -81,13 +84,15 @@ Page({
         openid: wx.getStorageSync('openid'),
         company: that.data.regInfo.company,
         contact: that.data.regInfo.contact,
-        phone: that.data.registryInfo.phone,
+        phone: that.data.regInfo.phone,
         authstatus: that.data.authstatus,
-        regdate: that.data.regInfo.date
+        regdate: that.data.regInfo.date,
+        numbers: 0  // 刚刚注册 未审核状态 客户拥有的券数量为0
       },
       success: function(res) {
+        console.log(res);
         wx.hideLoading();
-        if (res.data.code == 0){
+        if (res.data.code == 0){  // 返回码0 是查询数据库有问题  返回码1 正常查询
           wx.showToast({
             title: '注册信息有误！',
             icon: 'none',
@@ -96,7 +101,7 @@ Page({
           })
         } else {
           wx.reLaunch({
-            url: `../verify/verify?company=${that.data.company}&contact=${that.data.contact}&phone=${that.data.phone}`,
+            url: '../verify/verify',
           })
         }
       },
@@ -116,7 +121,7 @@ Page({
    */
   companyInput: function (e) {
     this.setData({
-      company: e.detail.value
+      tmpCompany: e.detail.value
     })
 
     this.onInput();
@@ -127,7 +132,7 @@ Page({
    */
   contactInput: function (e) {
     this.setData({
-      contact: e.detail.value
+      tmpContact: e.detail.value
     })
 
     this.onInput();
@@ -138,7 +143,7 @@ Page({
    */
   phoneInput: function (e) {
     this.setData({
-      phone: e.detail.value
+      tmpPhone: e.detail.value
     })
 
     this.onInput();
@@ -148,9 +153,9 @@ Page({
    * 判断输入时的提交按钮状态
    */
   onInput: function () {
-    var company = this.data.regInfo.company;
-    var contact = this.data.regInfo.contact;
-    var phone = this.data.regInfo.phone;
+    var company = this.data.tmpCompany;
+    var contact = this.data.tmpContact;
+    var phone = this.data.tmpPhone;
     if (company.length && contact.length && phone.length) {
       this.setData({
         submitBtnStatus: true

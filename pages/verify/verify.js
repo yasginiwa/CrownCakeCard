@@ -19,7 +19,7 @@ Page({
         state: 0
       },
       {
-        word: "开始领券",
+        word: "发放券卡",
         state: 0
       }
     ],

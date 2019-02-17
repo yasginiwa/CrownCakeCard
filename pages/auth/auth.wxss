@@ -20,6 +20,17 @@ page {
   top: 49%;
 }
 
+.movableContainer {
+  width: 120%;
+  height: 120rpx;
+}
+
+.movableView {
+  width: 100%;
+  height: 120rpx;
+  direction: all;
+}
+
 .cell {
   display: flex;
   flex-flow: row nowrap;
@@ -31,13 +42,13 @@ page {
 }
 
 .cell .icon {
-  width: 90rpx;
-  height: 90rpx;
-  margin-left: 20rpx;
+  width: 70rpx;
+  height: 70rpx;
+  margin-left: 10rpx;
 }
 
 .cell .content {
-  margin-left: 20rpx;
+  margin-left: 10rpx;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -45,7 +56,6 @@ page {
 
 .cell .content .company {
   font-size: 28rpx;
-  font-weight: bold;
   margin-bottom: 5rpx;
 }
 
@@ -59,16 +69,21 @@ page {
   flex-flow: row nowrap;
   font-size: 24rpx;
   margin-top: 5rpx;
+  margin-left: 10rpx;
 }
 
 .cell text {
-  margin-left: 5rpx;
+  margin-left: 10rpx;
 }
 
 .cell .detail .contact {
   display: flex;
   flex-direction: row;
   align-items: center;
+}
+
+.cell .detail .contact text {
+  color: #aaa;
 }
 
 .cell .detail .phone {
@@ -78,16 +93,53 @@ page {
   margin-left: 20rpx;
 }
 
-.cell .detail .regdate {
+.cell .detail .phone text {
+  color: #aaa;
+}
+
+.cell .detail .ticketnumber {
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-left: 60rpx;
+  margin-left: 20rpx;
+}
+
+.cell .detail .ticketnumber text {
+  color: #aaa;
+}
+
+.cell .count {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 30rpx;
+  width: 120rpx;
+  position: absolute;
+  right: 110rpx;
+}
+
+.number {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  height: 30rpx;
+  width: 50rpx;
+  font-size: 22rpx;
+}
+
+.count .minus {
+  width: 30rpx;
+  height: 30rpx;
+}
+
+.count .plus {
+  width: 30rpx;
+  height: 30rpx;
 }
 
 .cell .auth {
   position: absolute;
-  right: 20rpx;
+  right: 10rpx;
   width: 80rpx;
   height: 80rpx;
 }

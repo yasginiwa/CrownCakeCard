@@ -1,7 +1,7 @@
 <!--pages/verify/verify.wxml-->
 <view class='top'>
   <image src='../../assets/checked.png'></image>
-  <text>注册申请已提交成功！请耐心等待审核结果。</text>
+  <text>注册申请已提交成功，请耐心等待审核...</text>
 </view>
 <view class='middle'>
   <text class='date'>注册日期： {{regInfo.date}}</text>

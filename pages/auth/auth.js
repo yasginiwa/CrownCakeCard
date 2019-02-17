@@ -8,6 +8,7 @@ Page({
    */
   data: {
     clients: [],
+    // startPoint: [0, 0]
   },
 
   /**
@@ -42,29 +43,35 @@ Page({
     })
   },
 
-  onAuthorized: function(e) {
-
-    var that = this;
+  /**
+   * 返回当前选择的client模型
+   */
+  selectedModel: function(e) {
     var idx = e.currentTarget.dataset.idx
     var client = {};
     var obj = {};
     //遍历client对象数组
-    for (var i in that.data.clients) { 
-      obj = that.data.clients[i]
+    for (var i in this.data.clients) {
+      obj = this.data.clients[i]
       if (obj.r_id === idx) {
         client = obj;
         break;
       }
     }
+    return client;
+  },
 
+  onAuthorized: function(e) {
+    var client = this.selectedModel(e);
+    var that = this;
     var authupdateUrl = api.authupdateUrl;
 
     wx.request({
       url: authupdateUrl,
       method: 'POST',
       data: {
-        authstatus: 'authstatus',
-        sqlValue: 1,
+        sqlParams: ['authstatus', 'numbers'],
+        sqlValues: [1, client.numbers],
         r_id: 'r_id',
         rangeValue: client.r_id
       },
@@ -75,6 +82,71 @@ Page({
       complete: function(res) {}
     })
   },
+
+  /**
+   * 数量输入监听
+   */
+  onCountInput: function(e) {
+    var client = this.selectedModel(e);
+    client.numbers = e.detail.value;
+    this.setData({
+      clients: this.data.clients
+    })
+  },
+
+  /**
+   * 点击数量加号
+   */
+  onPlus: function(e) {
+    var client = this.selectedModel(e);
+    var that = this;
+    client.numbers++;
+    if (client.numbers > 999) {
+      client.numbers = 999;
+    }
+    this.setData({
+      clients: this.data.clients
+    })
+  },
+
+  /**
+   * 点击数量减号
+   */
+  onMinus: function(e) {
+    var that = this;
+    var client = this.selectedModel(e);
+    client.numbers--;
+    if (client.numbers < 0) {
+      client.numbers = 0;
+    }
+    this.setData({
+      clients: this.data.clients
+    })
+  },
+
+
+  // /**
+  //  * 触摸开始
+  //  */
+  // touchstart: function (e) {
+  //   this.setData({
+  //     startPoint: [e.touches[0].pageX, e.touches[0].pageY]
+  //     });
+  // },
+
+  // /**
+  //  * 触摸移动
+  //  */
+  // touchmove: function(e) {
+  //   var curPoint = [e.touches[0].pageX, e.touches[0].pageY];
+  //   var startPoint = this.data.startPoint;
+
+  //   if(curPoint[0] <= startPoint[0]) {
+  //     if(Math.abs(curPoint[0] - startPoint[0]) >= Math.abs(curPoint[1] - startPoint[1])) {
+  //       console.log(e.timeStamp + '- touch left move');
+  //     }
+  //   }
+  // },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
