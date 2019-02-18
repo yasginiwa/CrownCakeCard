@@ -75,7 +75,7 @@ Page({
       },
       success: function (res) {
         wx.hideLoading();
-        if (res.data.result) {
+        if (res.data.result[0]) {
           if (password === res.data.result[0].password) {
             wx.navigateTo({
               url: '../auth/auth',
@@ -83,7 +83,7 @@ Page({
           } else {
             wx.showToast({
               title: '用户名或密码错误',
-              icon: 'none',
+              image: '../../assets/fail.png',
               mask: true,
               duration: 2000
             })
@@ -91,7 +91,7 @@ Page({
         } else {
           wx.showToast({
             title: '用户名或密码错误',
-            icon: 'none',
+            image: '../../assets/fail.png',
             mask: true,
             duration: 2000
           })
