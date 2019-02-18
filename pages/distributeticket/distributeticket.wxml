@@ -1,6 +1,2 @@
 <!--pages/distributeticket/distributeticket.wxml-->
-
-<movable-area style="height: 300rpx;width: 300rpx;background: blue;">
-    <movable-view direction="all" style="height: 100rpx; width: 100rpx; background: yellow; damping: 10">
-     </movable-view>
-</movable-area>
+<text>distributeticket</text>

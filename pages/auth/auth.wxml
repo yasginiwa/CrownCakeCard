@@ -4,39 +4,42 @@
   <text>暂无客户！</text>
 </view>
 
+<view class='slider' >
+  <view class='cell' style='{{item.slideStyle}};' bindtouchstart='touchS' bindtouchmove='touchM' bindtouchend='touchE' wx:if='{{clients.length > 0}}' wx:for='{{clients}}' wx:key='client' data-idx='{{item.r_id}}'>
+    <image class='icon' src='../../assets/customer.png'></image>
 
-<view class='cell' wx:if='{{clients.length > 0}}' wx:for='{{clients}}' wx:key='client'>
-  <image class='icon' src='../../assets/customer.png'></image>
+    <view class='content'>
+      <text class='company'>{{item.company}}</text>
+      <view class='detail'>
+        <view class='contact'>
+          <image src='../../assets/contact.png'></image>
+          <text>{{item.contact}}</text>
+        </view>
 
-  <view class='content'>
-    <text class='company'>{{item.company}}</text>
-    <view class='detail'>
-      <view class='contact'>
-        <image src='../../assets/contact.png'></image>
-        <text>{{item.contact}}</text>
+        <view class='phone'>
+          <image src='../../assets/phone.png'></image>
+          <text>{{item.phone}}</text>
+        </view>
+
+        <view class='ticketnumber' wx:if='{{item.authstatus != 0 && item.numbers != 0}}'>
+          <image src='../../assets/numbers.png'></image>
+          <text>{{item.numbers}}</text>
+        </view>
       </view>
 
-      <view class='phone'>
-        <image src='../../assets/phone.png'></image>
-        <text>{{item.phone}}</text>
-      </view>
-
-      <view class='ticketnumber' wx:if='{{item.authstatus != 0 && item.numbers != 0}}'>
-        <image src='../../assets/numbers.png'></image>
-        <text>{{item.numbers}} 张</text>
-      </view>
     </view>
-  </view>
 
-  <view class='count' wx:if='{{item.authstatus == 0}}'>
-    <image class='minus' src='../../assets/minus.png' bindtap='onMinus' data-idx='{{item.r_id}}'></image>
-    <view class='number'>
-      <input type='number' maxlength='3' type='number' bindinput='onCountInput' value='{{item.numbers}}' data-idx='{{item.r_id}}'></input>
+    <view class='count' wx:if='{{item.authstatus == 0}}'>
+      <image class='minus' src='../../assets/minus.png' bindtap='onMinus' data-idx='{{item.r_id}}'></image>
+      <view class='number'>
+        <input type='number' maxlength='3' type='number' bindinput='onCountInput' value='{{item.numbers}}' data-idx='{{item.r_id}}'></input>
+      </view>
+      <image class='plus' src='../../assets/plus.png' bindtap='onPlus' data-idx='{{item.r_id}}'></image>
     </view>
-    <image class='plus' src='../../assets/plus.png' bindtap='onPlus' data-idx='{{item.r_id}}'></image>
+
+    <image wx:if='{{item.authstatus === 0}}' class='auth' src='../../assets/unauth.png' bindtap='onAuthorized' data-idx='{{item.r_id}}'></image>
+
+    <image wx:if='{{item.authstatus === 1}}' class='auth' src='../../assets/auth.png'></image>
   </view>
-
-  <image wx:if='{{item.authstatus === 0}}' class='auth' src='../../assets/unauth.png' bindtap='onAuthorized' data-idx='{{item.r_id}}'></image>
-
-  <image wx:if='{{item.authstatus === 1}}' class='auth' src='../../assets/auth.png'></image>
+  <view class='del' bindtap="delItem" data-idx='{{item.r_id}}' style='width: {{item.delwidth}}'>删除</view>
 </view>

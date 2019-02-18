@@ -8,7 +8,7 @@ Page({
    */
   data: {
     clients: [],
-    // startPoint: [0, 0]
+    delBtnWidth: 180
   },
 
   /**
@@ -125,28 +125,116 @@ Page({
   },
 
 
-  // /**
-  //  * 触摸开始
-  //  */
-  // touchstart: function (e) {
-  //   this.setData({
-  //     startPoint: [e.touches[0].pageX, e.touches[0].pageY]
-  //     });
-  // },
+  /**
+   * 触摸开始
+   */
+  touchS: function (e) {
+    if (e.touches.length == 1) {
+      this.setData({
+        //设置触摸起始点水平方向位置
+        startX: e.touches[0].clientX
+      });
+    }
+  },
 
-  // /**
-  //  * 触摸移动
-  //  */
-  // touchmove: function(e) {
-  //   var curPoint = [e.touches[0].pageX, e.touches[0].pageY];
-  //   var startPoint = this.data.startPoint;
+  /**
+   * 触摸移动
+   */
+  touchM: function (e) {
+    if (e.touches.length == 1) {
+      //手指移动时水平方向位置
+      var moveX = e.touches[0].clientX;
+      //手指起始点位置与移动期间的差值
+      var disX = this.data.startX - moveX;
+      var delBtnWidth = this.data.delBtnWidth;
+      var txtStyle = "";
+      if (disX == 0 || disX < 0) {//如果移动距离小于等于0，文本层位置不变
+        txtStyle = "left:0rpx";
+      } else if (disX > 0) { //移动距离大于0，文本层left值等于手指移动距离
+        txtStyle = "left:-" + disX + "rpx";
+        if (disX >= delBtnWidth) {
+          //控制手指移动距离最大值为删除按钮的宽度
+          txtStyle = "left:-" + delBtnWidth + "rpx";
+        }
+      }
 
-  //   if(curPoint[0] <= startPoint[0]) {
-  //     if(Math.abs(curPoint[0] - startPoint[0]) >= Math.abs(curPoint[1] - startPoint[1])) {
-  //       console.log(e.timeStamp + '- touch left move');
-  //     }
-  //   }
-  // },
+      var client = this.selectedModel(e);
+      client.slideStyle = txtStyle;
+      this.setData({
+        clients: this.data.clients
+      })
+    }
+  },
+
+  /**
+   * 触摸结束
+   */
+  touchE: function (e) {
+    if (e.changedTouches.length == 1) {
+      //手指移动结束后水平位置
+      var endX = e.changedTouches[0].clientX;
+      //触摸开始与结束，手指移动的距离
+      var disX = this.data.startX - endX;
+      var delBtnWidth = this.data.delBtnWidth;
+      //如果距离小于删除按钮的1/2，不显示删除按钮
+      var txtStyle = disX > delBtnWidth / 2 ? "left:-" + delBtnWidth + "rpx" : "left:0rpx";
+      if (txtStyle != "left:0rpx") {
+        this.slideItem(e, txtStyle);
+      }
+
+      var client = this.selectedModel(e);
+      client.slideStyle = txtStyle;
+      this.setData({
+        clients: this.data.clients
+      })
+    }
+  },
+
+  /**
+   * 滑动一个item
+   */
+  slideItem: function(e, style) {
+    var client = this.selectedModel(e);
+    client.slideStyle = style;
+    this.setData({
+      clients: this.data.clients
+    })
+  },
+
+  /**
+   * 删除一个item
+   */
+  delItem: function (e) {
+    // 遍历对象数组 所有的滑动归0
+    var idx = e.currentTarget.dataset.idx
+    var client = {};
+    for (var i in this.data.clients) {
+      client = this.data.clients[i];
+      client.slideStyle = 'left:0rpx';
+      }
+      this.setData({
+        clients: this.data.clients
+      })
+
+    // 发送请求 删除数据
+    var authdelUrl = api.authdelUrl;
+    var r_id = idx;
+    var that = this;
+    wx.request({
+      url: authdelUrl,
+      method: 'POST',
+      data: {
+        r_id: 'r_id',
+        sqlValue: r_id
+      },
+      success: function(res) {
+        console.log(res);
+        that.onLoad();
+      },
+      fail: function() {},
+      complete: function() {}
+    })
+  },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
