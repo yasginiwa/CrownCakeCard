@@ -1,2 +1,2 @@
 <!--pages/distributeticket/distributeticket.wxml-->
-<text>distributeticket</text>
+<button open-type='share' type='default' size='default'>123</button>

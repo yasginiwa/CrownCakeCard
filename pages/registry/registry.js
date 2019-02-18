@@ -51,7 +51,6 @@ Page({
 
   registrySubmit: function (e) {
     var today = dateUtil.formatDate(new Date());
-    console.log(e);
     var regInfo = {
       date: today,
       company: e.detail.value.company,

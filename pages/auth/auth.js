@@ -29,15 +29,15 @@ Page({
       data: {
         authstatus: 0 // 0代表未审核的客户 1代表审核通过的客户
       },
-      success: function(res) {
+      success: function (res) {
         that.setData({
           clients: res.data.result.reverse()
         })
       },
-      fail: function(res) {
+      fail: function (res) {
 
       },
-      complete: function(res) {
+      complete: function (res) {
         wx.hideLoading();
       }
     })
@@ -46,7 +46,7 @@ Page({
   /**
    * 返回当前选择的client模型
    */
-  selectedModel: function(e) {
+  selectedModel: function (e) {
     var idx = e.currentTarget.dataset.idx
     var client = {};
     var obj = {};
@@ -61,10 +61,20 @@ Page({
     return client;
   },
 
-  onAuthorized: function(e) {
+  onAuthorized: function (e) {
     var client = this.selectedModel(e);
     var that = this;
     var authupdateUrl = api.authupdateUrl;
+
+    if (client.numbers <= 0) {
+      wx.showToast({
+        title: '卡券数值须大于0！',
+        icon: 'none',
+        mask: true,
+        duration: 2000
+      })
+      return;
+    }
 
     wx.request({
       url: authupdateUrl,
@@ -75,18 +85,18 @@ Page({
         r_id: 'r_id',
         rangeValue: client.r_id
       },
-      success: function(res) {
+      success: function (res) {
         that.onLoad();
       },
-      fail: function(res) {},
-      complete: function(res) {}
+      fail: function (res) { },
+      complete: function (res) { }
     })
   },
 
   /**
    * 数量输入监听
    */
-  onCountInput: function(e) {
+  onCountInput: function (e) {
     var client = this.selectedModel(e);
     client.numbers = e.detail.value;
     this.setData({
@@ -97,7 +107,7 @@ Page({
   /**
    * 点击数量加号
    */
-  onPlus: function(e) {
+  onPlus: function (e) {
     var client = this.selectedModel(e);
     var that = this;
     client.numbers++;
@@ -112,7 +122,7 @@ Page({
   /**
    * 点击数量减号
    */
-  onMinus: function(e) {
+  onMinus: function (e) {
     var that = this;
     var client = this.selectedModel(e);
     client.numbers--;
@@ -193,7 +203,7 @@ Page({
   /**
    * 滑动一个item
    */
-  slideItem: function(e, style) {
+  slideItem: function (e, style) {
     var client = this.selectedModel(e);
     client.slideStyle = style;
     this.setData({
@@ -211,10 +221,10 @@ Page({
     for (var i in this.data.clients) {
       client = this.data.clients[i];
       client.slideStyle = 'left:0rpx';
-      }
-      this.setData({
-        clients: this.data.clients
-      })
+    }
+    this.setData({
+      clients: this.data.clients
+    })
 
     // 发送请求 删除数据
     var authdelUrl = api.authdelUrl;
@@ -227,12 +237,11 @@ Page({
         r_id: 'r_id',
         sqlValue: r_id
       },
-      success: function(res) {
-        console.log(res);
+      success: function (res) {
         that.onLoad();
       },
-      fail: function() {},
-      complete: function() {}
+      fail: function () { },
+      complete: function () { }
     })
   },
 
