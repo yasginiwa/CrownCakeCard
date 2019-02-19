@@ -71,6 +71,10 @@ Page({
 
     var ticketGenUrl = api.ticketGenUrl;
     var ticketQueryUrl = api.ticketQueryUrl;
+
+    /**
+     * 生成券码
+     */
     // var encContent = urlSafeBase64.encode(api.encryptContent(content));
     // var sign = api.sign(content);
     // var token = api.token;
@@ -99,8 +103,11 @@ Page({
     //   }
     // })
 
+    /**
+     * 查询券码
+     */
     // var queryContent = {
-    //   'ticketcode': '402946641730261286',
+    //   'ticketcode': '916111072682369465',
     //   'datasource': 11,
     //   'timestamp': now
     // }

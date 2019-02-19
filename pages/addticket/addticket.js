@@ -11,7 +11,8 @@ Page({
    */
   data: {
     addBtnStatus: true,
-    numbers: 1
+    numbers: 1,
+    tickets: []
   },
 
   /**
@@ -80,13 +81,17 @@ Page({
   /**
    * 添加卡券
    */
-  addticket: function() {
+  addticket: function () {
+    for (let i = 0; i < 10; i++) {
+      this.genTicket();
+    }
+  },
 
+  genTicket: function () {
+    var that = this;
     var now = dateUtil.formatTime(new Date());
     var content = {
       'productid': 1014519,
-      'startdate': '2019-02-10',
-      'enddate': '2019-06-30',
       'customername': '皇冠蛋糕',
       'datasource': 11,
       'timestamp': now
@@ -97,11 +102,6 @@ Page({
     var encContent = urlSafeBase64.encode(api.encryptContent(content));
     var sign = api.sign(content);
     var token = api.token;
-
-    // var p = new Promise(function (resolve, reject) {
-
-    // },
-
     wx.request({
       url: ticketGenUrl,
       method: 'POST',
@@ -119,9 +119,6 @@ Page({
         console.log(content);
       },
       fail: function (res) {
-
-      },
-      complete: function (res) {
 
       }
     })
