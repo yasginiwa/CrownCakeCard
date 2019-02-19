@@ -1,0 +1,10 @@
+<!--pages/ticketroute/ticketroute.wxml-->
+<view class='add'>
+<image src='../../assets/addticket.png' bindtap='addticket'></image>
+<text>添加券卡</text>
+</view>
+
+<view class='my'>
+<image src='../../assets/myticket.png' bindtap='myticket'></image>
+<text>我的券卡</text>
+</view>

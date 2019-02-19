@@ -162,14 +162,13 @@ Page({
           sqlValues: sqlValues
         },
         success: function (res) {
-          console.log(res);
           if (res.data.result.length == 0) {
             wx.reLaunch({
               url: '../verify/verify',
             })
           } else {
             wx.navigateTo({
-              url: '../distributeticket/distributeticket',
+              url: '../ticketroute/ticketroute',
             })
           }
         },

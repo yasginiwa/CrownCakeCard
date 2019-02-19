@@ -1,0 +1,12 @@
+<!--pages/addticket/addticket.wxml-->
+
+<image class='banner' src='../../assets/blueCard.png'></image>
+<text class='desc'>总共 {{validnumbers}} 张福利券 还可添加 {{leftnumbers}} 张</text>
+<view class='count'>
+  <image class='minus' src='../../assets/minus.png' bindtap='onMinus'></image>
+  <view class='number'>
+    <input type='number' maxlength='3' type='number' bindinput='onCountInput' value='{{numbers}}'></input>
+  </view>
+  <image class='plus' src='../../assets/plus.png' bindtap='onPlus'></image>
+</view>
+<button class='add' bindtap='addticket' disabled='{{!addBtnStatus}}'>添加券卡</button>

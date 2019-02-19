@@ -89,7 +89,6 @@ Page({
         numbers: 0  // 刚刚注册 未审核状态 客户拥有的券数量为0
       },
       success: function(res) {
-        console.log(res);
         wx.hideLoading();
         if (res.data.code == 0){  // 返回码0 是查询数据库有问题  返回码1 正常查询
           wx.showToast({

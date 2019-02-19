@@ -16,8 +16,7 @@ Page({
    */
   onLoad: function (options) {
     wx.showLoading({
-      title: '加载中...',
-      icon: 'none'
+      title: '加载中...'
     })
 
     var authUrl = api.authUrl;
@@ -44,7 +43,7 @@ Page({
   },
 
   /**
-   * 返回当前选择的client模型
+   * 通过点击是绑定的idx返回当前选择的client模型
    */
   selectedModel: function (e) {
     var idx = e.currentTarget.dataset.idx
@@ -68,8 +67,8 @@ Page({
 
     if (client.numbers <= 0) {
       wx.showToast({
-        title: '卡券数值须大于0！',
-        icon: 'none',
+        title: '卡券数须大于0！',
+        image: '../../assets/warning.png',
         mask: true,
         duration: 2000
       })
@@ -87,9 +86,21 @@ Page({
       },
       success: function (res) {
         that.onLoad();
+        wx.showToast({
+          title: '审核成功！',
+          image: '../../assets/success.png',
+          mask: true,
+          duration: 2000
+        })
       },
-      fail: function (res) { },
-      complete: function (res) { }
+      fail: function (res) {
+        wx.showToast({
+          title: '审核失败！',
+          image: '../../assets/fail.png',
+          mask: true,
+          duration: 2000
+        })
+      }
     })
   },
 
@@ -239,9 +250,21 @@ Page({
       },
       success: function (res) {
         that.onLoad();
+        wx.showToast({
+          title: '删除成功！',
+          image: '../../assets/success.png',
+          mask: true,
+          duration: 2000
+        })
       },
-      fail: function () { },
-      complete: function () { }
+      fail: function () {
+        wx.showToast({
+          title: '删除失败！',
+          image: '../../assets/fail.png',
+          mask: true,
+          duration: 2000
+        })
+      }
     })
   },
 

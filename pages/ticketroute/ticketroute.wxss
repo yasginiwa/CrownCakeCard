@@ -1,0 +1,46 @@
+/* pages/ticketroute/ticketroute.wxss */
+page {
+  background-color: white;
+}
+
+.add {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 50%;
+  margin-top: 40%;
+}
+
+.add image{
+  width: 150rpx;
+  height: 150rpx;
+}
+
+.add text {
+   color: #A0A0A0;
+   font-size: 28rpx;
+   margin-top: 10rpx;
+}
+
+.my {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 50%;
+  margin-top: 20%;
+}
+
+.my image{
+  width: 150rpx;
+  height: 150rpx;
+}
+
+.my text {
+   color: #A0A0A0;
+   font-size: 28rpx;
+   margin-top: 10rpx;
+}

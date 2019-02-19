@@ -1,0 +1,56 @@
+/* pages/addticket/addticket.wxss */
+
+page {
+  background-color: white;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+}
+
+.banner {
+  margin-top: 60rpx;
+  width: 650rpx;
+  height: 392rpx;
+}
+
+.desc {
+  margin-top: 20rpx;
+  font-size: 28rpx;
+  color: #a0a0a0;
+}
+
+.count {
+  margin-top: 80rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 50rpx;
+  width: 250rpx;
+}
+
+.count .minus {
+  width: 50rpx;
+  height: 50rpx;
+}
+
+.count .number {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  height: 50rpx;
+  width: 150rpx;
+  font-size: 40rpx;
+  color: #a0a0a0;
+}
+
+.count .plus {
+  width: 50rpx;
+  height: 50rpx;
+}
+
+.add {
+  margin-top: 80rpx;
+  width: 70%;
+  background-color: #0079C0;
+  color: white;
+}

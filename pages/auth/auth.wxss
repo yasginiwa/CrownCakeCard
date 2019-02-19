@@ -1,7 +1,7 @@
 /* pages/auth/auth.wxss */
 
 page {
-  background-color: #eee;
+  background-color: #ededed;
 }
 
 .noclient image {

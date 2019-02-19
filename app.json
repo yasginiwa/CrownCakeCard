@@ -5,7 +5,9 @@
     "pages/verify/verify",
     "pages/login/login",
     "pages/auth/auth",
-    "pages/distributeticket/distributeticket"
+    "pages/distributeticket/distributeticket",
+    "pages/addticket/addticket",
+    "pages/ticketroute/ticketroute"
   ],
   "window": {
     "backgroundTextStyle": "light",

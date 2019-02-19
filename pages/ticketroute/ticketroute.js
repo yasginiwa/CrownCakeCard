@@ -1,4 +1,4 @@
-// pages/distributeticket/distributeticket.js
+// pages/ticketroute/ticketroute.js
 Page({
 
   /**
@@ -8,6 +8,24 @@ Page({
 
   },
 
+  /**
+   * 点击添加券卡
+   */
+  addticket: function () {
+    wx.navigateTo({
+      url: '../addticket/addticket',
+    })
+  },
+
+
+  /**
+   * 点击我的券卡
+   */
+  myticket: function () {
+    wx.navigateTo({
+      url: '../distributeticket/distributeticket',
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -61,15 +79,6 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-    return {
-      title: '发你一张券!',
-      path: '/pages/distributeticket/distributeticket?name=jack&gender=male',
-      success: function(res) {
-        console.log(res);
-      },
-      fail: function(res) {
-        console.log(res);
-      }
-    }
+
   }
 })
