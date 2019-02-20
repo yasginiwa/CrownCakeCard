@@ -20,26 +20,72 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    var that = this;
-    wx.showLoading({
-      title: '加载页面数据...',
-      mask: true
-    })
-    var tickettotalcountUrl = api.tickettotalcountUrl;
-    new Promise(function(resolve, reject){
+    // wx.showLoading({
+    //   title: '加载页面数据...',
+    //   mask: true
+    // })
+    var that = this,
+      tickettotalcountUrl = api.tickettotalcountUrl,
+      ticketvalidcountUrl = api.ticketvalidcountUrl,
+      sqlParam = 'wxopenid',
+      sqlValue = wx.getStorageSync('openid'),
+      sqlParams = ['wxopenid', 'distributestatus'],
+      sqlValues = [sqlValue, 0];
+
+    //  卡券总数请求
+    var totalRequest = new Promise(function (resolve, reject) {
       wx.request({
         url: tickettotalcountUrl,
-        method: 'GET',
-        success: function(res) {
-          wx.hideLoading();
+        method: 'POST',
+        data: {
+          sqlParam: sqlParam,
+          sqlValue: sqlValue
+        },
+        success: function (res) {
           var totalcount = res.data.result.recordset[0].totalcount;
           that.setData({
             totalcount: totalcount
           })
+          resolve(res);
         },
-        fail: function(res){
-
+        fail: function (err) {
+          reject(err);
         }
+      })
+    })
+
+    //  可用卡券数请求
+    var validRequest = new Promise(function (resolve, reject) {
+      wx.request({
+        url: ticketvalidcountUrl,
+        method: 'POST',
+        data: {
+          sqlParams: sqlParams,
+          sqlValues: sqlValues
+        },
+        success: function (res) {
+          var validcount = res.data.result.recordset[0].validcount;
+          that.setData({
+            validcount: validcount
+          })
+          resolve(res);
+        },
+        fail: function (err) {
+          reject(err);
+        }
+      })
+    })
+
+    // promise保证几个异步请求完后一起回调
+    Promise.all([totalRequest, validRequest]).then(function (res) {
+      wx.hideLoading();
+    }).catch(function (err) {
+      wx.hideLoading();
+      wx.showToast({
+        title: '数据出错',
+        image: '../../assets/fail.png',
+        mask: true,
+        duration: 2000
       })
     })
   },
@@ -101,11 +147,12 @@ Page({
   },
 
   /**
-   * 统一处理添加
+   * 统一处理添加卡券
    */
   addtickets: function () {
+    var that = this;
     wx.showLoading({
-      title: '添加中，请勿关闭！！！',
+      title: '卡券添加中，请勿关闭！',
       mask: true
     })
     this.addticket().then(function (res) {
@@ -116,6 +163,8 @@ Page({
         image: '../../assets/success.png',
         duration: 2000
       })
+      // 请求完成刷新页面数据
+      that.onLoad();
     }).catch(function (err) {
       wx.hideLoading();
       wx.showToast({
@@ -141,7 +190,8 @@ Page({
         if (numbers >= 0 && res.code == 0) {
           var content = api.decryptContent(res.content);
           that.setData({
-            numbers: numbers
+            numbers: numbers,
+            addBtnStatus: false
           })
           that.addticket();
           that.addToDB(that, content);
@@ -214,8 +264,7 @@ Page({
         wxopenid: wxopenid,
         distributestatus: 0 // 状态0为未使用 1为已使用
       },
-      success: function (res) {
-      },
+      success: function (res) { },
       fail: function (err) {
 
       }
