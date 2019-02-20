@@ -3,12 +3,15 @@ var safeBase64 = require('../utils/safebase64.js')
 
 var ticketGenUrl = 'http://192.168.10.20:27777/icapi/tmticket',
   ticketQueryUrl = 'http://192.168.10.20:27777/icapi/tmticketquery',
-  registryUrl = 'http://192.168.0.172:18000/registry',
-  loginUrl = 'http://192.168.0.172:18000/login',
-  authUrl = 'http://192.168.0.172:18000/auth',
-  authupdateUrl = 'http://192.168.0.172:18000/authupdate',
-  queryauthUrl = 'http://192.168.0.172:18000/queryauth',
-  authdelUrl = 'http://192.168.0.172:18000/authdel',
+  registryUrl = 'http://192.168.10.214:18000/registry',
+  loginUrl = 'http://192.168.10.214:18000/login',
+  authUrl = 'http://192.168.10.214:18000/auth',
+  authupdateUrl = 'http://192.168.10.214:18000/authupdate',
+  queryauthUrl = 'http://192.168.10.214:18000/queryauth',
+  authdelUrl = 'http://192.168.10.214:18000/authdel',
+  addticketUrl = 'http://192.168.10.214:18000/addticket',
+  tickettotalcountUrl = 'http://192.168.10.214:18000/tickettotalcount',
+  ticketvalidcountUrl = 'http://192.168.10.214:18000/ticketvalidcount',
   token = 'HGCakeECSell',
   appKey = 'SEdDYWtlT3JkZXJBbmRTZWxsMjAxOA==',
   signKey = 'BPe2XMzYP6UydzAuWiPuthAWVrMWkbmC';
@@ -57,6 +60,9 @@ module.exports = {
   queryauthUrl: queryauthUrl,
   authupdateUrl: authupdateUrl,
   authdelUrl: authdelUrl,
+  addticketUrl: addticketUrl,
+  tickettotalcountUrl: tickettotalcountUrl,
+  ticketvalidcountUrl: ticketvalidcountUrl,
   encryptContent: encryptContent,
   decryptContent: decryptContent
 };

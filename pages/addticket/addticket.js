@@ -12,19 +12,41 @@ Page({
   data: {
     addBtnStatus: true,
     numbers: 1,
-    tickets: []
+    totalcount: 0,
+    validcount: 0
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    var that = this;
+    wx.showLoading({
+      title: '加载页面数据...',
+      mask: true
+    })
+    var tickettotalcountUrl = api.tickettotalcountUrl;
+    new Promise(function(resolve, reject){
+      wx.request({
+        url: tickettotalcountUrl,
+        method: 'GET',
+        success: function(res) {
+          wx.hideLoading();
+          var totalcount = res.data.result.recordset[0].totalcount;
+          that.setData({
+            totalcount: totalcount
+          })
+        },
+        fail: function(res){
 
+        }
+      })
+    })
   },
 
   /**
- * 点击数量加号
- */
+   * 点击数量加号
+   */
   onPlus: function (e) {
     var numbers = this.data.numbers;
     numbers++;
@@ -56,8 +78,8 @@ Page({
   },
 
   /**
- * 数量输入监听
- */
+   * 数量输入监听
+   */
   onCountInput: function (e) {
     var numbers = e.detail.value;
 
@@ -79,46 +101,122 @@ Page({
   },
 
   /**
+   * 统一处理添加
+   */
+  addtickets: function () {
+    wx.showLoading({
+      title: '添加中，请勿关闭！！！',
+      mask: true
+    })
+    this.addticket().then(function (res) {
+      wx.hideLoading();
+      wx.showToast({
+        title: '添加成功！',
+        mask: true,
+        image: '../../assets/success.png',
+        duration: 2000
+      })
+    }).catch(function (err) {
+      wx.hideLoading();
+      wx.showToast({
+        title: '添加失败！',
+        image: '../../assets/fail.png',
+        mask: true,
+        duration: 2000
+      })
+    })
+  },
+
+  /**
    * 添加卡券
    */
   addticket: function () {
-    for (let i = 0; i < 10; i++) {
-      this.genTicket();
-    }
+    let that = this;
+    let numbers = that.data.numbers;
+    return new Promise(function (resolve, reject) {
+      that.genTicket().then(function (res) {
+        that.setData({
+          numbers: numbers--
+        })
+        if (numbers >= 0 && res.code == 0) {
+          var content = api.decryptContent(res.content);
+          that.setData({
+            numbers: numbers
+          })
+          that.addticket();
+          that.addToDB(that, content);
+        }
+        resolve(res);
+      }, function (err) {
+        reject(err);
+      })
+    })
   },
 
+  /**
+   * 请求卡券
+   */
   genTicket: function () {
-    var that = this;
-    var now = dateUtil.formatTime(new Date());
-    var content = {
-      'productid': 1014519,
-      'customername': '皇冠蛋糕',
-      'datasource': 11,
-      'timestamp': now
-    }
+    return new Promise(function (resolve, reject) {
+      var that = this;
+      var now = dateUtil.formatTime(new Date());
+      var content = {
+        'productid': 1014519,
+        'customername': '皇冠蛋糕',
+        'datasource': 11,
+        'timestamp': now
+      }
 
-    var ticketGenUrl = api.ticketGenUrl;
-    var ticketQueryUrl = api.ticketQueryUrl;
-    var encContent = urlSafeBase64.encode(api.encryptContent(content));
-    var sign = api.sign(content);
-    var token = api.token;
+      var ticketGenUrl = api.ticketGenUrl;
+      var ticketQueryUrl = api.ticketQueryUrl;
+      var encContent = urlSafeBase64.encode(api.encryptContent(content));
+      var sign = api.sign(content);
+      var token = api.token;
+      wx.request({
+        url: ticketGenUrl,
+        method: 'POST',
+        header: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        data: {
+          token: token,
+          sign: sign,
+          content: encContent
+        },
+        success: function (res) {
+          var data = JSON.parse(res.data);
+          resolve(data);
+        },
+        fail: function (err) {
+          reject(err);
+        }
+      })
+    })
+  },
+
+  /**
+   * 客户卡券请求插入数据库
+   */
+  addToDB: function (that, content) {
+    var addticketUrl = api.addticketUrl;
+    var wxopenid = wx.getStorageSync('openid');
+    var company = wx.getStorageSync('regInfo').company;
+
     wx.request({
-      url: ticketGenUrl,
+      url: addticketUrl,
       method: 'POST',
-      header: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
       data: {
-        token: token,
-        sign: sign,
-        content: encContent
+        company: company,
+        ticketcode: content.ticketcode,
+        ticketno: content.ticketno,
+        productname: content.productname,
+        price: content.price,
+        wxopenid: wxopenid,
+        distributestatus: 0 // 状态0为未使用 1为已使用
       },
       success: function (res) {
-        var data = JSON.parse(res.data);
-        var content = api.decryptContent(data.content);
-        console.log(content);
       },
-      fail: function (res) {
+      fail: function (err) {
 
       }
     })
