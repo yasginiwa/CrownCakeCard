@@ -1,2 +1,79 @@
 /* pages/distributeticket/distributeticket.wxss */
 
+page {
+  background-color: #ededed;
+}
+
+.cell {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  width: 100%;
+  height: 120rpx;
+  margin-bottom: 10rpx;
+  background-color: white;
+}
+
+.cell .icon {
+  width: 80rpx;
+  height: 80rpx;
+  margin-left: 10rpx;
+}
+
+.cell .content {
+  margin-left: 10rpx;
+  font-size: 28rpx;
+  margin-bottom: 5rpx;
+}
+
+.cell .detail {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  margin-left: 10rpx;
+  color: #aaa;
+  margin-top: 5rpx;
+}
+
+.cell .detail .no {
+  font-size: 24rpx;
+}
+
+.cell .detail .price {
+  margin-left: 30rpx;
+  font-size: 24rpx;
+}
+
+.cell .status {
+  width: 60rpx;
+  height: 24rpx;
+  margin-left: 30rpx;
+}
+
+.cell .share {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 140rpx;
+  height: 100rpx;
+  right: 20rpx;
+  background-color: white;
+  position: absolute;
+  right: 30rpx;
+}
+
+.cell button::after {
+  border: none;
+}
+
+.cell .shareimage {
+  width: 80rpx;
+  height: 80rpx;
+}
+
+.cell .arrow {
+  width: 40rpx;
+  height: 40rpx;
+  position: absolute;
+  right: 10rpx;
+}

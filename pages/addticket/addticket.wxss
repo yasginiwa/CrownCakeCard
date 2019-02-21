@@ -14,9 +14,32 @@ page {
 }
 
 .desc {
+  display: flex;
+  flex-flow: row nowrap;
   margin-top: 20rpx;
-  font-size: 28rpx;
+  font-size: 30rpx;
   color: #a0a0a0;
+  align-items: center;
+}
+
+.desc .totalcount {
+  color: red;
+  font-weight: bold;
+  font-size: 40rpx;
+  margin-left: 15rpx;
+  margin-right: 15rpx;
+}
+
+.desc .addcount {
+  color: red;
+  font-weight: bold;
+  font-size: 40rpx;
+  margin-left: 15rpx;
+  margin-right: 15rpx;
+}
+
+.desc .space {
+  margin-left: 40rpx;
 }
 
 .count {
@@ -51,6 +74,6 @@ page {
 .add {
   margin-top: 80rpx;
   width: 70%;
-  background-color: #0079C0;
+  background-color: #0079c0;
   color: white;
 }

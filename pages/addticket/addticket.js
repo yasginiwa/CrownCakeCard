@@ -10,10 +10,10 @@ Page({
    * 页面的初始数据
    */
   data: {
-    addBtnStatus: true,
-    numbers: 1,
+    addBtnStatus: false,
+    numbers: 0,
     totalcount: 0,
-    validcount: 0
+    addcount: 0
   },
 
   /**
@@ -21,68 +21,71 @@ Page({
    */
   onLoad: function (options) {
     wx.showLoading({
-      title: '加载页面数据...',
+      title: '加载页面...',
       mask: true
     })
     var that = this,
       tickettotalcountUrl = api.tickettotalcountUrl,
-      ticketvalidcountUrl = api.ticketvalidcountUrl,
+      ticketaddcountUrl = api.ticketaddcountUrl,
       sqlParam = 'wxopenid',
       sqlValue = wx.getStorageSync('openid'),
-      sqlParams = ['wxopenid', 'distributestatus'],
-      sqlValues = [sqlValue, 0];
+      col = 'numbers';
 
-    //  卡券总数请求
-    var totalRequest = new Promise(function (resolve, reject) {
+    //  请求卡券总数
+    var totalCountRequest = new Promise(function (resolve, reject) {
       wx.request({
         url: tickettotalcountUrl,
+        method: 'POST',
+        data: {
+          col: col,
+          sqlParam: sqlParam,
+          sqlValue: sqlValue
+        },
+        success: function (res) {
+          resolve(res);
+        },
+        fail: function (err) {
+          reject(err);
+        }
+      })
+    });
+
+    //  请求已添加的卡券数
+    var addCountRequest = new Promise(function (resolve, reject) {
+      wx.request({
+        url: ticketaddcountUrl,
         method: 'POST',
         data: {
           sqlParam: sqlParam,
           sqlValue: sqlValue
         },
         success: function (res) {
-          var totalcount = res.data.result.recordset[0].totalcount;
-          that.setData({
-            totalcount: totalcount
-          })
           resolve(res);
         },
         fail: function (err) {
           reject(err);
         }
       })
-    })
+    });
 
-    //  可用卡券数请求
-    var validRequest = new Promise(function (resolve, reject) {
-      wx.request({
-        url: ticketvalidcountUrl,
-        method: 'POST',
-        data: {
-          sqlParams: sqlParams,
-          sqlValues: sqlValues
-        },
-        success: function (res) {
-          var validcount = res.data.result.recordset[0].validcount;
-          that.setData({
-            validcount: validcount
-          })
-          resolve(res);
-        },
-        fail: function (err) {
-          reject(err);
-        }
+    /**
+     * 链式调用两个请求 保证数据同步
+     */
+    totalCountRequest.then(function (res) {
+      var totalcount = res.data.result.recordset[0].numbers;
+      that.setData({
+        totalcount: totalcount
       })
-    })
-
-    // promise保证几个异步请求完后一起回调
-    Promise.all([totalRequest, validRequest]).then(function (res) {
+      return addCountRequest;
+    }).then(function (res) {
+      var addcount = res.data.result.recordset[0].addcount;
+      that.setData({
+        addcount: addcount
+      })
       wx.hideLoading();
     }).catch(function (err) {
-      wx.hideLoading();
       wx.showToast({
-        title: '数据出错',
+        title: '数据错误',
         image: '../../assets/fail.png',
         mask: true,
         duration: 2000
@@ -150,30 +153,44 @@ Page({
    * 统一处理添加卡券
    */
   addtickets: function () {
+    var totalcount = this.data.totalcount;
+    var addcount = this.data.addcount;
+    if (addcount >= totalcount) {
+      wx.showToast({
+        title: '已添加至最大张数',
+        image: '../../assets/warning.png',
+        mask: true,
+        duration: 2000
+      })
+      return;
+    }
+
     var that = this;
     wx.showLoading({
-      title: '卡券添加中，请勿关闭！',
+      title: '添加中，请勿关闭！',
       mask: true
     })
-    this.addticket().then(function (res) {
-      wx.hideLoading();
-      wx.showToast({
-        title: '添加成功！',
-        mask: true,
-        image: '../../assets/success.png',
-        duration: 2000
+    this.addticket()
+      .then(function (res) {
+        wx.hideLoading();
+        wx.showToast({
+          title: '添加成功！',
+          mask: true,
+          image: '../../assets/success.png',
+          duration: 2000,
+        })
+        setTimeout(function(){
+          that.onLoad()
+        }, 1000)
       })
-      // 请求完成刷新页面数据
-      that.onLoad();
-    }).catch(function (err) {
-      wx.hideLoading();
-      wx.showToast({
-        title: '添加失败！',
-        image: '../../assets/fail.png',
-        mask: true,
-        duration: 2000
+      .catch(function (err) {
+        wx.showToast({
+          title: '添加失败！',
+          image: '../../assets/fail.png',
+          mask: true,
+          duration: 2000
+        })
       })
-    })
   },
 
   /**

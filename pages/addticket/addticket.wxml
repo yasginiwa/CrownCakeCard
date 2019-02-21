@@ -1,7 +1,14 @@
 <!--pages/addticket/addticket.wxml-->
 
 <image class='banner' src='../../assets/blueCard.png'></image>
-<text class='desc'>总共 {{totalcount}} 张福利券 还可添加 {{validcount}} 张</text>
+<view class='desc'>
+<text>总共</text>
+<text class='totalcount'>{{totalcount}}</text>
+<text>张福利券</text>
+<text class='space'>已添加</text>
+<text class='addcount'>{{addcount}}</text>
+<text>张</text>
+</view>
 <view class='count'>
   <image class='minus' src='../../assets/minus.png' bindtap='onMinus'></image>
   <view class='number'>

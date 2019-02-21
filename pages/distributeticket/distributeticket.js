@@ -1,18 +1,47 @@
 // pages/distributeticket/distributeticket.js
+var api = require('../../utils/api.js');
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-
+    tickets: []
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    var ticketsUrl = api.ticketsUrl,
+        sqlParam = 'wxopenid',
+        sqlValue = wx.getStorageSync('openid'),
+        that = this;
 
+    wx.request({
+      url: ticketsUrl,
+      method: 'POST',
+      data: {
+        sqlParam: sqlParam,
+        sqlValue: sqlValue 
+      },
+      success: function(res) {
+        console.log(res);
+        that.setData({
+          tickets: res.data.result
+        })
+      },
+      fail: function(err) {
+
+      }
+    })
+  },
+
+  onTicketDetail: function() {
+    wx.navigateTo({
+      url: '../ticketdetail/ticketdetail',
+    })
   },
 
   /**
@@ -26,7 +55,6 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
   },
 
   /**

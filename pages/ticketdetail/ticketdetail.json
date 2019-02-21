@@ -1,5 +1,6 @@
 {
-  "navigationBarTitleText": "我的券卡",
+  "disableScroll": true,
+  "navigationBarTitleText": "卡券详情",
   "navigationBarBackgroundColor": "#0079C0",
   "navigationBarTextStyle": "white"
 }

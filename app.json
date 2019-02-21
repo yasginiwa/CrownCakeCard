@@ -7,7 +7,8 @@
     "pages/auth/auth",
     "pages/distributeticket/distributeticket",
     "pages/addticket/addticket",
-    "pages/ticketroute/ticketroute"
+    "pages/ticketroute/ticketroute",
+    "pages/ticketdetail/ticketdetail"
   ],
   "window": {
     "backgroundTextStyle": "light",
