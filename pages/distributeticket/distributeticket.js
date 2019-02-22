@@ -11,6 +11,24 @@ Page({
   },
 
   /**
+ * 通过点击是绑定的idx返回当前选择的ticket模型
+ */
+  selectedModel: function (e) {
+    var idx = e.currentTarget.dataset.idx
+    var ticket = {};
+    var obj = {};
+    //遍历tickets对象数组
+    for (var i in this.data.tickets) {
+      obj = this.data.tickets[i]
+      if (obj.t_id === idx) {
+        ticket = obj;
+        break;
+      }
+    }
+    return ticket;
+  },
+
+  /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
@@ -27,9 +45,8 @@ Page({
         sqlValue: sqlValue 
       },
       success: function(res) {
-        console.log(res);
         that.setData({
-          tickets: res.data.result
+          tickets: res.data.result.reverse()
         })
       },
       fail: function(err) {
@@ -38,9 +55,11 @@ Page({
     })
   },
 
-  onTicketDetail: function() {
+  onTicketDetail: function(e) {
+    var ticket = this.selectedModel(e);
+    var ticketcode = ticket.ticketcode;
     wx.navigateTo({
-      url: '../ticketdetail/ticketdetail',
+      url: `../ticketdetail/ticketdetail?ticketcode=${ticketcode}`,
     })
   },
 

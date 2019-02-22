@@ -4,6 +4,14 @@ page {
   background-color: #ededed;
 }
 
+.noclient image {
+  position: absolute;
+  width: 150rpx;
+  height: 150rpx;
+  left: 40%;
+  top: 35%;
+}
+
 .cell {
   display: flex;
   flex-flow: row nowrap;
@@ -35,19 +43,33 @@ page {
   margin-top: 5rpx;
 }
 
+.cell .detail .noimg
+{
+  width: 24rpx;
+  height: 24rpx;
+}
+
 .cell .detail .no {
   font-size: 24rpx;
+  margin-left: 10rpx;
+}
+
+.cell .detail .priceimg
+{
+  width: 24rpx;
+  height: 24rpx;
+  margin-left: 20rpx;
 }
 
 .cell .detail .price {
-  margin-left: 30rpx;
+  margin-left: 10rpx;
   font-size: 24rpx;
 }
 
 .cell .status {
   width: 60rpx;
   height: 24rpx;
-  margin-left: 30rpx;
+  margin-left: 20rpx;
 }
 
 .cell .share {
@@ -56,10 +78,9 @@ page {
   align-items: center;
   width: 140rpx;
   height: 100rpx;
-  right: 20rpx;
   background-color: white;
   position: absolute;
-  right: 30rpx;
+  right: 45rpx;
 }
 
 .cell button::after {
@@ -75,5 +96,5 @@ page {
   width: 40rpx;
   height: 40rpx;
   position: absolute;
-  right: 10rpx;
+  right: 20rpx;
 }

@@ -59,22 +59,21 @@ Page({
       complete: function (res) { },
     })
 
-    var now = dateUtil.formatTime(new Date());
-    var content = {
-      'productid': 1014519,
-      'startdate': '2019-02-10',
-      'enddate': '2019-06-30',
-      'customername': '皇冠蛋糕',
-      'datasource': 11,
-      'timestamp': now
-    }
-
-    var ticketGenUrl = api.ticketGenUrl;
-    var ticketQueryUrl = api.ticketQueryUrl;
+   
 
     /**
      * 生成券码
      */
+    // var now = dateUtil.formatTime(new Date());
+    // var content = {
+    //   'productid': 1014519,
+    //   'startdate': '2019-02-10',
+    //   'enddate': '2019-06-30',
+    //   'customername': '皇冠蛋糕',
+    //   'datasource': 11,
+    //   'timestamp': now
+    // }
+    // var ticketGenUrl = api.ticketGenUrl;
     // var encContent = urlSafeBase64.encode(api.encryptContent(content));
     // var sign = api.sign(content);
     // var token = api.token;
@@ -97,21 +96,19 @@ Page({
     //   },
     //   fail: function (res) {
 
-    //   },
-    //   complete: function (res) {
-
     //   }
     // })
 
     /**
      * 查询券码
      */
+    // var now = dateUtil.formatTime(new Date());
+    // var ticketQueryUrl = api.ticketQueryUrl;
     // var queryContent = {
     //   'ticketcode': '916111072682369465',
     //   'datasource': 11,
     //   'timestamp': now
     // }
-
     // var encContent = urlSafeBase64.encode(api.encryptContent(queryContent));
     // var sign = api.sign(queryContent);
     // var token = api.token;
@@ -134,12 +131,8 @@ Page({
     //   },
     //   fail: function (res) {
 
-    //   },
-    //   complete: function (res) {
-
     //   }
     // })
-
   },
 
   /**
