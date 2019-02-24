@@ -50,13 +50,15 @@ Page({
   },
 
   registrySubmit: function (e) {
-    var today = dateUtil.formatDate(new Date());
+    var wxopenid = wx.getStorageSync('wxopenid'),
+      today = dateUtil.formatDate(new Date());
     var regInfo = {
-      date: today,
+      wxopenid: wxopenid,
       company: e.detail.value.company,
       contact: e.detail.value.contact,
-      phone: e.detail.value.phone
-    }
+      phone: e.detail.value.phone,
+      regdate: today
+    };
 
     // 设置本地data数据
     this.setData({
@@ -80,17 +82,17 @@ Page({
       url: registryUrl,
       method: 'POST',
       data: {
-        openid: wx.getStorageSync('openid'),
+        wxopenid: wx.getStorageSync('wxopenid'),
         company: that.data.regInfo.company,
         contact: that.data.regInfo.contact,
         phone: that.data.regInfo.phone,
         authstatus: that.data.authstatus,
-        regdate: that.data.regInfo.date,
+        regdate: that.data.regInfo.regdate,
         numbers: 0  // 刚刚注册 未审核状态 客户拥有的券数量为0
       },
-      success: function(res) {
+      success: function (res) {
         wx.hideLoading();
-        if (res.data.code == 0){  // 返回码0 是查询数据库有问题  返回码1 正常查询
+        if (res.data.code == 0) {  // 返回码0 是查询数据库有问题  返回码1 正常查询
           wx.showToast({
             title: '注册信息有误！',
             icon: 'none',
@@ -103,7 +105,8 @@ Page({
           })
         }
       },
-      fail: function(res) {
+      fail: function (res) {
+        console.log(res);
         wx.hideLoading();
         wx.showToast({
           title: '网络错误，请检查手机网络连接！',

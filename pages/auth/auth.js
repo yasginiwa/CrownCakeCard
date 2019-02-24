@@ -2,7 +2,6 @@
 var api = require('../../utils/api.js');
 
 Page({
-
   /**
    * 页面的初始数据
    */
@@ -14,14 +13,13 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: function(options) {
     wx.showLoading({
       title: '加载中...'
     })
 
     var authUrl = api.authUrl;
     var that = this;
-
     wx.request({
       url: authUrl,
       method: 'POST',
@@ -32,20 +30,22 @@ Page({
         that.setData({
           clients: res.data.result.reverse()
         })
+        wx.hideLoading();
       },
       fail: function (res) {
-
-      },
-      complete: function (res) {
-        wx.hideLoading();
+        wx.showToast({
+          title: '网络错误',
+          image: '../../assets/fail.png',
+          duration: 2000
+        })
       }
-    })
+    })    
   },
 
   /**
    * 通过点击是绑定的idx返回当前选择的client模型
    */
-  selectedModel: function (e) {
+  selectedModel: function(e) {
     var idx = e.currentTarget.dataset.idx
     var client = {};
     var obj = {};
@@ -60,7 +60,7 @@ Page({
     return client;
   },
 
-  onAuthorized: function (e) {
+  onAuthorized: function(e) {
     var client = this.selectedModel(e);
     var that = this;
     var authupdateUrl = api.authupdateUrl;
@@ -84,7 +84,7 @@ Page({
         r_id: 'r_id',
         rangeValue: client.r_id
       },
-      success: function (res) {
+      success: function(res) {
         that.onLoad();
         wx.showToast({
           title: '审核成功！',
@@ -93,7 +93,7 @@ Page({
           duration: 2000
         })
       },
-      fail: function (res) {
+      fail: function(res) {
         wx.showToast({
           title: '审核失败！',
           image: '../../assets/fail.png',
@@ -107,7 +107,7 @@ Page({
   /**
    * 数量输入监听
    */
-  onCountInput: function (e) {
+  onCountInput: function(e) {
     var client = this.selectedModel(e);
     client.numbers = e.detail.value;
     this.setData({
@@ -118,7 +118,7 @@ Page({
   /**
    * 点击数量加号
    */
-  onPlus: function (e) {
+  onPlus: function(e) {
     var client = this.selectedModel(e);
     var that = this;
     client.numbers++;
@@ -133,7 +133,7 @@ Page({
   /**
    * 点击数量减号
    */
-  onMinus: function (e) {
+  onMinus: function(e) {
     var that = this;
     var client = this.selectedModel(e);
     client.numbers--;
@@ -149,7 +149,11 @@ Page({
   /**
    * 触摸开始
    */
-  touchS: function (e) {
+  touchS: function(e) {
+    var client = this.selectedModel(e);
+    //  如果是已审核过的客户 不能被删除
+    if (client.authstatus == 1) return;
+    
     if (e.touches.length == 1) {
       this.setData({
         //设置触摸起始点水平方向位置
@@ -161,7 +165,7 @@ Page({
   /**
    * 触摸移动
    */
-  touchM: function (e) {
+  touchM: function(e) {
     if (e.touches.length == 1) {
       //手指移动时水平方向位置
       var moveX = e.touches[0].clientX;
@@ -169,7 +173,7 @@ Page({
       var disX = this.data.startX - moveX;
       var delBtnWidth = this.data.delBtnWidth;
       var txtStyle = "";
-      if (disX == 0 || disX < 0) {//如果移动距离小于等于0，文本层位置不变
+      if (disX == 0 || disX < 0) { //如果移动距离小于等于0，文本层位置不变
         txtStyle = "left:0rpx";
       } else if (disX > 0) { //移动距离大于0，文本层left值等于手指移动距离
         txtStyle = "left:-" + disX + "rpx";
@@ -190,7 +194,7 @@ Page({
   /**
    * 触摸结束
    */
-  touchE: function (e) {
+  touchE: function(e) {
     if (e.changedTouches.length == 1) {
       //手指移动结束后水平位置
       var endX = e.changedTouches[0].clientX;
@@ -198,7 +202,8 @@ Page({
       var disX = this.data.startX - endX;
       var delBtnWidth = this.data.delBtnWidth;
       //如果距离小于删除按钮的1/2，不显示删除按钮
-      var txtStyle = disX > delBtnWidth / 2 ? "left:-" + delBtnWidth + "rpx" : "left:0rpx";
+      var txtStyle = (disX > delBtnWidth / 2) ? "left:-" + delBtnWidth + "rpx" : "left:0rpx";
+
       if (txtStyle != "left:0rpx") {
         this.slideItem(e, txtStyle);
       }
@@ -214,7 +219,7 @@ Page({
   /**
    * 滑动一个item
    */
-  slideItem: function (e, style) {
+  slideItem: function(e, style) {
     var client = this.selectedModel(e);
     client.slideStyle = style;
     this.setData({
@@ -225,7 +230,7 @@ Page({
   /**
    * 删除一个item
    */
-  delItem: function (e) {
+  delItem: function(e) {
     // 遍历对象数组 所有的滑动归0
     var idx = e.currentTarget.dataset.idx
     var client = {};
@@ -248,7 +253,7 @@ Page({
         r_id: 'r_id',
         sqlValue: r_id
       },
-      success: function (res) {
+      success: function(res) {
         that.onLoad();
         wx.showToast({
           title: '删除成功！',
@@ -257,7 +262,7 @@ Page({
           duration: 2000
         })
       },
-      fail: function () {
+      fail: function() {
         wx.showToast({
           title: '删除失败！',
           image: '../../assets/fail.png',
@@ -271,35 +276,35 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
+  onReady: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
+  onShow: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () {
+  onHide: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
+  onUnload: function() {
 
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
+  onPullDownRefresh: function() {
     this.onLoad();
     wx.stopPullDownRefresh();
   },
@@ -307,14 +312,14 @@ Page({
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {
+  onReachBottom: function() {
 
   },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
 
   }
 })

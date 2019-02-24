@@ -41,8 +41,14 @@ page {
 }
 
 .notice {
+  display: flex;
+  flex-flow: column nowrap;
+  margin-top: 20rpx;
+}
+
+.notice text {
   margin-left: 10rpx;
-  margin-bottom: 50rpx;
+  margin-bottom: 10rpx;
   font-size: 26rpx;
   color: red;
 }

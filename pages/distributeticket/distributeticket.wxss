@@ -4,12 +4,27 @@ page {
   background-color: #ededed;
 }
 
-.noclient image {
+.nocontent
+{
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.nocontent image {
   position: absolute;
   width: 150rpx;
   height: 150rpx;
-  left: 40%;
-  top: 35%;
+  top: 400rpx;
+}
+
+.nocontent text {
+  position: absolute;
+  color: #bfbfbf;
+  font-size: 28rpx;
+  top: 560rpx;
 }
 
 .cell {

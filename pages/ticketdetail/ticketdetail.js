@@ -17,6 +17,10 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    wx.showLoading({
+      title: '加载中...',
+    })
+
     var ticketcode = options.ticketcode;
     var that = this;
     /**
@@ -44,15 +48,18 @@ Page({
         sign: sign,
         content: encContent
       },
-      success: function (res) {
+      success: function (res) {       
         var data = JSON.parse(res.data);
         var ticket = api.decryptContent(data.content);
+        ticket.price = ticket.price.toFixed(2);
+        ticket.enddate = ticket.enddate.substring(0,11);
         that.setData({
           ticket: ticket,
           code: ticket.ticketcode
         })
         barcode.barcode('barcode', ticket.ticketcode, 640, 200);
         console.log(ticket);
+        wx.hideLoading();
       },
       fail: function (err) {
         console.log(err);

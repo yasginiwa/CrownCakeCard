@@ -9,19 +9,28 @@ page {
 }
 
 .section-top {
+  margin-top: 5%;
   background-color: white;
-  width: 90%;
+  width: 88%;
   height: 70%;
   border-top-left-radius: 20rpx;
   border-top-right-radius: 20rpx;
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
-  border-bottom: solid #888 1rpx;
+  border-bottom: solid #ddd 1rpx;
+}
+
+.section-top image {
+  width: 400rpx;
+  height: 240rpx;
+  margin-top: 40rpx;
 }
 
 .section-top .name {
-  margin-top: 30rpx;
+  margin-top: 20rpx;
+  font-weight: bold;
+  font-size: 36rpx;
 }
 
 .section-top .hint {
@@ -32,11 +41,11 @@ page {
 
 .section-top .barcode {
   display: flex;
-  height: 320rpx;
+  height: 260rpx;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 30rpx;
+  margin-top: 20rpx;
 }
 
 .section-top .barnum {
@@ -52,8 +61,9 @@ page {
 
 .section-top .desc {
   color: #f26700;
-  font-size: 40rpx;
-  margin-bottom: 30rpx;
+  font-size: 34rpx;
+  margin-bottom: 10rpx;
+  letter-spacing: 5rpx;
 }
 
 .barcode > canvas {
@@ -62,13 +72,14 @@ page {
 }
 
 .section-middle {
-  width: 90%;
+  width: 88%;
   height: 70%;
   background-color: white;
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
-  background: radial-gradient(30rpx at left bottom, transparent 50%, white 50%);
+  border-bottom: dashed #aaa 1rpx;
+  position: relative;
 }
 
 .section-middle text {
@@ -78,16 +89,53 @@ page {
   margin-left: 30rpx;
 }
 
-.section-middle .customername {
-  margin-top: 30rpx;
+.section-middle .validdate {
+  margin-bottom: 10rpx;
 }
 
-.section-middle .validdate {
-  margin-bottom: 30rpx;
+.section-middle:before {
+    display: block;
+    position: absolute;
+    content: "";
+    width:20rpx;
+    height:20rpx;
+    background-color:#0079C0;
+    border-radius:50%;
+    bottom: -10rpx;
+    left: -10rpx;
+}
+
+.section-middle:after {
+    display: block;
+    position: absolute;
+    content: "";
+    width:20rpx;
+    height:20rpx;
+    background-color:#0079C0;
+    border-radius:50%;
+    bottom: -10rpx;
+    right: -10rpx;
 }
 
 .section-bottom {
   backdrop-filter: white;
-  width: 90%;
-  height: 10%;
+  width: 88%;
+  height: 40%;
+  color: #aaa;
+  background-color: white;
+  font-size: 26rpx;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  border-bottom-left-radius: 20rpx;
+  border-bottom-right-radius: 20rpx;
+}
+
+.section-bottom .desc1 {
+  margin-top: 20rpx;
+  margin-bottom: 10rpx;
+}
+
+.section-bottom .desc2 {
+  margin-bottom: 20rpx;
 }

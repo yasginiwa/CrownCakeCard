@@ -1,7 +1,7 @@
 <!--pages/auth/auth.wxml-->
-<view class='noclient' wx:if='{{clients.length == 0}}'>
+<view class='nocontent' wx:if='{{clients.length == 0}}'>
   <image src='../../assets/norecord.png'></image>
-  <text>暂无客户！</text>
+  <text>暂无客户~~</text>
 </view>
 
 <view class='slider' wx:if='{{clients.length > 0}}' wx:for='{{clients}}' wx:key='client' data-idx='{{item.r_id}}'>
@@ -31,7 +31,7 @@
     <view class='count' wx:if='{{item.authstatus == 0}}'>
       <image class='minus' src='../../assets/minus.png' bindtap='onMinus' data-idx='{{item.r_id}}'></image>
       <view class='number'>
-        <input type='number' maxlength='3' type='number' bindinput='onCountInput' value='{{item.numbers}}' data-idx='{{item.r_id}}'></input>
+        <input type='number' maxlength='3' type='number' bindinput='onCountInput' value='{{item.numbers}}' placeholder='{{item.numbers}}' data-idx='{{item.r_id}}'></input>
       </view>
       <image class='plus' src='../../assets/plus.png' bindtap='onPlus' data-idx='{{item.r_id}}'></image>
     </view>

@@ -11,7 +11,7 @@ Page({
    */
   data: {
     addBtnStatus: false,
-    numbers: 0,
+    numbers: '',
     totalcount: 0,
     addcount: 0
   },
@@ -19,13 +19,13 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: function(options) {
     //  请求卡券总数
-    var totalCountRequest = new Promise(function (resolve, reject) {
+    var totalCountRequest = new Promise(function(resolve, reject) {
       var that = this,
         tickettotalcountUrl = api.tickettotalcountUrl,
         sqlParam = 'wxopenid',
-        sqlValue = wx.getStorageSync('openid'),
+        sqlValue = wx.getStorageSync('wxopenid'),
         col = 'numbers';
       wx.request({
         url: tickettotalcountUrl,
@@ -35,20 +35,20 @@ Page({
           sqlParam: sqlParam,
           sqlValue: sqlValue
         },
-        success: function (res) {
+        success: function(res) {
           resolve(res);
         },
-        fail: function (err) {
+        fail: function(err) {
           reject(err);
         }
       })
     });
 
     //  请求已添加的卡券数
-    var addCountRequest = new Promise(function (resolve, reject) {
+    var addCountRequest = new Promise(function(resolve, reject) {
       var ticketaddcountUrl = api.ticketaddcountUrl,
         sqlParam = 'wxopenid',
-        sqlValue = wx.getStorageSync('openid');
+        sqlValue = wx.getStorageSync('wxopenid');
       wx.request({
         url: ticketaddcountUrl,
         method: 'POST',
@@ -56,10 +56,10 @@ Page({
           sqlParam: sqlParam,
           sqlValue: sqlValue
         },
-        success: function (res) {
+        success: function(res) {
           resolve(res);
         },
-        fail: function (err) {
+        fail: function(err) {
           reject(err);
         }
       })
@@ -70,7 +70,7 @@ Page({
     })
     var that = this;
     // promise异步线程保证数据同步完成
-    Promise.all([addCountRequest, totalCountRequest]).then(function (res) {
+    Promise.all([addCountRequest, totalCountRequest]).then(function(res) {
       var addcount = res[0].data.result.recordset[0].addcount;
       var totalcount = res[1].data.result.recordset[0].numbers;
       that.setData({
@@ -78,7 +78,7 @@ Page({
         totalcount: totalcount
       })
       wx.hideLoading();
-    }).catch(function (err) {
+    }).catch(function(err) {
       wx.showToast({
         title: '网络错误...',
         image: '../../assets/fail.png',
@@ -91,55 +91,54 @@ Page({
   /**
    * 点击数量加号
    */
-  onPlus: function (e) {
+  onPlus: function(e) {
     var numbers = this.data.numbers;
     numbers++;
-    if (numbers > 999) {
-      numbers = 999;
+    if (numbers > 999 || numbers <= 0) {
+      numbers = 1;
+      this.setData({
+        numbers: numbers,
+        addBtnStatus: false,
+      })
     }
     this.setData({
       numbers: numbers,
-      addBtnStatus: true,
+      addBtnStatus: true
     })
   },
 
   /**
    * 点击数量减号
    */
-  onMinus: function (e) {
+  onMinus: function(e) {
     var numbers = this.data.numbers;
     numbers--;
-
-    if (numbers <= 0) {
-      numbers = 0;
+    if (numbers > 999 || numbers <= 0) {
+      numbers = 1;
       this.setData({
+        numbers: numbers,
         addBtnStatus: false,
       })
     }
     this.setData({
-      numbers: numbers
+      numbers: numbers,
+      addBtnStatus: true
     })
   },
 
   /**
    * 数量输入监听
    */
-  onCountInput: function (e) {
+  onCountInput: function(e) {
     var numbers = e.detail.value;
-
-    if (isNaN(numbers)) {
-      wx.showToast({
-        title: '请输入数字',
-        image: '../../assets/warning.png',
-        mask: true,
-        duration: 2000
-      })
+    if (isNaN(numbers) || numbers <= 0 || numbers == null) {
       this.setData({
-        numbers: 1,
+        addBtnStatus: false
       })
     } else {
       this.setData({
         numbers: numbers,
+        addBtnStatus: true
       })
     }
   },
@@ -147,11 +146,11 @@ Page({
   /**
    * 统一处理添加卡券
    */
-  addtickets: function () {
+  addtickets: function() {
 
     // 客户无法超越申请数量的券总数
     var totalcount = this.data.totalcount;
-    var addcount = this.data.addcount + this.data.numbers;
+    var addcount = Number(this.data.addcount) + Number(this.data.numbers);
     if (addcount > totalcount) {
       wx.showToast({
         title: '超出总券数！',
@@ -163,13 +162,16 @@ Page({
     }
 
     //  生成券码请求
-    var ticketgenRequest = new Promise(function (resolve, reject) {
+    var ticketgenRequest = new Promise(function(resolve, reject) {
       var now = dateUtil.formatTime(new Date());
+      var regInfo = wx.getStorageSync('regInfo');
+      var wxopenid = wx.getStorageSync('wxopenid');
       var content = {
         'productid': 1014519,
         'customername': '皇冠蛋糕',
         'datasource': 11,
-        'timestamp': now
+        'timestamp': now,
+        'wxopenid': wxopenid
       };
       var ticketGenUrl = api.ticketGenUrl;
       var encContent = urlSafeBase64.encode(api.encryptContent(content));
@@ -187,20 +189,19 @@ Page({
           sign: sign,
           content: encContent
         },
-        success: function (res) {
-
+        success: function(res) {
           resolve(res);
         },
-        fail: function (err) {
-          reject(err);
+        fail: function(err) {
+          console.log(err);
         }
       })
     });
 
     // 券卡插入数据库请求
-    var addToDBRequest = function (ticket, success, fail) {
+    var addToDBRequest = function(ticket, success, fail) {
       var addticketUrl = api.addticketUrl;
-      var wxopenid = wx.getStorageSync('openid');
+      var wxopenid = wx.getStorageSync('wxopenid');
       var company = wx.getStorageSync('regInfo').company;
       wx.request({
         url: addticketUrl,
@@ -214,24 +215,24 @@ Page({
           wxopenid: wxopenid,
           distributestatus: 0 // 状态0为未使用 1为已使用
         },
-        success: function (res) {
+        success: function(res) {
           success(res);
         },
-        fail: function (err) {
+        fail: function(err) {
           fail(err);
         }
       })
     };
 
-
     var that = this;
     var numbers = that.data.numbers;
+    var addcount = that.data.addcount;
     wx.showLoading({
-      title: '添加中，请勿关闭...',
+      title: '添加中...',
     })
 
-    return new Promise(function(resolve, reject){
-      ticketgenRequest.then(function (res) {
+    return new Promise(function(resolve, reject) {
+      ticketgenRequest.then(function(res) {
         var data = JSON.parse(res.data);
         var ticket = api.decryptContent(data.content);
         if (data.code == 0 && numbers > 0) {
@@ -241,17 +242,27 @@ Page({
             numbers: numbers,
             addBtnStatus: false
           })
-          addToDBRequest(ticket, function (res) {
+          addToDBRequest(ticket, function(res) {
+            addcount++;
+            that.setData({
+              addcount: addcount
+            })
             that.addtickets();
-          }, function (err) {
+          }, function(err) {
             reject(err);
           })
+        } else {
+          wx.hideLoading();
         }
       })
-    }).then(function(){
+    }).then(function() {
+      if (that.data.numbers == 0) {
+        that.setData({
+          numbers: ''
+        })
+      }
       wx.hideLoading();
-      that.onLoad();
-    }).catch(function(err){
+    }).catch(function(err) {
       wx.showToast({
         title: '添加失败！',
         image: '../../assets/fail.png',
@@ -259,55 +270,55 @@ Page({
         duration: 2000
       })
     })
-  },
 
+  },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
+  onReady: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
+  onShow: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () {
+  onHide: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
+  onUnload: function() {
 
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
+  onPullDownRefresh: function() {
 
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {
+  onReachBottom: function() {
 
   },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
 
   }
 })

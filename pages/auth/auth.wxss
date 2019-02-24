@@ -4,20 +4,27 @@ page {
   background-color: #ededed;
 }
 
-.noclient image {
+.nocontent
+{
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.nocontent image {
   position: absolute;
   width: 150rpx;
   height: 150rpx;
-  left: 40%;
-  top: 35%;
+  top: 400rpx;
 }
 
-.noclient text {
-  font-size: 30rpx;
+.nocontent text {
   position: absolute;
   color: #bfbfbf;
-  left: 42%;
-  top: 49%;
+  font-size: 28rpx;
+  top: 560rpx;
 }
 
 .cell {
@@ -67,7 +74,7 @@ page {
 }
 
 .cell text {
-  margin-left: 10rpx;
+  margin-left: 8rpx;
 }
 
 .cell .detail .contact {

@@ -1,18 +1,22 @@
 const crypto = requirePlugin('Crypto');
 var safeBase64 = require('../utils/safebase64.js')
 
+var host = 'http://192.168.0.172:18000'
 var ticketGenUrl = 'http://192.168.10.20:27777/icapi/tmticket',
   ticketQueryUrl = 'http://192.168.10.20:27777/icapi/tmticketquery',
-  registryUrl = 'http://192.168.10.214:18000/registry',
-  loginUrl = 'http://192.168.10.214:18000/login',
-  authUrl = 'http://192.168.10.214:18000/auth',
-  authupdateUrl = 'http://192.168.10.214:18000/authupdate',
-  queryauthUrl = 'http://192.168.10.214:18000/queryauth',
-  authdelUrl = 'http://192.168.10.214:18000/authdel',
-  addticketUrl = 'http://192.168.10.214:18000/addticket',
-  ticketaddcountUrl = 'http://192.168.10.214:18000/ticketaddcount',
-  tickettotalcountUrl = 'http://192.168.10.214:18000/tickettotalcount',
-  ticketsUrl = 'http://192.168.10.214:18000/tickets',
+  getwxopenidUrl = `${host}/getwxopenid`,
+  querywxopenidsUrl = `${host}/querywxopenids`,
+  registryUrl = `${host}/registry`,
+  loginUrl = `${host}/login`,
+  authUrl = `${host}/auth`,
+  authupdateUrl = `${host}/authupdate`,
+  queryauthUrl = `${host}/queryauth`,
+  authdelUrl = `${host}/authdel`,
+  addticketUrl = `${host}/addticket`,
+  ticketaddcountUrl = `${host}/ticketaddcount`,
+  tickettotalcountUrl = `${host}/tickettotalcount`,
+  ticketsUrl = `${host}/tickets`,
+  updatedisributestatusUrl = `${host}/updatedistributestatus`
   token = 'HGCakeECSell',
   appKey = 'SEdDYWtlT3JkZXJBbmRTZWxsMjAxOA==',
   signKey = 'BPe2XMzYP6UydzAuWiPuthAWVrMWkbmC';
@@ -55,6 +59,8 @@ module.exports = {
   sign: sign,
   ticketGenUrl: ticketGenUrl,
   ticketQueryUrl: ticketQueryUrl,
+  getwxopenidUrl: getwxopenidUrl,
+  querywxopenidsUrl: querywxopenidsUrl,
   registryUrl: registryUrl,
   loginUrl: loginUrl,
   authUrl: authUrl,
@@ -65,6 +71,7 @@ module.exports = {
   ticketaddcountUrl: ticketaddcountUrl,
   tickettotalcountUrl: tickettotalcountUrl,
   ticketsUrl: ticketsUrl,
+  updatedisributestatusUrl: updatedisributestatusUrl,
   encryptContent: encryptContent,
   decryptContent: decryptContent
 };

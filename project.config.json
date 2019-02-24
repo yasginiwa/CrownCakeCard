@@ -5,14 +5,16 @@
 	},
 	"setting": {
 		"urlCheck": false,
-		"es6": true,
+		"es6": false,
 		"postcss": true,
 		"minified": true,
 		"newFeature": true,
-		"autoAudits": false
+		"nodeModules": false,
+		"autoAudits": false,
+		"uglifyFileName": true
 	},
 	"compileType": "miniprogram",
-	"libVersion": "2.5.2",
+	"libVersion": "2.6.1",
 	"appid": "wx7fc7b53df0fe91d2",
 	"projectname": "%E7%9A%87%E5%86%A0%E5%8D%A1%E5%8C%85",
 	"debugOptions": {

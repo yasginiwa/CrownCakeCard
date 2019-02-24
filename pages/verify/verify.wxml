@@ -4,7 +4,7 @@
   <text>注册申请已提交成功，请耐心等待审核...</text>
 </view>
 <view class='middle'>
-  <text class='date'>注册日期： {{regInfo.date}}</text>
+  <text class='date'>注册日期： {{regInfo.regdate}}</text>
   <text class='company'>注册公司： {{regInfo.company}}</text>
   <text class='contact'>注册姓名： {{regInfo.contact}}</text>
   <text class='phone'>注册电话： {{regInfo.phone}}</text>

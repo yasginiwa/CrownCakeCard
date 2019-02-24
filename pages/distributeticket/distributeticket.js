@@ -32,35 +32,49 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    wx.showLoading({
+      title: '加载中...',
+    })
+
     var ticketsUrl = api.ticketsUrl,
-        sqlParam = 'wxopenid',
-        sqlValue = wx.getStorageSync('openid'),
-        that = this;
+      sqlParam = 'wxopenid',
+      sqlValue = wx.getStorageSync('wxopenid'),
+      that = this;
 
     wx.request({
       url: ticketsUrl,
       method: 'POST',
       data: {
         sqlParam: sqlParam,
-        sqlValue: sqlValue 
+        sqlValue: sqlValue
       },
-      success: function(res) {
+      success: function (res) {
         that.setData({
           tickets: res.data.result.reverse()
         })
+        wx.hideLoading();
       },
-      fail: function(err) {
-
+      fail: function (err) {
+        wx.showToast({
+          title: '网络错误...',
+          image: '../../assets/fail.png',
+          mask: true,
+          duration: 2000
+        })
       }
     })
   },
 
-  onTicketDetail: function(e) {
+  onTicketDetail: function (e) {
     var ticket = this.selectedModel(e);
     var ticketcode = ticket.ticketcode;
     wx.navigateTo({
       url: `../ticketdetail/ticketdetail?ticketcode=${ticketcode}`,
     })
+  },
+
+  onShare: function (e) {
+
   },
 
   /**
@@ -107,14 +121,32 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function (options) {
+    var that = this,
+      idx = options.target.dataset.idx,
+      obj = {},
+      ticket = {};
+    for (var i in this.data.tickets) {
+      obj = this.data.tickets[i];
+      if (obj.t_id == idx) {
+        ticket = obj;
+        break;
+      }
+    }
     return {
-      title: '发你一张券!',
-      path: '/pages/distributeticket/distributeticket?name=jack&gender=male',
-      success: function(res) {
-        console.log(res);
+      title: ticket.company,
+      path: `/pages/ticketdetail/ticketdetail?ticketcode=${ticket.ticketcode}`,
+      imageUrl: '../../assets/sendstaff.png',
+      success: function (res) {
+        wx.showToast({
+          title: '发送成功！',
+          image: '../../assets/success.png',
+          mask: true,
+          duration: 2000
+        })
+        
       },
-      fail: function(res) {
+      fail: function (res) {
         console.log(res);
       }
     }

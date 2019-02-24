@@ -4,7 +4,7 @@
 <view class='desc'>
 <text>总共</text>
 <text class='totalcount'>{{totalcount}}</text>
-<text>张福利券</text>
+<text>张卡券</text>
 <text class='space'>已添加</text>
 <text class='addcount'>{{addcount}}</text>
 <text>张</text>
@@ -12,8 +12,8 @@
 <view class='count'>
   <image class='minus' src='../../assets/minus.png' bindtap='onMinus'></image>
   <view class='number'>
-    <input type='number' maxlength='3' type='number' bindinput='onCountInput' value='{{numbers}}'></input>
+    <input type='number' maxlength='3' type='number' bindinput='onCountInput' placeholder='0' value='{{numbers}}'></input>
   </view>
   <image class='plus' src='../../assets/plus.png' bindtap='onPlus'></image>
 </view>
-<button class='add' bindtap='addtickets' disabled='{{!addBtnStatus}}'>添加券卡</button>
+<button class='add' bindtap='addtickets' disabled='{{!addBtnStatus}}'>添加卡券</button>

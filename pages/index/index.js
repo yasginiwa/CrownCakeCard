@@ -17,13 +17,6 @@ Page({
         desc: '福利发放人员入口(需注册认证)',
         indicator: '../../assets/arrow.png',
         tap: 'onDistributeTicket'
-      },
-      {
-        image: '../../assets/yellowCard.png',
-        name: '领取福利券',
-        desc: '员工入口',
-        indicator: '../../assets/arrow.png',
-        tap: 'onGetTicket'
       }
     ]
   },
@@ -33,115 +26,16 @@ Page({
    */
   onLoad: function (options) {
 
-    //  获取openid
-    wx.login({
-      success: function (res) {
-        wx.request({
-          url: 'https://api.weixin.qq.com/sns/jscode2session',
-          data: {
-            appid: 'wx7fc7b53df0fe91d2',
-            secret: '64fa906971b92a829115e5011ba92aa5',
-            js_code: res.code,
-            grant_type: 'authorization_code'
-          },
-          method: 'GET',
-          success: function (result) {
-            wx.setStorage({
-              key: 'openid',
-              data: result.data.openid,
-            });
-          },
-          fail: function (res) { },
-          complete: function (res) { }
-        })
-      },
-      fail: function (res) { },
-      complete: function (res) { },
-    })
-
-   
-
-    /**
-     * 生成券码
-     */
-    // var now = dateUtil.formatTime(new Date());
-    // var content = {
-    //   'productid': 1014519,
-    //   'startdate': '2019-02-10',
-    //   'enddate': '2019-06-30',
-    //   'customername': '皇冠蛋糕',
-    //   'datasource': 11,
-    //   'timestamp': now
-    // }
-    // var ticketGenUrl = api.ticketGenUrl;
-    // var encContent = urlSafeBase64.encode(api.encryptContent(content));
-    // var sign = api.sign(content);
-    // var token = api.token;
-
-    // wx.request({
-    //   url: ticketGenUrl,
-    //   method: 'POST',
-    //   header: {
-    //     "Content-Type": "application/x-www-form-urlencoded"
-    //   },
-    //   data: {
-    //     token: token,
-    //     sign: sign,
-    //     content: encContent
-    //   },
-    //   success: function (res) {
-    //     var data = JSON.parse(res.data);
-    //     var content = api.decryptContent(data.content);
-    //     console.log(content);
-    //   },
-    //   fail: function (res) {
-
-    //   }
-    // })
-
-    /**
-     * 查询券码
-     */
-    // var now = dateUtil.formatTime(new Date());
-    // var ticketQueryUrl = api.ticketQueryUrl;
-    // var queryContent = {
-    //   'ticketcode': '916111072682369465',
-    //   'datasource': 11,
-    //   'timestamp': now
-    // }
-    // var encContent = urlSafeBase64.encode(api.encryptContent(queryContent));
-    // var sign = api.sign(queryContent);
-    // var token = api.token;
-
-    // wx.request({
-    //   url: ticketQueryUrl,
-    //   method: 'POST',
-    //   header: {
-    //     "Content-Type": "application/x-www-form-urlencoded"
-    //   },
-    //   data: {
-    //     token: token,
-    //     sign: sign,
-    //     content: encContent
-    //   },
-    //   success: function (res) {
-    //     var data = JSON.parse(res.data);
-    //     var content = api.decryptContent(data.content);
-    //     console.log(content);
-    //   },
-    //   fail: function (res) {
-
-    //   }
-    // })
   },
+
+
 
   /**
    * 点击发放福利券
    */
   onDistributeTicket: function () {
     // 查询审核是否通过的网络请求 然后跳转至相应的页面
-
-    var openid = wx.getStorageSync('openid');
+    var wxopenid = wx.getStorageSync('wxopenid');
     var regInfo = wx.getStorageSync('regInfo');
 
     if (regInfo.toString().length == 0) {
@@ -151,8 +45,8 @@ Page({
     } else {
       var queryauthUrl = api.queryauthUrl;
       var authstatus = 1; //0位审核未通过的客户 1为审核通过的客户
-      var sqlParams = ['openid', 'company', 'authstatus'];
-      var sqlValues = [openid, regInfo.company, authstatus];
+      var sqlParams = ['wxopenid', 'company', 'authstatus'];
+      var sqlValues = [wxopenid, regInfo.company, authstatus];
 
       wx.request({
         url: queryauthUrl,
@@ -172,17 +66,15 @@ Page({
             })
           }
         },
-        fail: function (res) {},
-        complete: function (res) {}
+        fail: function (res) {
+          wx.showToast({
+            title: '网络错误...',
+            image: '../../assets/fail.png',
+            duration: 2000
+          })
+        }
       })
     }
-  },
-
-  /**
-   * 点击领取福利券
-   */
-  onGetTicket: function () {
-    console.log('onGetTicket');
   },
 
   /**
