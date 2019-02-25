@@ -181,9 +181,6 @@ Page({
       wx.request({
         url: ticketGenUrl,
         method: 'POST',
-        header: {
-          "Content-Type": "application/x-www-form-urlencoded"
-        },
         data: {
           token: token,
           sign: sign,

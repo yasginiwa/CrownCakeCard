@@ -40,9 +40,9 @@ Page({
     wx.request({
       url: ticketQueryUrl,
       method: 'POST',
-      header: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
+      // header: {
+      //   "Content-Type": "application/x-www-form-urlencoded"
+      // },
       data: {
         token: token,
         sign: sign,
@@ -58,7 +58,6 @@ Page({
           code: ticket.ticketcode
         })
         barcode.barcode('barcode', ticket.ticketcode, 640, 200);
-        console.log(ticket);
         wx.hideLoading();
       },
       fail: function (err) {

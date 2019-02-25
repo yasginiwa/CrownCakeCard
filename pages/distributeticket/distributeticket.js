@@ -1,8 +1,7 @@
 // pages/distributeticket/distributeticket.js
-var api = require('../../utils/api.js');
+const api = require('../../utils/api.js');
 
 Page({
-
   /**
    * 页面的初始数据
    */
@@ -11,8 +10,8 @@ Page({
   },
 
   /**
- * 通过点击是绑定的idx返回当前选择的ticket模型
- */
+   * 通过点击是绑定的idx返回当前选择的ticket模型
+   */
   selectedModel: function (e) {
     var idx = e.currentTarget.dataset.idx
     var ticket = {};
@@ -63,6 +62,8 @@ Page({
         })
       }
     })
+
+    wx.showShareMenu();
   },
 
   onTicketDetail: function (e) {
@@ -71,10 +72,6 @@ Page({
     wx.navigateTo({
       url: `../ticketdetail/ticketdetail?ticketcode=${ticketcode}`,
     })
-  },
-
-  onShare: function (e) {
-
   },
 
   /**
@@ -87,8 +84,7 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
-  },
+  onShow: function () { },
 
   /**
    * 生命周期函数--监听页面隐藏
@@ -122,6 +118,31 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function (options) {
+var updateStatus = function () {
+    var updatedisributestatusUrl = api.updatedisributestatusUrl,
+      sqlParam = 'distributestatus',
+      sqlValue = 1,
+      rangeParam = 't_id',
+      rangeValue = ticket.t_id;
+    //  更新ticket 的 发布/未发布 状态
+    wx.request({
+      url: updatedisributestatusUrl,
+      method: 'POST',
+      data: {
+        sqlParam: sqlParam,
+        sqlValue: sqlValue,
+        rangeParam: rangeParam,
+        rangeValue: rangeValue
+      },
+      success: function (res) {
+        // success(res);
+      },
+      fail: function (err) {
+        // fail(res);
+      }
+    })
+}
+  
     var that = this,
       idx = options.target.dataset.idx,
       obj = {},
@@ -133,22 +154,31 @@ Page({
         break;
       }
     }
-    return {
-      title: ticket.company,
-      path: `/pages/ticketdetail/ticketdetail?ticketcode=${ticket.ticketcode}`,
-      imageUrl: '../../assets/sendstaff.png',
-      success: function (res) {
-        wx.showToast({
-          title: '发送成功！',
-          image: '../../assets/success.png',
-          mask: true,
-          duration: 2000
-        })
-        
+
+    wx.showModal({
+      title: '温馨提示',
+      content: '确认已转发给员工',
+      success: function(res) {
+        if(res.confirm) {
+
+          updateStatus();
+          that.onLoad();
+        } else if(res.cancel) {
+
+
+
+        }
+
       },
-      fail: function (res) {
-        console.log(res);
-      }
+
+    })
+
+    return {
+      title: `${ticket.company} 祝您生日快乐！`,
+      path: `/pages/ticketdetail/ticketdetail?ticketcode=${ticket.ticketcode}`,
+      imageUrl: '../../assets/sendstaff.png'
     }
   }
+
+
 })

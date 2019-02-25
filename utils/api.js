@@ -1,9 +1,9 @@
 const crypto = requirePlugin('Crypto');
 var safeBase64 = require('../utils/safebase64.js')
 
-var host = 'http://192.168.0.172:18000'
-var ticketGenUrl = 'http://192.168.10.20:27777/icapi/tmticket',
-  ticketQueryUrl = 'http://192.168.10.20:27777/icapi/tmticketquery',
+var host = 'https://crowncake.cn:10444';
+var ticketGenUrl = `${host}/icapi/tmticket`,
+  ticketQueryUrl = `${host}/icapi/tmticketquery`,
   getwxopenidUrl = `${host}/getwxopenid`,
   querywxopenidsUrl = `${host}/querywxopenids`,
   registryUrl = `${host}/registry`,
