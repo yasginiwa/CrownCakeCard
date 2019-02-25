@@ -13,7 +13,7 @@
 
 <view class='section-middle'>
 <view class='left'></view>
-<text class='customername'>公司名称：{{ticket.customername}}</text>
+<text class='customername'>发券单位：{{ticket.customername}}</text>
 <text>卡券金额：{{ticket.price}}</text>
 <text class='validdate'>有效期至：{{ticket.enddate}}</text>
 </view>
