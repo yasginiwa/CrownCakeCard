@@ -159,18 +159,13 @@ var updateStatus = function () {
       title: '温馨提示',
       content: '确认已转发给员工',
       success: function(res) {
-        if(res.confirm) {
-
+        if(res.confirm) { //  点击确定
           updateStatus();
           that.onLoad();
-        } else if(res.cancel) {
-
-
+        } else if(res.cancel) { //  点击取消
 
         }
-
       },
-
     })
 
     return {

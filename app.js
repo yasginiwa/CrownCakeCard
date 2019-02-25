@@ -8,6 +8,7 @@ App({
   onLaunch: function () {
     wx.showLoading({
       title: '加载中...',
+      mask: true
     })
 
     //  获取openid
