@@ -19,7 +19,7 @@ page {
 
 .expect text {
    color: #A0A0A0;
-   font-size: 28rpx;
+   font-size: 24rpx;
    margin-top: 10rpx;
 }
 
@@ -39,7 +39,7 @@ page {
 
 .add text {
    color: #A0A0A0;
-   font-size: 28rpx;
+   font-size: 24rpx;
    margin-top: 10rpx;
 }
 
@@ -59,7 +59,7 @@ page {
 
 .my text {
    color: #A0A0A0;
-   font-size: 28rpx;
+   font-size: 24rpx;
    margin-top: 10rpx;
 }
 

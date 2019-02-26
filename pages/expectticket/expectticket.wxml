@@ -4,8 +4,8 @@
 <view class='count'>
   <image class='minus' src='../../assets/minus.png' bindtap='onMinus'></image>
   <view class='number'>
-    <input type='number' maxlength='3' type='number' bindinput='onCountInput' placeholder='0' value='{{numbers}}'></input>
+    <input type='number' maxlength='3' bindinput='onCountInput' placeholder='0' value='{{expectnumbers}}'></input>
   </view>
   <image class='plus' src='../../assets/plus.png' bindtap='onPlus'></image>
 </view>
-<button class='add' bindtap='addtickets' disabled='{{!addBtnStatus}}'>申领卡券</button>
+<button class='add' bindtap='expectticket' disabled='{{!expectBtnStatus}}'>申领卡券</button>
