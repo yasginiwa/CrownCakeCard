@@ -12,7 +12,7 @@ Page({
   data: {
     operations: [
       {
-        image: '../../assets/blueCard.png',
+        image: '../../assets/ticketdetail.png',
         name: '发放福利券',
         desc: '福利发放人员入口(需注册认证)',
         indicator: '../../assets/arrow.png',

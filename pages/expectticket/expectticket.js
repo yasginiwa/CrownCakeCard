@@ -1,4 +1,4 @@
-// pages/ticketroute/ticketroute.js
+// pages/expectticket/expectticket.js
 Page({
 
   /**
@@ -8,33 +8,6 @@ Page({
 
   },
 
-  /**
-   * 点击申请卡券
-   */
-  expectticket: function() {
-    wx.navigateTo({
-      url: '../expectticket/expectticket',
-    })
-  },
-
-  /**
-   * 点击添加券卡
-   */
-  addticket: function () {
-    wx.navigateTo({
-      url: '../addticket/addticket',
-    })
-  },
-
-
-  /**
-   * 点击我的券卡
-   */
-  myticket: function () {
-    wx.navigateTo({
-      url: '../distributeticket/distributeticket',
-    })
-  },
   /**
    * 生命周期函数--监听页面加载
    */

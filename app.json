@@ -8,7 +8,8 @@
     "pages/distributeticket/distributeticket",
     "pages/addticket/addticket",
     "pages/ticketroute/ticketroute",
-    "pages/ticketdetail/ticketdetail"
+    "pages/ticketdetail/ticketdetail",
+    "pages/expectticket/expectticket"
   ],
   "window": {
     "backgroundTextStyle": "light",

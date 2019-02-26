@@ -1,6 +1,6 @@
 <!--pages/addticket/addticket.wxml-->
 
-<image class='banner' src='../../assets/blueCard.png'></image>
+<image class='banner' src='../../assets/ticketdetail.png'></image>
 <view class='desc'>
 <text>总共</text>
 <text class='totalcount'>{{totalcount}}</text>

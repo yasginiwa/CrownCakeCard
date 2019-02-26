@@ -1,6 +1,6 @@
 <!--pages/ticketdetail/ticketdetail.wxml-->
 <view class='section-top'>
-  <image src='../../assets/blueCard.png'></image>
+  <image src='../../assets/ticketdetail.png'></image>
   <text class='name'>{{ticket.productname}}</text>
   <text class='hint'>结算时请出示此条码</text>
   <view class="barcode">
@@ -20,5 +20,5 @@
 
 <view class='section-bottom'>
 <text class='desc1'>可在任意皇冠蛋糕连锁门店使用 谢谢惠顾！</text>
-<text class='desc2'>此券由贵公司福利人员统一发放 再次转发无效！</text>
+<text class='desc2'>此券由公司福利人员统一发放 再次转发无效！</text>
 </view>

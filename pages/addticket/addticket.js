@@ -204,13 +204,14 @@ Page({
         url: addticketUrl,
         method: 'POST',
         data: {
+          wxopenid: wxopenid,
           company: company,
           ticketcode: ticket.ticketcode,
           ticketno: ticket.ticketno,
           productname: ticket.productname,
           price: ticket.price,
-          wxopenid: wxopenid,
-          distributestatus: 0 // 状态0为未使用 1为已使用
+          distributestatus: 0, // 状态0为未分发 1为已分发
+          distributedate: dateUtil.formatTime(new Date())
         },
         success: function(res) {
           success(res);

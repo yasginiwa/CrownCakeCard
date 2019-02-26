@@ -2,7 +2,7 @@
 <view class='banner'>
   <image src='../../assets/banner.png'></image>
   <button class='supervise' bindlongpress='onSupervise'></button>
-  <text>在线发放、领取员工生日蛋糕福利券</text>
+  <text>在线添加、发放员工生日蛋糕福利券</text>
 </view>
 
   <view class='tableView'>

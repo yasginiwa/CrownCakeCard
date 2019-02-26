@@ -3,14 +3,33 @@ page {
   background-color: white;
 }
 
+.expect {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  margin-top: 20%;
+  margin-left: 60rpx;
+}
+
+.expect image{
+  width: 150rpx;
+  height: 150rpx;
+}
+
+.expect text {
+   color: #A0A0A0;
+   font-size: 28rpx;
+   margin-top: 10rpx;
+}
+
 .add {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  justify-content: center;
   width: 100%;
-  height: 50%;
-  margin-top: 40%;
+  margin-top: 20%;
+  margin-left: 60rpx;
 }
 
 .add image{
@@ -26,12 +45,11 @@ page {
 
 .my {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  justify-content: center;
   width: 100%;
-  height: 50%;
   margin-top: 20%;
+  margin-left: 60rpx;
 }
 
 .my image{
@@ -43,4 +61,16 @@ page {
    color: #A0A0A0;
    font-size: 28rpx;
    margin-top: 10rpx;
+}
+
+.desc {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  margin-left: 20rpx;
+}
+
+.desc .title {
+  font-size: 36rpx;
+  color: #777;
 }

@@ -1,5 +1,4 @@
-/* pages/addticket/addticket.wxss */
-
+/* pages/expectticket/expectticket.wxss */
 page {
   background-color: white;
   display: flex;
@@ -9,8 +8,8 @@ page {
 
 .banner {
   margin-top: 40rpx;
-  width: 400rpx;
-  height: 240rpx;
+  width: 300rpx;
+  height: 433rpx;
 }
 
 .desc {

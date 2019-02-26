@@ -88,7 +88,8 @@ Page({
         phone: that.data.regInfo.phone,
         authstatus: that.data.authstatus,
         regdate: that.data.regInfo.regdate,
-        numbers: 0  // 刚刚注册 未审核状态 客户拥有的券数量为0
+        expectnumbers: 0, // 刚注册 未审核状态 客户期望申请的券数量为0
+        numbers: 0  // 刚注册 未审核状态 客户拥有的券数量为0
       },
       success: function (res) {
         wx.hideLoading();

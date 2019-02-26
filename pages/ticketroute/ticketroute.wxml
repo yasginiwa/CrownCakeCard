@@ -1,10 +1,24 @@
 <!--pages/ticketroute/ticketroute.wxml-->
+<view class='expect'>
+  <image src='../../assets/expectticket.png' bindtap='expectticket'></image>
+  <view class='desc'>
+    <text class='title'>申请卡券</text>
+    <text>向皇冠公司申请约定数目的卡券</text>
+  </view>
+</view>
+
 <view class='add'>
-<image src='../../assets/addticket.png' bindtap='addticket'></image>
-<text>添加卡券</text>
+  <image src='../../assets/addticket.png' bindtap='addticket'></image>
+  <view class='desc'>
+    <text class='title'>添加卡券</text>
+    <text>申请通过后，可添加卡券至“我的卡券”</text>
+  </view>
 </view>
 
 <view class='my'>
-<image src='../../assets/myticket.png' bindtap='myticket'></image>
-<text>我的卡券</text>
+  <image src='../../assets/myticket.png' bindtap='myticket'></image>
+  <view class='desc'>
+    <text class='title'>我的卡券</text>
+    <text>查看并分发已添加的卡券</text>
+  </view>
 </view>
