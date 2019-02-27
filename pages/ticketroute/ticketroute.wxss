@@ -21,7 +21,7 @@ page {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 20rpx;
+  margin-top: 30rpx;
   color: #999;
   font-size: 30rpx;
 }
@@ -34,7 +34,7 @@ page {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 20rpx;
+  margin-top: 30rpx;
   color: #999;
   font-size: 30rpx;
 }
@@ -51,5 +51,5 @@ page {
 .arrowdown {
   width: 100rpx;
   height: 100rpx;
-  margin-top: 20rpx;
+  margin-top: 30rpx;
 }

@@ -11,6 +11,7 @@ Page({
    */
   data: {
     addBtnStatus: false,
+    expectdate: '无',
     numbers: '',
     totalcount: 0,
     addcount: 0
@@ -20,26 +21,21 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    //  请求卡券总数
-    var totalCountRequest = new Promise(function(resolve, reject) {
+    //  请求卡券总数 查出最后一条申请卡券的记录
+    var expectAuthRequest = new Promise(function(resolve, reject) {
       var that = this,
-        tickettotalcountUrl = api.tickettotalcountUrl,
-        sqlParam = 'wxopenid',
-        sqlValue = wx.getStorageSync('wxopenid'),
-        col = 'numbers';
+        expectauthUrl = api.expectauthUrl,
+        sqlParams = ['wxopenid', 'authstatus'],
+        sqlValues = [wx.getStorageSync('wxopenid'), 1];
       wx.request({
-        url: tickettotalcountUrl,
+        url: expectauthUrl,
         method: 'POST',
         data: {
-          col: col,
-          sqlParam: sqlParam,
-          sqlValue: sqlValue
+          sqlParams: sqlParams,
+          sqlValues: sqlValues
         },
         success: function(res) {
           resolve(res);
-        },
-        fail: function(err) {
-          reject(err);
         }
       })
     });
@@ -70,15 +66,18 @@ Page({
     })
     var that = this;
     // promise异步线程保证数据同步完成
-    Promise.all([addCountRequest, totalCountRequest]).then(function(res) {
-      var addcount = res[0].data.result.recordset[0].addcount;
-      var totalcount = res[1].data.result.recordset[0].numbers;
+    Promise.all([expectAuthRequest]).then(function(res) {
+      // var addcount = res[0].data.result[0].addcount;
+      console.log(res[0].data.result);
+      var lastExpectTicket = res[0].data.result[res[0].data.result.length - 1];
       that.setData({
-        addcount: addcount,
-        totalcount: totalcount
+        // addcount: addcount,
+        totalcount: lastExpectTicket.expectnumbers,
+        expectdate: lastExpectTicket.expectdate
       })
       wx.hideLoading();
     }).catch(function(err) {
+      console.log(err);
       wx.showToast({
         title: '网络错误...',
         image: '../../assets/fail.png',
@@ -189,9 +188,7 @@ Page({
         success: function(res) {
           resolve(res);
         },
-        fail: function(err) {
-          console.log(err);
-        }
+        fail: function(err) {}
       })
     });
 

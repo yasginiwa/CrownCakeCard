@@ -30,10 +30,15 @@ page {
   margin-top: 10rpx;
 }
 
+.expectdate {
+  font-size: 30rpx;
+  color: #a0a0a0;
+  margin-top: 40rpx;
+}
+
 .desc {
   display: flex;
   flex-flow: row nowrap;
-  margin-top: 20rpx;
   font-size: 30rpx;
   color: #a0a0a0;
   align-items: center;

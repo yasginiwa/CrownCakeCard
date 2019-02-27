@@ -3,11 +3,29 @@
 
 <view class='desc'>
   <text class='title'>申请卡券</text>
-  <text class='content'>向皇冠公司申请合同约定数量的卡券</text>
+  <text class='content'>向皇冠公司申请合同约定数量的卡券。请务必在卡券添加完毕后再次申领，以免遗忘造成卡券浪费！</text>
 </view>
-<view class='expectcontent'>
+
+<view class='waiting' wx:if='{{expectwaitstatus == true}}'>
+
+  <view class='desc'>
+    <image src='../../assets/waiting.png'></image>
+    <text>申领审批中...</text>
+  </view>
+
+  <view class='content'>
+    <text>公司名称：{{expectticket.company}}</text>
+    <text>卡券名称：{{expectticket.productname}}</text>
+    <text>卡券面额：{{expectticket.price}} 元</text>
+    <text>卡券数量：{{expectticket.expectnumbers}} 张</text>
+    <text>申请日期：{{expectticket.expectdate}}</text>
+  </view>
+
+</view>
+
+<view class='expectcontent' wx:if='{{expectwaitstatus == false}}'>
   <view class='ticketname'>
-    <input type='text' placeholder='卡券名称' placeholder-class='phstyle' bindinput='ticketnameInput' focus='true'></input>
+    <input type='text' placeholder='卡券名称' placeholder-class='phstyle' bindinput='ticketnameInput'></input>
   </view>
   <view class='ticketprice'>
     <input type='number' placeholder='0' placeholder-class='phstyle' bindinput='ticketpriceInput'></input>
@@ -17,5 +35,5 @@
     <input type='number' placeholder='0' placeholder-class='phstyle' bindinput='ticketcountsInput'></input>
     <text>张</text>
   </view>
+  <button class='add' bindtap='expectticket' disabled='{{!expectBtnStatus}}'>申领卡券</button>
 </view>
-<button class='add' bindtap='expectticket' disabled='{{!expectBtnStatus}}'>申领卡券</button>

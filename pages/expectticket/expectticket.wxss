@@ -24,16 +24,52 @@ page {
   font-size: 40rpx;
 }
 
+.waiting {
+  margin-top: 40rpx;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  width: 100%;
+}
+
+.waiting .desc {
+  margin-top: 20rpx;
+  display: flex;
+  flex-flow: row nowrap;
+  color: #aaa;
+  align-items: center;
+}
+
+.waiting .content {
+  margin-top: 60rpx;
+  display: flex;
+  flex-flow: column nowrap;
+  color: #aaa;
+  /* margin-left: 40rpx; */
+  font-size: 28rpx;
+}
+
+.waiting .desc text {
+  font-size: 35rpx;
+  margin-left: 20rpx;
+}
+
+.waiting image {
+  width: 40rpx;
+  height: 40rpx;
+}
+
 .desc .content {
   color: #aaa;
   font-size: 30rpx;
   margin-top: 10rpx;
+  width: 520rpx;
 }
 
 .expectcontent {
   margin-top: 40rpx;
   width: 500rpx;
-  font-size: 34rpx;
+  font-size: 30rpx;
 }
 
 .expectcontent .ticketname {
@@ -41,7 +77,6 @@ page {
   margin-bottom: 40rpx;
   text-align: center;
 }
-
 
 .expectcontent .ticketprice {
   border-bottom: solid #aaa 1rpx;
@@ -74,10 +109,11 @@ page {
 .phstyle {
   font-size: 34rpx;
   text-align: center;
+  color: #aaa;
 }
 
 .add {
-  margin-top: 40rpx;
+  margin-top: 80rpx;
   width: 500rpx;
   background-color: #0079c0;
   color: white;

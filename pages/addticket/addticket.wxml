@@ -6,6 +6,8 @@
   <text class='content'>通过申请后，可添加卡券至“我的卡券”</text>
 </view>
 
+<view class='expectdate'>申领卡券日期：{{expectdate}}</view>
+
 <view class='desc'>
   <text>总共</text>
   <text class='totalcount'>{{totalcount}}</text>

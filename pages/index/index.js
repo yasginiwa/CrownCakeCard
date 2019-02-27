@@ -56,15 +56,9 @@ Page({
           sqlValues: sqlValues
         },
         success: function (res) {
-          if (res.data.result.length == 0) {
-            wx.reLaunch({
-              url: '../verify/verify',
-            })
-          } else {
-            wx.navigateTo({
-              url: '../ticketroute/ticketroute',
-            })
-          }
+          wx.navigateTo({
+            url: '../ticketroute/ticketroute',
+          })
         },
         fail: function (res) {
           wx.showToast({

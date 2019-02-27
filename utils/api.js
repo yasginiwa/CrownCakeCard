@@ -1,7 +1,7 @@
 const crypto = requirePlugin('Crypto');
 var safeBase64 = require('../utils/safebase64.js')
 
-var host = 'http://192.168.10.214:18000';
+var host = 'http://192.168.0.172:18000';
 var ticketGenUrl = `${host}/icapi/tmticket`,
   ticketQueryUrl = `${host}/icapi/tmticketquery`,
   getwxopenidUrl = `${host}/getwxopenid`,
@@ -16,7 +16,10 @@ var ticketGenUrl = `${host}/icapi/tmticket`,
   ticketaddcountUrl = `${host}/ticketaddcount`,
   tickettotalcountUrl = `${host}/tickettotalcount`,
   ticketsUrl = `${host}/tickets`,
-  updatedisributestatusUrl = `${host}/updatedistributestatus`
+  updatedisributestatusUrl = `${host}/updatedistributestatus`,
+  addexpectticketUrl = `${host}/addexpectticket`,
+  expectunauthUrl = `${host}/expectunauth`,
+  expectauthUrl = `${host}/expectauth`,
   token = 'HGCakeECSell',
   appKey = 'SEdDYWtlT3JkZXJBbmRTZWxsMjAxOA==',
   signKey = 'BPe2XMzYP6UydzAuWiPuthAWVrMWkbmC';
@@ -24,7 +27,7 @@ var ticketGenUrl = `${host}/icapi/tmticket`,
 /**
  * 返回加盐后签名
  */
-var sign = function (content) {
+var sign = function(content) {
   return new crypto.MD5(signKey + 'token' + token + 'content' + JSON.stringify(content) + signKey).toString()
 }
 
@@ -40,7 +43,7 @@ var options = {
 /**
  * AES加密
  */
-var encryptContent = function (content) {
+var encryptContent = function(content) {
   var encContent = (new crypto.AES().encrypt(crypto.Utf8.parse(JSON.stringify(content)), crypto.Utf8.parse(appKeyStr), options)).toString();
 
   return encContent;
@@ -49,7 +52,7 @@ var encryptContent = function (content) {
 /**
  * AES解密
  */
-var decryptContent = function (content) {
+var decryptContent = function(content) {
   var decContent = (new crypto.AES().decrypt(safeBase64.decode(content), crypto.Utf8.parse(appKeyStr), options));
   return JSON.parse(crypto.Utf8.stringify(decContent));
 }
@@ -72,6 +75,9 @@ module.exports = {
   tickettotalcountUrl: tickettotalcountUrl,
   ticketsUrl: ticketsUrl,
   updatedisributestatusUrl: updatedisributestatusUrl,
+  addexpectticketUrl: addexpectticketUrl,
+  expectunauthUrl: expectunauthUrl,
+  expectauthUrl: expectauthUrl,
   encryptContent: encryptContent,
   decryptContent: decryptContent
 };
