@@ -1,76 +1,55 @@
 /* pages/ticketroute/ticketroute.wxss */
+
 page {
   background-color: white;
 }
 
 .expect {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
-  width: 100%;
-  margin-top: 20%;
-  margin-left: 60rpx;
-}
-
-.expect image{
-  width: 150rpx;
-  height: 150rpx;
+  margin-top: 80rpx;
+  color: #999;
+  font-size: 30rpx;
 }
 
 .expect text {
-   color: #A0A0A0;
-   font-size: 24rpx;
-   margin-top: 10rpx;
+  margin-top: 10rpx;
 }
 
 .add {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
-  width: 100%;
-  margin-top: 20%;
-  margin-left: 60rpx;
-}
-
-.add image{
-  width: 150rpx;
-  height: 150rpx;
+  margin-top: 20rpx;
+  color: #999;
+  font-size: 30rpx;
 }
 
 .add text {
-   color: #A0A0A0;
-   font-size: 24rpx;
-   margin-top: 10rpx;
+  margin-top: 10rpx;
 }
 
 .my {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
-  width: 100%;
-  margin-top: 20%;
-  margin-left: 60rpx;
+  margin-top: 20rpx;
+  color: #999;
+  font-size: 30rpx;
 }
 
-.my image{
+.my text {
+  margin-top: 10rpx;
+}
+
+.icon {
   width: 150rpx;
   height: 150rpx;
 }
 
-.my text {
-   color: #A0A0A0;
-   font-size: 24rpx;
-   margin-top: 10rpx;
-}
-
-.desc {
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: flex-start;
-  margin-left: 20rpx;
-}
-
-.desc .title {
-  font-size: 36rpx;
-  color: #777;
+.arrowdown {
+  width: 100rpx;
+  height: 100rpx;
+  margin-top: 20rpx;
 }

@@ -1,4 +1,7 @@
 // pages/expectticket/expectticket.js
+const api = require('../../utils/api.js');
+const dateUtil = require('../../utils/util.js');
+
 Page({
 
   /**
@@ -6,64 +9,77 @@ Page({
    */
   data: {
     expectBtnStatus: false,
-    expectnumbers: '',
+    expectname: '',
+    expectprice: '',
+    expectnumbers: ''
   },
 
   /**
- * 点击数量加号
- */
-  onPlus: function (e) {
-    var expectnumbers = this.data.expectnumbers;
-    expectnumbers++;
-    if (expectnumbers > 999 || expectnumbers <= 0) {
-      expectnumbers = 1;
-      this.setData({
-        expectnumbers: expectnumbers,
-        expectBtnStatus: false,
-      })
-    }
+  * 卡券名称输入事件
+  */
+  ticketnameInput: function (e) {
+    var expectname = e.detail.value;
     this.setData({
-      expectnumbers: expectnumbers,
-      expectBtnStatus: true
+      expectname: expectname
     })
+
+    this.onInput();
   },
 
   /**
-   * 点击数量减号
+   * 卡券价格输入事件
    */
-  onMinus: function (e) {
-    var expectnumbers = this.data.expectnumbers;
-    expectnumbers--;
-    if (expectnumbers > 999 || expectnumbers <= 0) {
-      expectnumbers = 1;
-      this.setData({
-        expectnumbers: expectnumbers,
-        expectBtnStatus: false,
-      })
-    }
+  ticketpriceInput: function (e) {
+    var expectprice = e.detail.value;
     this.setData({
-      expectnumbers: expectnumbers,
-      expectBtnStatus: true
+      expectprice: expectprice
     })
+    this.onInput();
   },
 
   /**
- * 数量输入监听
- */
-  onCountInput: function (e) {
+   * 卡券数量输入事件
+   */
+  ticketcountsInput: function (e) {
     var expectnumbers = e.detail.value;
-    if (isNaN(expectnumbers) || expectnumbers <= 0 || expectnumbers == null) {
+    this.setData({
+      expectnumbers: expectnumbers
+    })
+    this.onInput();
+  },
+
+  /**
+   * 监听输入事件
+   */
+  onInput: function () {
+    var expectname = this.data.expectname;
+    var expectprice = this.data.expectprice;
+    var expectnumbers = this.data.expectnumbers;
+    if (expectname.length && expectprice.length && expectnumbers.length) {
       this.setData({
-        expectBtnStatus: false
+        expectBtnStatus: true
       })
     } else {
       this.setData({
-        expectnumbers: expectnumbers,
+        expectBtnStatus: false
+      })
+    }
+  },
+
+  /**
+   * 点击申领卡券
+   */
+  expectticket: function () {
+    var expectname = this.data.expectname,
+      expectprice = this.data.expectprice,
+      expectnumbers = this.data.expectnumbers,
+      today = dateUtil.formatDate(new Date());
+    if (expectname.length > 0 && expectprice.length > 0 && expectnumbers.length > 0) {
+      this.setData({
         expectBtnStatus: true
       })
     }
   },
-
 
   /**
    * 生命周期函数--监听页面加载

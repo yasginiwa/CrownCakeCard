@@ -1,12 +1,18 @@
 <!--pages/addticket/addticket.wxml-->
-<image class='banner' src='../../assets/ticketdetail.png'></image>
+<image class='banner' src='../../assets/addbanner.png'></image>
+
+<view class='descrpt'>
+  <text class='title'>添加卡券</text>
+  <text class='content'>通过申请后，可添加卡券至“我的卡券”</text>
+</view>
+
 <view class='desc'>
-<text>总共</text>
-<text class='totalcount'>{{totalcount}}</text>
-<text>张卡券</text>
-<text class='space'>已添加</text>
-<text class='addcount'>{{addcount}}</text>
-<text>张</text>
+  <text>总共</text>
+  <text class='totalcount'>{{totalcount}}</text>
+  <text>张卡券</text>
+  <text class='space'>已添加</text>
+  <text class='addcount'>{{addcount}}</text>
+  <text>张</text>
 </view>
 <view class='count'>
   <image class='minus' src='../../assets/minus.png' bindtap='onMinus'></image>
