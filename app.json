@@ -1,7 +1,6 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/registry/registry",
     "pages/verify/verify",
     "pages/login/login",
     "pages/auth/auth",

@@ -83,12 +83,12 @@ page {
   align-items: center;
   width: 190rpx;
   height: 30rpx;
-  background-color: #eee;
   font-size: 24rpx;
   margin-left: 10rpx;
   color: #aaa;
   position: absolute;
   right: 100rpx;
+  border-bottom: 1rpx solid #ddd;
 }
 
 .idimg {
@@ -96,6 +96,18 @@ page {
   height: 30rpx;
   position: absolute;
   right: 300rpx;
+}
+
+.idtxt {
+  font-size: 24rpx;
+  color: #aaa;
+  position: absolute;
+  left: 460rpx;
+}
+
+.idphstyle {
+  font-size: 22rpx;
+  color: #ccc;
 }
 
 .cell .content .desc {
@@ -129,9 +141,13 @@ page {
 }
 
 .cell .content .desc .dateimg {
-    margin-left: 10rpx;
+  margin-left: 10rpx;
   width: 30rpx;
   height: 30rpx;
+}
+
+.cell .content .desc .datetxt {
+  margin-left: 10rpx;
 }
 
 .cell .content .desc .numbertxt {

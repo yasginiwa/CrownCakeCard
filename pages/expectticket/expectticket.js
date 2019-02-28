@@ -144,25 +144,27 @@ Page({
 
     var that = this,
       expectunauthUrl = api.expectunauthUrl,
-      sqlParams = ['wxopenid', 'company', 'authstatus'],
-      sqlValues = [wx.getStorageSync('wxopenid'), wx.getStorageSync('regInfo').company, 0];
+      sqlParams = ['wxopenid', 'authstatus'],
+      sqlValues = [wx.getStorageSync('wxopenid'), '0'],
+      condition = 'expectdate';
     wx.request({
       url: expectunauthUrl,
       method: 'POST',
       data: {
         sqlParams: sqlParams,
-        sqlValues: sqlValues
+        sqlValues: sqlValues,
+        condition: condition
       },
       success: function (res) {
         wx.hideLoading();
-        if (res.data.result.length == 0) {
+        if (res.data.result.recordsets[0].length == 0) {
           that.setData({
             expectwaitstatus: false
           })
         } else {
           that.setData({
             expectwaitstatus: true,
-            expectticket: res.data.result[res.data.result.length - 1]
+            expectticket: res.data.result.recordsets[0][0]
           })
         }
       },

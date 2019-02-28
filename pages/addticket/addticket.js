@@ -26,17 +26,19 @@ Page({
       var that = this,
         expectauthUrl = api.expectauthUrl,
         sqlParams = ['wxopenid', 'authstatus'],
-        sqlValues = [wx.getStorageSync('wxopenid'), 1];
+        sqlValues = [wx.getStorageSync('wxopenid'), 1],
+        condition = 'expectdate';
       wx.request({
         url: expectauthUrl,
         method: 'POST',
         data: {
           sqlParams: sqlParams,
-          sqlValues: sqlValues
+          sqlValues: sqlValues,
+          condition: condition
         },
         success: function (res) {
           if (res.data.code == 1) {
-            resolve(res);
+            resolve(res.data.result.recordsets[0][0]);
           } else {
             reject('查询失败');
           }
@@ -57,7 +59,7 @@ Page({
           sqlValue: sqlValue
         },
         success: function (res) {
-          resolve(res);
+          resolve(res.data.result.recordsets[0][0]);
         },
         fail: function (err) {
           reject(err);
@@ -71,12 +73,11 @@ Page({
     var that = this;
     // promise异步线程保证数据同步完成
     Promise.all([expectAuthRequest]).then(function (res) {
-      // var addcount = res[0].data.result[0].addcount;
-      var lastExpectTicket = res[0].data.result[res[0].data.result.length - 1];
+      console.log(res);
       that.setData({
         // addcount: addcount,
-        totalcount: lastExpectTicket.expectnumbers,
-        expectdate: lastExpectTicket.expectdate
+        totalcount: res[0].expectnumbers,
+        expectdate: res[0].expectdate
       })
       wx.hideLoading();
     }).catch(function (err) {

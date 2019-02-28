@@ -30,9 +30,10 @@
     </view>
 
     <image class='idimg' src='../../assets/id.png'></image>
-    <view class='idinput'>
-      <input bindinput='onIdInput' placeholder='0' placeholder-style='text-font: 24rpx;'></input>
+    <view class='idinput' wx:if='{{item.authstatus==0}}'>
+      <input bindinput='onIdInput' placeholder='一网烘焙券建档ID' placeholder-class='idphstyle'></input>
     </view>
+    <text class='idtxt' wx:if='{{item.authstatus==1}}'>{{item.netbakeid}}</text>
 
     <image wx:if='{{item.authstatus==0}}' class='auth' src='../../assets/unauth.png' bindtap='onAuthorized' data-idx='{{item.r_id}}'></image>
 

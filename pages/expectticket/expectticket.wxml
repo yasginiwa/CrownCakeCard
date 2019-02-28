@@ -3,7 +3,7 @@
 
 <view class='desc'>
   <text class='title'>申请卡券</text>
-  <text class='content'>向皇冠公司申请合同约定数量的卡券。请务必在卡券添加完毕后再次申领，以免遗忘造成卡券浪费！</text>
+  <text class='content'>向皇冠公司申请合同约定数量的卡券。请务必在卡券添加完毕后再申领，以免遗忘造成卡券浪费！！！</text>
 </view>
 
 <view class='waiting' wx:if='{{expectwaitstatus == true}}'>
