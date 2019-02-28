@@ -20,9 +20,9 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function(options) {
+  onLoad: function (options) {
     //  请求卡券总数 查出最后一条申请卡券的记录
-    var expectAuthRequest = new Promise(function(resolve, reject) {
+    var expectAuthRequest = new Promise(function (resolve, reject) {
       var that = this,
         expectauthUrl = api.expectauthUrl,
         sqlParams = ['wxopenid', 'authstatus'],
@@ -34,14 +34,18 @@ Page({
           sqlParams: sqlParams,
           sqlValues: sqlValues
         },
-        success: function(res) {
-          resolve(res);
+        success: function (res) {
+          if (res.data.code == 1) {
+            resolve(res);
+          } else {
+            reject('查询失败');
+          }
         }
       })
     });
 
     //  请求已添加的卡券数
-    var addCountRequest = new Promise(function(resolve, reject) {
+    var addCountRequest = new Promise(function (resolve, reject) {
       var ticketaddcountUrl = api.ticketaddcountUrl,
         sqlParam = 'wxopenid',
         sqlValue = wx.getStorageSync('wxopenid');
@@ -52,10 +56,10 @@ Page({
           sqlParam: sqlParam,
           sqlValue: sqlValue
         },
-        success: function(res) {
+        success: function (res) {
           resolve(res);
         },
-        fail: function(err) {
+        fail: function (err) {
           reject(err);
         }
       })
@@ -66,9 +70,8 @@ Page({
     })
     var that = this;
     // promise异步线程保证数据同步完成
-    Promise.all([expectAuthRequest]).then(function(res) {
+    Promise.all([expectAuthRequest]).then(function (res) {
       // var addcount = res[0].data.result[0].addcount;
-      console.log(res[0].data.result);
       var lastExpectTicket = res[0].data.result[res[0].data.result.length - 1];
       that.setData({
         // addcount: addcount,
@@ -76,7 +79,7 @@ Page({
         expectdate: lastExpectTicket.expectdate
       })
       wx.hideLoading();
-    }).catch(function(err) {
+    }).catch(function (err) {
       console.log(err);
       wx.showToast({
         title: '网络错误...',
@@ -90,7 +93,7 @@ Page({
   /**
    * 点击数量加号
    */
-  onPlus: function(e) {
+  onPlus: function (e) {
     var numbers = this.data.numbers;
     numbers++;
     if (numbers > 999 || numbers <= 0) {
@@ -109,7 +112,7 @@ Page({
   /**
    * 点击数量减号
    */
-  onMinus: function(e) {
+  onMinus: function (e) {
     var numbers = this.data.numbers;
     numbers--;
     if (numbers > 999 || numbers <= 0) {
@@ -128,7 +131,7 @@ Page({
   /**
    * 数量输入监听
    */
-  onCountInput: function(e) {
+  onCountInput: function (e) {
     var numbers = e.detail.value;
     if (isNaN(numbers) || numbers <= 0 || numbers == null) {
       this.setData({
@@ -145,7 +148,7 @@ Page({
   /**
    * 统一处理添加卡券
    */
-  addtickets: function() {
+  addtickets: function () {
 
     // 客户无法超越申请数量的券总数
     var totalcount = this.data.totalcount;
@@ -161,7 +164,7 @@ Page({
     }
 
     //  生成券码请求
-    var ticketgenRequest = new Promise(function(resolve, reject) {
+    var ticketgenRequest = new Promise(function (resolve, reject) {
       var now = dateUtil.formatTime(new Date());
       var regInfo = wx.getStorageSync('regInfo');
       var wxopenid = wx.getStorageSync('wxopenid');
@@ -185,15 +188,15 @@ Page({
           sign: sign,
           content: encContent
         },
-        success: function(res) {
+        success: function (res) {
           resolve(res);
         },
-        fail: function(err) {}
+        fail: function (err) { }
       })
     });
 
     // 券卡插入数据库请求
-    var addToDBRequest = function(ticket, success, fail) {
+    var addToDBRequest = function (ticket, success, fail) {
       var addticketUrl = api.addticketUrl;
       var wxopenid = wx.getStorageSync('wxopenid');
       var company = wx.getStorageSync('regInfo').company;
@@ -210,10 +213,10 @@ Page({
           distributestatus: 0, // 状态0为未分发 1为已分发
           distributedate: dateUtil.formatTime(new Date())
         },
-        success: function(res) {
+        success: function (res) {
           success(res);
         },
-        fail: function(err) {
+        fail: function (err) {
           fail(err);
         }
       })
@@ -226,8 +229,8 @@ Page({
       title: '添加中...',
     })
 
-    return new Promise(function(resolve, reject) {
-      ticketgenRequest.then(function(res) {
+    return new Promise(function (resolve, reject) {
+      ticketgenRequest.then(function (res) {
         var data = JSON.parse(res.data);
         var ticket = api.decryptContent(data.content);
         if (data.code == 0 && numbers > 0) {
@@ -237,27 +240,27 @@ Page({
             numbers: numbers,
             addBtnStatus: false
           })
-          addToDBRequest(ticket, function(res) {
+          addToDBRequest(ticket, function (res) {
             addcount++;
             that.setData({
               addcount: addcount
             })
             that.addtickets();
-          }, function(err) {
+          }, function (err) {
             reject(err);
           })
         } else {
           wx.hideLoading();
         }
       })
-    }).then(function() {
+    }).then(function () {
       if (that.data.numbers == 0) {
         that.setData({
           numbers: ''
         })
       }
       wx.hideLoading();
-    }).catch(function(err) {
+    }).catch(function (err) {
       wx.showToast({
         title: '添加失败！',
         image: '../../assets/fail.png',
@@ -271,49 +274,49 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function() {
+  onReady: function () {
 
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function() {
+  onShow: function () {
 
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function() {
+  onHide: function () {
 
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function() {
+  onUnload: function () {
 
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function() {
+  onPullDownRefresh: function () {
 
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function() {
+  onReachBottom: function () {
 
   },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function() {
+  onShareAppMessage: function () {
 
   }
 })

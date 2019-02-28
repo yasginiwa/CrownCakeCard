@@ -4,8 +4,7 @@ page {
   background-color: #ededed;
 }
 
-.nocontent
-{
+.nocontent {
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
@@ -32,7 +31,7 @@ page {
   flex-flow: row nowrap;
   align-items: center;
   background-color: white;
-  height: 160rpx;
+  height: 140rpx;
   width: 100%;
   margin-bottom: 10rpx;
   transition: left 0.2s ease-in-out;
@@ -43,13 +42,13 @@ page {
 }
 
 .cell .icon {
-  width: 100rpx;
-  height: 100rpx;
-  margin-left: 10rpx;
+  width: 120rpx;
+  height: 120rpx;
+  margin-left: 5rpx;
 }
 
 .cell .content {
-  margin-left: 10rpx;
+  margin-left: 5rpx;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -60,82 +59,83 @@ page {
   margin-bottom: 5rpx;
 }
 
-.cell image {
-  width: 24rpx;
-  height: 24rpx;
-}
-
-.cell .detail {
+.cell .content .name {
   display: flex;
   flex-flow: row nowrap;
-  font-size: 24rpx;
-  margin-top: 5rpx;
-  margin-left: 10rpx;
+  align-items: center;
+  margin-bottom: 5rpx;
 }
 
-.cell text {
+.cell .content .name .nameimg {
+  width: 26rpx;
+  height: 26rpx;
+}
+
+.cell .content .name .nametxt {
+  font-size: 24rpx;
+  color: #aaa;
   margin-left: 8rpx;
 }
 
-.cell .detail .contact {
+.idinput {
   display: flex;
-  flex-direction: row;
+  flex-flow: row nowrap;
   align-items: center;
-}
-
-.cell .detail .contact text {
-  color: #aaa;
-}
-
-.cell .detail .phone {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-left: 20rpx;
-}
-
-.cell .detail .phone text {
-  color: #aaa;
-}
-
-.cell .detail .ticketnumber {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-left: 20rpx;
-}
-
-.cell .detail .ticketnumber text {
-  color: #aaa;
-}
-
-.cell .count {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  width: 190rpx;
   height: 30rpx;
-  width: 120rpx;
+  background-color: #eee;
+  font-size: 24rpx;
+  margin-left: 10rpx;
+  color: #aaa;
   position: absolute;
-  right: 110rpx;
+  right: 100rpx;
 }
 
-.number {
+.idimg {
+  width: 30rpx;
+  height: 30rpx;
+  position: absolute;
+  right: 300rpx;
+}
+
+.cell .content .desc {
   display: flex;
+  flex-flow: row nowrap;
   align-items: center;
-  text-align: center;
-  height: 30rpx;
-  width: 50rpx;
-  font-size: 22rpx;
 }
 
-.count .minus {
+.cell .content .desc text {
+  font-size: 24rpx;
+  color: #aaa;
+}
+
+.cell .content .desc .priceimg {
+  width: 26rpx;
+  height: 26rpx;
+}
+
+.cell .content .desc .pricetxt {
+  margin-left: 1rpx;
+}
+
+.cell .content .desc .numberimg {
+  margin-left: 20rpx;
+  width: 22rpx;
+  height: 22rpx;
+}
+
+.cell .content .desc .numbertxt {
+  margin-left: 8rpx;
+}
+
+.cell .content .desc .dateimg {
+    margin-left: 10rpx;
   width: 30rpx;
   height: 30rpx;
 }
 
-.count .plus {
-  width: 30rpx;
-  height: 30rpx;
+.cell .content .desc .numbertxt {
+  margin-left: 10rpx;
 }
 
 .cell .auth {
@@ -159,9 +159,9 @@ page {
   z-index: 2;
   right: 0rpx;
   color: white;
-  height: 120rpx;
+  height: 140rpx;
   font-size: 32rpx;
-  line-height: 120rpx;
-  font-weight: bold; 
-  top:0rpx;
+  line-height: 140rpx;
+  font-weight: bold;
+  top: 0rpx;
 }

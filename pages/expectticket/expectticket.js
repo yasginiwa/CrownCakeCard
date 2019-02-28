@@ -85,7 +85,8 @@ Page({
       price = this.data.expectprice,
       expectnumbers = this.data.expectnumbers,
       expectdate = dateUtil.formatDate(new Date()),
-      authstatus = 0; // 0 表示未审核 1表示审核成功
+      authstatus = 0, // 0 表示未审核 1表示审核成功
+      netbakeid = 0;
 
     wx.request({
       url: addexpectticketUrl,
@@ -97,7 +98,8 @@ Page({
         price: price,
         expectnumbers: expectnumbers,
         expectdate: expectdate,
-        authstatus: authstatus
+        authstatus: authstatus,
+        netbakeid: netbakeid
       },
       success: function (res) {
         wx.hideLoading();

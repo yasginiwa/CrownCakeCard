@@ -6,29 +6,28 @@ Page({
    * 页面的初始数据
    */
   data: {
-    clients: [],
-    delBtnWidth: 180
+    expecttickets: [],
+    delBtnWidth: 180,
+    netbakeid: 0
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function(options) {
+  onLoad: function (options) {
     wx.showLoading({
       title: '加载中...'
     })
 
-    var authUrl = api.authUrl;
-    var that = this;
+    //  请求客户申请未审核券的详细信息
+    var that = this,
+      authUrl = api.authUrl;
     wx.request({
       url: authUrl,
       method: 'POST',
-      data: {
-        authstatus: 0 // 0代表未审核的客户 1代表审核通过的客户
-      },
       success: function (res) {
         that.setData({
-          clients: res.data.result.reverse()
+          expecttickets: res.data.result.reverse()
         })
         wx.hideLoading();
       },
@@ -39,35 +38,43 @@ Page({
           duration: 2000
         })
       }
-    })    
+    })
   },
 
   /**
    * 通过点击是绑定的idx返回当前选择的client模型
    */
-  selectedModel: function(e) {
+  selectedModel: function (e) {
     var idx = e.currentTarget.dataset.idx
-    var client = {};
+    var expectticket = {};
     var obj = {};
     //遍历client对象数组
-    for (var i in this.data.clients) {
-      obj = this.data.clients[i]
+    for (var i in this.data.expecttickets) {
+      obj = this.data.expecttickets[i]
       if (obj.r_id === idx) {
-        client = obj;
+        expectticket = obj;
         break;
       }
     }
-    return client;
+    return expectticket;
   },
 
-  onAuthorized: function(e) {
-    var client = this.selectedModel(e);
+  onIdInput: function (e) {
+    this.setData({
+      netbakeid: e.detail.value
+    })
+  },
+
+  onAuthorized: function (e) {
+    var expectticket = this.selectedModel(e);
     var that = this;
     var authupdateUrl = api.authupdateUrl;
 
-    if (client.numbers <= 0) {
+    console.log(this.data.netbakeid);
+
+    if (isNaN(this.data.netbakeid) || this.data.netbakeid <= 0) {
       wx.showToast({
-        title: '卡券数须大于0！',
+        title: 'ID填写不规范',
         image: '../../assets/warning.png',
         mask: true,
         duration: 2000
@@ -75,25 +82,32 @@ Page({
       return;
     }
 
+    wx.showLoading({
+      title: '审核中...',
+    })
+
     wx.request({
       url: authupdateUrl,
       method: 'POST',
       data: {
-        sqlParams: ['authstatus', 'numbers'],
-        sqlValues: [1, client.numbers],
-        r_id: 'r_id',
-        rangeValue: client.r_id
+        sqlParams: ['authstatus', 'netbakeid'],
+        sqlValues: [1, that.data.netbakeid],
+        e_id: 'e_id',
+        rangeValue: expectticket.e_id
       },
-      success: function(res) {
-        that.onLoad();
-        wx.showToast({
-          title: '审核成功！',
-          image: '../../assets/success.png',
-          mask: true,
-          duration: 2000
-        })
+      success: function (res) {
+        console.log(res);
+        if (res.data.code == 1) {
+          that.onLoad();
+          wx.showToast({
+            title: '审核成功！',
+            image: '../../assets/success.png',
+            mask: true,
+            duration: 2000
+          })
+        }
       },
-      fail: function(res) {
+      fail: function (res) {
         wx.showToast({
           title: '审核失败！',
           image: '../../assets/fail.png',
@@ -104,56 +118,15 @@ Page({
     })
   },
 
-  /**
-   * 数量输入监听
-   */
-  onCountInput: function(e) {
-    var client = this.selectedModel(e);
-    client.numbers = e.detail.value;
-    this.setData({
-      clients: this.data.clients
-    })
-  },
-
-  /**
-   * 点击数量加号
-   */
-  onPlus: function(e) {
-    var client = this.selectedModel(e);
-    var that = this;
-    client.numbers++;
-    if (client.numbers > 999) {
-      client.numbers = 999;
-    }
-    this.setData({
-      clients: this.data.clients
-    })
-  },
-
-  /**
-   * 点击数量减号
-   */
-  onMinus: function(e) {
-    var that = this;
-    var client = this.selectedModel(e);
-    client.numbers--;
-    if (client.numbers < 0) {
-      client.numbers = 0;
-    }
-    this.setData({
-      clients: this.data.clients
-    })
-  },
-
 
   /**
    * 触摸开始
    */
-  touchS: function(e) {
+  touchS: function (e) {
     var client = this.selectedModel(e);
     //  如果是已审核过的客户 不能被删除
     if (client.authstatus == 1) return;
-    
+
     if (e.touches.length == 1) {
       this.setData({
         //设置触摸起始点水平方向位置
@@ -165,7 +138,7 @@ Page({
   /**
    * 触摸移动
    */
-  touchM: function(e) {
+  touchM: function (e) {
     if (e.touches.length == 1) {
       //手指移动时水平方向位置
       var moveX = e.touches[0].clientX;
@@ -186,7 +159,7 @@ Page({
       var client = this.selectedModel(e);
       client.slideStyle = txtStyle;
       this.setData({
-        clients: this.data.clients
+        expecttickets: this.data.expecttickets
       })
     }
   },
@@ -194,7 +167,7 @@ Page({
   /**
    * 触摸结束
    */
-  touchE: function(e) {
+  touchE: function (e) {
     if (e.changedTouches.length == 1) {
       //手指移动结束后水平位置
       var endX = e.changedTouches[0].clientX;
@@ -211,7 +184,7 @@ Page({
       var client = this.selectedModel(e);
       client.slideStyle = txtStyle;
       this.setData({
-        clients: this.data.clients
+        expecttickets: this.data.expecttickets
       })
     }
   },
@@ -219,27 +192,27 @@ Page({
   /**
    * 滑动一个item
    */
-  slideItem: function(e, style) {
+  slideItem: function (e, style) {
     var client = this.selectedModel(e);
     client.slideStyle = style;
     this.setData({
-      clients: this.data.clients
+      expecttickets: this.data.expecttickets
     })
   },
 
   /**
    * 删除一个item
    */
-  delItem: function(e) {
+  delItem: function (e) {
     // 遍历对象数组 所有的滑动归0
     var idx = e.currentTarget.dataset.idx
     var client = {};
-    for (var i in this.data.clients) {
-      client = this.data.clients[i];
+    for (var i in this.data.expecttickets) {
+      client = this.data.expecttickets[i];
       client.slideStyle = 'left:0rpx';
     }
     this.setData({
-      clients: this.data.clients
+      expecttickets: this.data.expecttickets
     })
 
     // 发送请求 删除数据
@@ -253,7 +226,7 @@ Page({
         r_id: 'r_id',
         sqlValue: r_id
       },
-      success: function(res) {
+      success: function (res) {
         that.onLoad();
         wx.showToast({
           title: '删除成功！',
@@ -262,7 +235,7 @@ Page({
           duration: 2000
         })
       },
-      fail: function() {
+      fail: function () {
         wx.showToast({
           title: '删除失败！',
           image: '../../assets/fail.png',
@@ -276,35 +249,35 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function() {
+  onReady: function () {
 
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function() {
+  onShow: function () {
 
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function() {
+  onHide: function () {
 
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function() {
+  onUnload: function () {
 
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function() {
+  onPullDownRefresh: function () {
     this.onLoad();
     wx.stopPullDownRefresh();
   },
@@ -312,14 +285,14 @@ Page({
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function() {
+  onReachBottom: function () {
 
   },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function() {
+  onShareAppMessage: function () {
 
   }
 })
