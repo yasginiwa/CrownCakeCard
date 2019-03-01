@@ -84,7 +84,7 @@ Page({
       productname = this.data.expectname,
       price = this.data.expectprice,
       expectnumbers = this.data.expectnumbers,
-      expectdate = dateUtil.formatDate(new Date()),
+      expectdate = dateUtil.formatTime(new Date()),
       authstatus = 0, // 0 表示未审核 1表示审核成功
       netbakeid = 0;
 

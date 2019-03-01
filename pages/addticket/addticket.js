@@ -12,6 +12,7 @@ Page({
   data: {
     addBtnStatus: false,
     expectdate: '无',
+    netbakeid: '',
     numbers: '',
     totalcount: 0,
     addcount: 0
@@ -37,9 +38,16 @@ Page({
           condition: condition
         },
         success: function (res) {
-          if (res.data.code == 1) {
+          console.log(res);
+          if (res.data.code == 1 && res.data.result.recordsets[0].length > 0) {
             resolve(res.data.result.recordsets[0][0]);
           } else {
+            wx.hideLoading();
+            wx.showToast({
+              title: '请等待审核...',
+              image: '../../assets/warning.png',
+              duration: 2000
+            })
             reject('查询失败');
           }
         }
@@ -47,47 +55,57 @@ Page({
     });
 
     //  请求已添加的卡券数
-    var addCountRequest = new Promise(function (resolve, reject) {
+    var addCountRequest = function (repectdate, success, fail) {
       var ticketaddcountUrl = api.ticketaddcountUrl,
-        sqlParam = 'wxopenid',
-        sqlValue = wx.getStorageSync('wxopenid');
+        sqlParams = ['wxopenid', 'expectdate'],
+      sqlValues = [wx.getStorageSync('wxopenid'), repectdate];
       wx.request({
         url: ticketaddcountUrl,
         method: 'POST',
         data: {
-          sqlParam: sqlParam,
-          sqlValue: sqlValue
+          sqlParams: sqlParams,
+          sqlValues: sqlValues
         },
         success: function (res) {
-          resolve(res.data.result.recordsets[0][0]);
+          if (res.data.code == 1) {
+            success(res.data.result.recordsets[0][0]);
+          } else {
+            wx.showToast({
+              title: '加载失败...',
+              image: '../../assets/fail.png',
+              duration: 2000
+            })
+          }
         },
         fail: function (err) {
-          reject(err);
+          fail(err);
         }
       })
-    });
+    };
 
     wx.showLoading({
       title: '页面加载...',
     })
     var that = this;
     // promise异步线程保证数据同步完成
-    Promise.all([expectAuthRequest]).then(function (res) {
-      console.log(res);
+    expectAuthRequest.then(function (res) {
       that.setData({
-        // addcount: addcount,
-        totalcount: res[0].expectnumbers,
-        expectdate: res[0].expectdate
+        totalcount: res.expectnumbers,
+        expectdate: res.expectdate,
+        netbakeid: res.netbakeid
       })
-      wx.hideLoading();
-    }).catch(function (err) {
-      console.log(err);
-      wx.showToast({
-        title: '网络错误...',
-        image: '../../assets/fail.png',
-        mask: true,
-        duration: 2000
-      })
+      addCountRequest(res.expectdate, function (res) {
+        wx.hideLoading();
+        that.setData({
+          addcount: res.addcount
+        })
+      }, function (err) {
+        wx.showToast({
+          title: '加载失败...',
+          image: '../../assets/fail.png',
+          duration: 2000
+        })
+      });
     })
   },
 
@@ -152,8 +170,9 @@ Page({
   addtickets: function () {
 
     // 客户无法超越申请数量的券总数
-    var totalcount = this.data.totalcount;
-    var addcount = Number(this.data.addcount) + Number(this.data.numbers);
+    var that = this,
+      totalcount = this.data.totalcount,
+      addcount = Number(this.data.addcount) + Number(this.data.numbers);
     if (addcount > totalcount) {
       wx.showToast({
         title: '超出总券数！',
@@ -164,13 +183,13 @@ Page({
       return;
     }
 
-    //  生成券码请求
+    //  生成券码请求  'productid': 1014519,
     var ticketgenRequest = new Promise(function (resolve, reject) {
       var now = dateUtil.formatTime(new Date());
       var regInfo = wx.getStorageSync('regInfo');
       var wxopenid = wx.getStorageSync('wxopenid');
       var content = {
-        'productid': 1014519,
+        'productid': that.data.netbakeid,
         'customername': '皇冠蛋糕',
         'datasource': 11,
         'timestamp': now,
@@ -212,7 +231,8 @@ Page({
           productname: ticket.productname,
           price: ticket.price,
           distributestatus: 0, // 状态0为未分发 1为已分发
-          distributedate: dateUtil.formatTime(new Date())
+          distributedate: dateUtil.formatTime(new Date()),
+          expectdate: that.data.expectdate
         },
         success: function (res) {
           success(res);

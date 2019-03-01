@@ -66,15 +66,9 @@ page {
   margin-bottom: 5rpx;
 }
 
-.cell .content .name .nameimg {
-  width: 26rpx;
-  height: 26rpx;
-}
-
 .cell .content .name .nametxt {
   font-size: 24rpx;
   color: #aaa;
-  margin-left: 8rpx;
 }
 
 .idinput {

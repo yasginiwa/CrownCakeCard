@@ -13,7 +13,6 @@
       <text class='company'>{{item.company}}</text>
 
       <view class='name'>
-        <image class='nameimg' src='../../assets/expectname.png'></image>
         <text class='nametxt'>{{item.productname}}</text>
       </view>
 
