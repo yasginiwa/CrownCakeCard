@@ -1,5 +1,6 @@
 // pages/auth/auth.js
 var api = require('../../utils/api.js');
+const dateUtil = require('../../utils/util.js');
 
 Page({
   /**
@@ -26,8 +27,16 @@ Page({
       url: authUrl,
       method: 'POST',
       success: function (res) {
+        var expectticket = {};
+        var expecttickets = [];
+        for (var i in res.data.result) {
+          expectticket = res.data.result[i];
+          expectticket.price = dateUtil.formatMoney(expectticket.price);
+          expectticket.expectdate = dateUtil.formatLocal(expectticket.expectdate);
+          expecttickets.push(expectticket);
+        }
         that.setData({
-          expecttickets: res.data.result.reverse()
+          expecttickets: expecttickets.reverse()
         })
         wx.hideLoading();
       },
@@ -51,7 +60,7 @@ Page({
     //遍历client对象数组
     for (var i in this.data.expecttickets) {
       obj = this.data.expecttickets[i]
-      if (obj.r_id === idx) {
+      if (obj.e_id === idx) {
         expectticket = obj;
         break;
       }
@@ -66,11 +75,9 @@ Page({
   },
 
   onAuthorized: function (e) {
-    var expectticket = this.selectedModel(e);
-    var that = this;
-    var authupdateUrl = api.authupdateUrl;
-
-    console.log(this.data.netbakeid);
+    wx.showLoading({
+      title: '审核中...',
+    })
 
     if (isNaN(this.data.netbakeid) || this.data.netbakeid <= 0) {
       wx.showToast({
@@ -82,23 +89,57 @@ Page({
       return;
     }
 
-    wx.showLoading({
-      title: '审核中...',
+    //  审核注册信息
+    var updateregistryUrl = api.updateregistryUrl,
+      that = this,
+      sqlParam = 'authstatus',
+      sqlValue = 1,   //  等于0 注册未审核  等于1 注册已审核
+      rangeParam = 'wxopenid',
+      rangeValue = wx.getStorageSync('wxopenid');
+    wx.request({
+      url: updateregistryUrl,
+      method: 'POST',
+      data: {
+        sqlParam: sqlParam,
+        sqlValue: sqlValue,
+        rangeParam: rangeParam,
+        rangeValue: rangeValue
+      },
+      success: function (res) {
+        if (res.data.code == 1) {
+
+        } else {
+          wx.showToast({
+            title: '注册信息审核失败！',
+            image: '../../assets/fail.png',
+            duration: 2000
+          })
+        }
+      },
+      fail: function (err) {
+        wx.showToast({
+          title: '网络错误！',
+          image: '../../assets/fail.png',
+          duration: 2000
+        })
+      }
     })
 
+
+    //  审核申领的券
+    var expectticket = this.selectedModel(e),
+      authupdateUrl = api.authupdateUrl;
     wx.request({
       url: authupdateUrl,
       method: 'POST',
       data: {
         sqlParams: ['authstatus', 'netbakeid'],
         sqlValues: [1, that.data.netbakeid],
-        e_id: 'e_id',
+        rangeParam: 'e_id',
         rangeValue: expectticket.e_id
       },
       success: function (res) {
-        console.log(res);
         if (res.data.code == 1) {
-          that.onLoad();
           wx.showToast({
             title: '审核成功！',
             image: '../../assets/success.png',
@@ -114,8 +155,14 @@ Page({
           mask: true,
           duration: 2000
         })
+      },
+      complete() {
+        that.onLoad();
       }
     })
+
+    //  设置申领券总数到本地存储
+    wx.setStorageSync('totalcount', expectticket.expectnumbers);
   },
 
 
@@ -123,9 +170,9 @@ Page({
    * 触摸开始
    */
   touchS: function (e) {
-    var client = this.selectedModel(e);
+    var expectticket = this.selectedModel(e);
     //  如果是已审核过的客户 不能被删除
-    if (client.authstatus == 1) return;
+    if (expectticket.authstatus == 1) return;
 
     if (e.touches.length == 1) {
       this.setData({
@@ -156,8 +203,8 @@ Page({
         }
       }
 
-      var client = this.selectedModel(e);
-      client.slideStyle = txtStyle;
+      var expectticket = this.selectedModel(e);
+      expectticket.slideStyle = txtStyle;
       this.setData({
         expecttickets: this.data.expecttickets
       })
@@ -181,8 +228,8 @@ Page({
         this.slideItem(e, txtStyle);
       }
 
-      var client = this.selectedModel(e);
-      client.slideStyle = txtStyle;
+      var expectticket = this.selectedModel(e);
+      expectticket.slideStyle = txtStyle;
       this.setData({
         expecttickets: this.data.expecttickets
       })
@@ -193,8 +240,8 @@ Page({
    * 滑动一个item
    */
   slideItem: function (e, style) {
-    var client = this.selectedModel(e);
-    client.slideStyle = style;
+    var expectticket = this.selectedModel(e);
+    expectticket.slideStyle = style;
     this.setData({
       expecttickets: this.data.expecttickets
     })
@@ -205,11 +252,10 @@ Page({
    */
   delItem: function (e) {
     // 遍历对象数组 所有的滑动归0
-    var idx = e.currentTarget.dataset.idx
-    var client = {};
+    var expectticket = this.selectedModel(e);
     for (var i in this.data.expecttickets) {
-      client = this.data.expecttickets[i];
-      client.slideStyle = 'left:0rpx';
+      expectticket = this.data.expecttickets[i];
+      expectticket.slideStyle = 'left:0rpx';
     }
     this.setData({
       expecttickets: this.data.expecttickets
@@ -217,14 +263,13 @@ Page({
 
     // 发送请求 删除数据
     var authdelUrl = api.authdelUrl;
-    var r_id = idx;
     var that = this;
     wx.request({
       url: authdelUrl,
       method: 'POST',
       data: {
-        r_id: 'r_id',
-        sqlValue: r_id
+        e_id: 'e_id',
+        sqlValue: expectticket.e_id
       },
       success: function (res) {
         that.onLoad();

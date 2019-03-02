@@ -1,5 +1,6 @@
 {
   "navigationBarTitleText": "我的卡券",
   "navigationBarBackgroundColor": "#0079C0",
-  "navigationBarTextStyle": "white"
+  "navigationBarTextStyle": "white",
+  "enablePullDownRefresh": true
 }

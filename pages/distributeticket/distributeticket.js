@@ -1,5 +1,6 @@
 // pages/distributeticket/distributeticket.js
 const api = require('../../utils/api.js');
+var dateUtil = require('../../utils/util.js');
 
 Page({
   /**
@@ -15,13 +16,18 @@ Page({
   selectedModel: function (e) {
     var idx = e.currentTarget.dataset.idx
     var ticket = {};
+    var groups = {};
     var obj = {};
     //遍历tickets对象数组
     for (var i in this.data.tickets) {
-      obj = this.data.tickets[i]
-      if (obj.t_id === idx) {
-        ticket = obj;
-        break;
+      groups = this.data.tickets[i];
+      var expecttickets = groups.expecttickets;
+      for (var j in expecttickets) {
+        obj = expecttickets[j];
+        if (obj.t_id === idx) {
+          ticket = obj;
+          break;
+        }
       }
     }
     return ticket;
@@ -48,8 +54,22 @@ Page({
         sqlValue: sqlValue
       },
       success: function (res) {
+        var tickets = [];
+        var group = {};
+        var ticket = {};
+        for (var i in res.data.result) {
+          var group = res.data.result[i];
+          group.expectdate = dateUtil.formatLocal(group.expectdate);
+          var expecttickets = group.expecttickets;
+          for (var j in expecttickets) {
+            ticket = expecttickets[j];
+            ticket.price = dateUtil.formatMoney(ticket.price);
+            group.ticket = ticket;
+          }
+          tickets.push(group);
+        }
         that.setData({
-          tickets: res.data.result.reverse()
+          tickets: tickets.reverse()
         })
         wx.hideLoading();
       },
@@ -104,7 +124,9 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-
+    this.onLoad();
+    wx.hideNavigationBarLoading();
+    wx.stopPullDownRefresh();
   },
 
   /**
@@ -118,55 +140,63 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function (options) {
-var updateStatus = function () {
-    var updatedisributestatusUrl = api.updatedisributestatusUrl,
-      sqlParam = 'distributestatus',
-      sqlValue = 1,
-      rangeParam = 't_id',
-      rangeValue = ticket.t_id;
-    //  更新ticket 的 发布/未发布 状态
-    wx.request({
-      url: updatedisributestatusUrl,
-      method: 'POST',
-      data: {
-        sqlParam: sqlParam,
-        sqlValue: sqlValue,
-        rangeParam: rangeParam,
-        rangeValue: rangeValue
-      },
-      success: function (res) {
-        // success(res);
-      },
-      fail: function (err) {
-        // fail(res);
-      }
-    })
-}
-  
-    var that = this,
-      idx = options.target.dataset.idx,
-      obj = {},
-      ticket = {};
-    for (var i in this.data.tickets) {
-      obj = this.data.tickets[i];
-      if (obj.t_id == idx) {
-        ticket = obj;
-        break;
-      }
+    var updateStatus = function () {
+      var updatedisributestatusUrl = api.updatedisributestatusUrl,
+        sqlParam = 'distributestatus',
+        sqlValue = 1,
+        rangeParam = 't_id',
+        rangeValue = ticket.t_id;
+      //  更新ticket 的 发布/未发布 状态
+      wx.request({
+        url: updatedisributestatusUrl,
+        method: 'POST',
+        data: {
+          sqlParam: sqlParam,
+          sqlValue: sqlValue,
+          rangeParam: rangeParam,
+          rangeValue: rangeValue
+        },
+        success: function (res) {
+          console.log(res);
+          // success(res);
+        },
+        fail: function (err) {
+          // fail(res);
+        },
+
+      })
     }
 
-    wx.showModal({
-      title: '温馨提示',
-      content: '确认已转发给员工',
-      success: function(res) {
-        if(res.confirm) { //  点击确定
-          updateStatus();
-          that.onLoad();
-        } else if(res.cancel) { //  点击取消
+    var that = this,
+      ticket = {},
+      e = {};
+    e.currentTarget = options.target;
+    ticket = this.selectedModel(e);
+
+    //  弹出确认转发对话框
+    setTimeout(function () {
+      wx.showModal({
+        title: '确认是否转发给员工',
+        content: '点"否"请及时撤回！！',
+        success: function (res) {
+          if (res.confirm) { //  点击确定
+            //  设置券状态为已分发
+            // ticket.distributestatus = 1;
+            //  下拉刷新
+            updateStatus();
+            setTimeout(function(){
+              wx.startPullDownRefresh();
+              wx.showNavigationBarLoading();
+            }, 500)
+          } else if (res.cancel) {
+            //  设置券状态为已分发
+            // ticket.distributestatus = 0;
+          }
 
         }
-      },
-    })
+      })
+    }, 1000)
+
 
     return {
       title: `${ticket.company} 祝您生日快乐！`,

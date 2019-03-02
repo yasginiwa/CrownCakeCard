@@ -2,7 +2,7 @@
 <image class='banner' src='../../assets/expectbanner.png'></image>
 
 <view class='desc'>
-  <text class='title'>申请卡券</text>
+  <text class='title'>申领卡券</text>
   <text class='content'>向皇冠公司申请合同约定数量的卡券。请务必在卡券添加完毕后再申领，以免遗忘造成卡券浪费！！！</text>
 </view>
 
@@ -25,14 +25,14 @@
 
 <view class='expectcontent' wx:if='{{expectwaitstatus == false}}'>
   <view class='ticketname'>
-    <input type='text' placeholder='卡券名称' placeholder-class='phstyle' bindinput='ticketnameInput'></input>
+    <input type='text' cursor-spacing='20' placeholder='卡券名称' placeholder-class='phstyle' bindinput='ticketnameInput' focus='true'></input>
   </view>
   <view class='ticketprice'>
-    <input type='number' placeholder='0' placeholder-class='phstyle' bindinput='ticketpriceInput'></input>
+    <input type='digit' cursor-spacing='20' placeholder='0' placeholder-class='phstyle' bindinput='ticketpriceInput'></input>
     <text>元</text>
   </view>
   <view class='ticketcounts'>
-    <input type='number' placeholder='0' placeholder-class='phstyle' bindinput='ticketcountsInput'></input>
+    <input type='number' cursor-spacing='20' placeholder='0' placeholder-class='phstyle' bindinput='ticketcountsInput'></input>
     <text>张</text>
   </view>
   <button class='add' bindtap='expectticket' disabled='{{!expectBtnStatus}}'>申领卡券</button>

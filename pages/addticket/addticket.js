@@ -22,6 +22,8 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+
+
     //  请求卡券总数 查出最后一条申请卡券的记录
     var expectAuthRequest = new Promise(function (resolve, reject) {
       var that = this,
@@ -38,7 +40,6 @@ Page({
           condition: condition
         },
         success: function (res) {
-          console.log(res);
           if (res.data.code == 1 && res.data.result.recordsets[0].length > 0) {
             resolve(res.data.result.recordsets[0][0]);
           } else {
@@ -52,6 +53,17 @@ Page({
           }
         }
       })
+
+      var totalcount = wx.getStorageSync('totalcount'),
+        addcount = wx.getStorageSync('addcount');
+      if (totalcount == 0) {
+        wx.showToast({
+          title: '请先申领卡券...',
+          image: '../../assets/warning.png',
+          duration: 2000,
+        })
+        return;
+      }
     });
 
     //  请求已添加的卡券数
@@ -91,14 +103,20 @@ Page({
     expectAuthRequest.then(function (res) {
       that.setData({
         totalcount: res.expectnumbers,
-        expectdate: res.expectdate,
+        expectdate: dateUtil.formatLocal(res.expectdate),
         netbakeid: res.netbakeid
       })
+      // 总数存入本地存储
+      wx.setStorageSync('totalcount', res.expectnumbers);
+
       addCountRequest(res.expectdate, function (res) {
         wx.hideLoading();
         that.setData({
           addcount: res.addcount
         })
+
+        // 总数存入本地存储
+        wx.setStorageSync('addcount', res.addcount);
       }, function (err) {
         wx.showToast({
           title: '加载失败...',
@@ -168,7 +186,6 @@ Page({
    * 统一处理添加卡券
    */
   addtickets: function () {
-
     // 客户无法超越申请数量的券总数
     var that = this,
       totalcount = this.data.totalcount,
@@ -266,6 +283,7 @@ Page({
             that.setData({
               addcount: addcount
             })
+            wx.setStorageSync('addcount', addcount);
             that.addtickets();
           }, function (err) {
             reject(err);

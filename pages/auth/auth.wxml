@@ -4,8 +4,8 @@
   <text>暂无客户~~</text>
 </view>
 
-<view class='slider' wx:if='{{expecttickets.length > 0}}' wx:for='{{expecttickets}}' wx:key='' data-idx='{{item.r_id}}'>
-  <view class='cell' style='{{item.slideStyle}};' bindtouchstart='touchS' bindtouchmove='touchM' bindtouchend='touchE' data-idx='{{item.r_id}}'>
+<view class='slider' wx:if='{{expecttickets.length > 0}}' wx:for='{{expecttickets}}' wx:key='' data-idx='{{item.e_id}}'>
+  <view class='cell' style='{{item.slideStyle}};' bindtouchstart='touchS' bindtouchmove='touchM' bindtouchend='touchE' data-idx='{{item.e_id}}'>
 
     <image class='icon' src='../../assets/ticket.png'></image>
 
@@ -18,25 +18,25 @@
 
       <view class='desc'>
         <image class='priceimg' src='../../assets/expectprice.png'></image>
-        <text class='pricetxt'>{{item.price}}.00元</text>
+        <text class='pricetxt'>{{item.price}}元</text>
 
         <image class='numberimg' src='../../assets/numbers.png'></image>
         <text class='numbertxt'>{{item.expectnumbers}}张</text>
 
-        <image class='dateimg' src='../../assets/expectdate.png'></image>
+        <image class='dateimg' src='../../assets/authdate.png'></image>
         <text class='datetxt'>{{item.expectdate}}</text>
       </view>
     </view>
 
     <image class='idimg' src='../../assets/id.png'></image>
     <view class='idinput' wx:if='{{item.authstatus==0}}'>
-      <input bindinput='onIdInput' placeholder='一网烘焙券建档ID' placeholder-class='idphstyle'></input>
+      <input cursor-spacing='20' bindinput='onIdInput' placeholder='一网烘焙券建档ID' placeholder-class='idphstyle'></input>
     </view>
     <text class='idtxt' wx:if='{{item.authstatus==1}}'>{{item.netbakeid}}</text>
 
-    <image wx:if='{{item.authstatus==0}}' class='auth' src='../../assets/unauth.png' bindtap='onAuthorized' data-idx='{{item.r_id}}'></image>
+    <image wx:if='{{item.authstatus==0}}' class='auth' src='../../assets/unauth.png' bindtap='onAuthorized' data-idx='{{item.e_id}}'></image>
 
     <image wx:if='{{item.authstatus==1}}' class='auth' src='../../assets/auth.png'></image>
   </view>
-  <view class='del' catchtap='delItem' data-idx='{{item.r_id}}'>删除</view>
+  <view class='del' catchtap='delItem' data-idx='{{item.e_id}}'>删除</view>
 </view>

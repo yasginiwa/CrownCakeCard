@@ -21,7 +21,7 @@ App({
           data: {
             js_code: res.code
           },
-          success: function (res) { 
+          success: function (res) {
             wx.hideLoading();
             wx.setStorageSync('wxopenid', res.data.result.wxopenid)
 
@@ -70,9 +70,6 @@ App({
         })
       }
     })
-
-   
-
   },
 
   /**

@@ -16,11 +16,11 @@
   <text class='addcount'>{{addcount}}</text>
   <text>张</text>
 </view>
-<view class='count'>
+<view class='count' wx:if='{{addcount != totalcount}}'>
   <image class='minus' src='../../assets/minus.png' bindtap='onMinus'></image>
   <view class='number'>
-    <input type='number' maxlength='3' bindinput='onCountInput' placeholder='0' value='{{numbers}}'></input>
+    <input type='number' cursor-spacing='20' maxlength='3' bindinput='onCountInput' placeholder='0' value='{{numbers}}'></input>
   </view>
   <image class='plus' src='../../assets/plus.png' bindtap='onPlus'></image>
 </view>
-<button class='add' bindtap='addtickets' disabled='{{!addBtnStatus}}'>添加卡券</button>
+<button class='add' wx:if='{{addcount != totalcount}}' bindtap='addtickets' disabled='{{!addBtnStatus}}'>添加卡券</button>

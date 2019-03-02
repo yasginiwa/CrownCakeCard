@@ -89,7 +89,7 @@ page {
   color: #aaa;
   position: absolute;
   right: 0;
-  top: -3rpx;
+  top: 0rpx;
 }
 
 .expectcontent .ticketcounts {
@@ -103,11 +103,11 @@ page {
   color: #aaa;
   position: absolute;
   right: 0;
-  top: -3rpx;
+  top: 0rpx;
 }
 
 .phstyle {
-  font-size: 34rpx;
+  font-size: 30rpx;
   text-align: center;
   color: #aaa;
 }

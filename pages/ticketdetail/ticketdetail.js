@@ -52,7 +52,7 @@ Page({
         var data = JSON.parse(res.data);
         var ticket = api.decryptContent(data.content);
         ticket.price = ticket.price.toFixed(2);
-        ticket.enddate = ticket.enddate.substring(0,11);
+        // ticket.enddate = ticket.enddate.substring(0,11);
         that.setData({
           ticket: ticket,
           code: ticket.ticketcode
@@ -61,7 +61,11 @@ Page({
         wx.hideLoading();
       },
       fail: function (err) {
-        console.log(err);
+        wx.showToast({
+          title: '网络错误',
+          image: '../../assets/fail.png',
+          duration: 2000
+        })
       }
     })
   },

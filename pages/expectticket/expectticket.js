@@ -72,6 +72,18 @@ Page({
    * 点击申领卡券
    */
   expectticket: function () {
+    var totalcount =  wx.getStorageSync('totalcount'),
+      addcount = wx.getStorageSync('addcount');
+
+      if (addcount < totalcount) {
+        wx.showToast({
+          title: '卡券未添加完...',
+          image: '../../assets/warning.png',
+          duration: 2000,
+        })
+        return;
+      }
+
     wx.showLoading({
       title: '申领中...',
       mask: true
@@ -210,7 +222,8 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-
+    this.onLoad();
+    wx.stopPullDownRefresh();
   },
 
   /**
