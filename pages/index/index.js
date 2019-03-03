@@ -56,18 +56,9 @@ Page({
           sqlValues: sqlValues
         },
         success: function (res) {
-          //  从本地获取卡券总数 和 添加的卡券数 如为空 则是卸载后的重新登录 直接跳转至 添加卡券 界面获取前面两个数值
-          var totalcount = wx.getStorageSync('totalcount'),
-            addcount = wx.getStorageSync('addcount');
-          if (!totalcount || !addcount) {
-            wx.navigateTo({
-              url: '../addticket/addticket',
-            })
-          } else {
-            wx.navigateTo({
-              url: '../ticketroute/ticketroute',
-            })
-          }
+          wx.navigateTo({
+            url: '../ticketroute/ticketroute',
+          })
         },
         fail: function (res) {
           wx.showToast({

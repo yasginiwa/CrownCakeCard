@@ -1,4 +1,6 @@
 // pages/ticketroute/ticketroute.js
+var api = require('../../utils/api.js');
+
 Page({
 
   /**

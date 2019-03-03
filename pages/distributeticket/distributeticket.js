@@ -124,9 +124,7 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-    this.onLoad();
-    wx.hideNavigationBarLoading();
-    wx.stopPullDownRefresh();
+
   },
 
   /**
@@ -140,7 +138,7 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function (options) {
-    var updateStatus = function () {
+    var updateStatus = function (ticket) {
       var updatedisributestatusUrl = api.updatedisributestatusUrl,
         sqlParam = 'distributestatus',
         sqlValue = 1,
@@ -157,7 +155,6 @@ Page({
           rangeValue: rangeValue
         },
         success: function (res) {
-          console.log(res);
           // success(res);
         },
         fail: function (err) {
@@ -177,17 +174,13 @@ Page({
     setTimeout(function () {
       wx.showModal({
         title: '确认是否转发给员工',
-        content: '点"否"请及时撤回！！',
+        content: '如点"取消"，请及时撤回微信消息...',
         success: function (res) {
           if (res.confirm) { //  点击确定
-            //  设置券状态为已分发
-            // ticket.distributestatus = 1;
-            //  下拉刷新
-            updateStatus();
-            setTimeout(function(){
-              wx.startPullDownRefresh();
-              wx.showNavigationBarLoading();
-            }, 500)
+            //  请求刷新状态
+            updateStatus(ticket);
+            //  重新加载页面
+            that.onLoad();
           } else if (res.cancel) {
             //  设置券状态为已分发
             // ticket.distributestatus = 0;

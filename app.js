@@ -25,7 +25,6 @@ App({
             wx.hideLoading();
             wx.setStorageSync('wxopenid', res.data.result.wxopenid)
 
-
             //  判断是否是第一次登录 如果是就去注册界面 如不是 则弹出欢迎界面 并请求公司数据存储到本地 
             var regInfo = wx.getStorageSync('regInfo'),
               wxopenid = wx.getStorageSync('wxopenid'),
