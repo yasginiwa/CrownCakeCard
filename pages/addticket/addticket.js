@@ -23,7 +23,6 @@ Page({
    */
   onLoad: function (options) {
 
-
     //  请求卡券总数 查出最后一条申请卡券的记录
     var expectAuthRequest = new Promise(function (resolve, reject) {
       var that = this,
@@ -43,34 +42,33 @@ Page({
           if (res.data.code == 1 && res.data.result.recordsets[0].length > 0) {
             resolve(res.data.result.recordsets[0][0]);
           } else {
+            if (!wx.getStorageSync('isReLogin')) {
             wx.hideLoading();
             wx.showToast({
               title: '请等待审核...',
               image: '../../assets/warning.png',
               duration: 2000
             })
+            } else {
+              wx.showToast({
+                title: '请先申请卡券...',
+                image: '../../assets/warning.png',
+                duration: 2000
+              })
+              wx.setStorageSync('isReLogin', false);
+            }
             reject('查询失败');
           }
         }
       })
 
-      var totalcount = wx.getStorageSync('totalcount'),
-        addcount = wx.getStorageSync('addcount');
-      if (totalcount == 0) {
-        wx.showToast({
-          title: '请先申领卡券...',
-          image: '../../assets/warning.png',
-          duration: 2000,
-        })
-        return;
-      }
     });
 
     //  请求已添加的卡券数
     var addCountRequest = function (repectdate, success, fail) {
       var ticketaddcountUrl = api.ticketaddcountUrl,
         sqlParams = ['wxopenid', 'expectdate'],
-      sqlValues = [wx.getStorageSync('wxopenid'), repectdate];
+        sqlValues = [wx.getStorageSync('wxopenid'), repectdate];
       wx.request({
         url: ticketaddcountUrl,
         method: 'POST',

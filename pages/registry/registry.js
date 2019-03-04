@@ -103,11 +103,13 @@ Page({
           wx.navigateBack({
             delta: 1,
             success: function (res) {
-              wx.showToast({
-                title: '点击「发放福利券」开始申领卡券！',
-                duration: 3000,
-                icon: 'none'
-              })
+              setTimeout(function () {
+                wx.showToast({
+                  title: '点击「发放福利券」开始申领卡券！',
+                  duration: 3000,
+                  icon: 'none'
+                })
+              }, 1000)
             }
           })
         }

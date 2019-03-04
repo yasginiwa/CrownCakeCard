@@ -174,9 +174,12 @@ Page({
             expectwaitstatus: false
           })
         } else {
+          var expectticket = res.data.result.recordsets[0][0];
+          var expectdate = dateUtil.formatLocal(expectticket.expectdate);
+          expectticket.expectdate = expectdate;
           that.setData({
             expectwaitstatus: true,
-            expectticket: res.data.result.recordsets[0][0]
+            expectticket: expectticket
           })
         }
       },

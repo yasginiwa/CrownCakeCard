@@ -13,7 +13,7 @@ Page({
   /**
    * 通过点击是绑定的idx返回当前选择的ticket模型
    */
-  selectedModel: function (e) {
+  selectedModel: function(e) {
     var idx = e.currentTarget.dataset.idx
     var ticket = {};
     var groups = {};
@@ -36,7 +36,7 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: function(options) {
     wx.showLoading({
       title: '加载中...',
     })
@@ -53,7 +53,7 @@ Page({
         sqlParam: sqlParam,
         sqlValue: sqlValue
       },
-      success: function (res) {
+      success: function(res) {
         var tickets = [];
         var group = {};
         var ticket = {};
@@ -73,7 +73,7 @@ Page({
         })
         wx.hideLoading();
       },
-      fail: function (err) {
+      fail: function(err) {
         wx.showToast({
           title: '网络错误...',
           image: '../../assets/fail.png',
@@ -86,7 +86,7 @@ Page({
     wx.showShareMenu();
   },
 
-  onTicketDetail: function (e) {
+  onTicketDetail: function(e) {
     var ticket = this.selectedModel(e);
     var ticketcode = ticket.ticketcode;
     wx.navigateTo({
@@ -97,48 +97,49 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
+  onReady: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () { },
+  onShow: function() {},
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () {
+  onHide: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
+  onUnload: function() {
 
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
-
+  onPullDownRefresh: function() {
+    this.onLoad();
+    wx.stopPullDownRefresh();
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {
+  onReachBottom: function() {
 
   },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function (options) {
-    var updateStatus = function (ticket) {
+  onShareAppMessage: function(options) {
+    var updateStatus = function(ticket) {
       var updatedisributestatusUrl = api.updatedisributestatusUrl,
         sqlParam = 'distributestatus',
         sqlValue = 1,
@@ -154,10 +155,10 @@ Page({
           rangeParam: rangeParam,
           rangeValue: rangeValue
         },
-        success: function (res) {
+        success: function(res) {
           // success(res);
         },
-        fail: function (err) {
+        fail: function(err) {
           // fail(res);
         },
 
@@ -169,9 +170,9 @@ Page({
       e = {};
     e.currentTarget = options.target;
     ticket = this.selectedModel(e);
-
+    
     //  弹出确认转发对话框
-    setTimeout(function () {
+    setTimeout(function(){
       wx.showModal({
         title: '确认是否转发给员工',
         content: '如点"取消"，请及时撤回微信消息...',
@@ -179,24 +180,25 @@ Page({
           if (res.confirm) { //  点击确定
             //  请求刷新状态
             updateStatus(ticket);
-            //  重新加载页面
-            that.onLoad();
+            setTimeout(function () {
+              that.onLoad();
+            }, 500)
+
           } else if (res.cancel) {
             //  设置券状态为已分发
             // ticket.distributestatus = 0;
           }
-
         }
       })
-    }, 1000)
-
+    }, 500)
 
     return {
       title: `${ticket.company} 祝您生日快乐！`,
       path: `/pages/ticketdetail/ticketdetail?ticketcode=${ticket.ticketcode}`,
       imageUrl: '../../assets/sendstaff.png'
     }
-  }
 
+
+  }
 
 })

@@ -10,7 +10,7 @@
 
   <view class='desc'>
     <image src='../../assets/waiting.png'></image>
-    <text>申领审批中...</text>
+    <text>申领审核中...</text>
   </view>
 
   <view class='content'>
