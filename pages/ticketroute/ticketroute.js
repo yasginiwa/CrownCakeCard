@@ -13,10 +13,27 @@ Page({
   /**
    * 点击申请卡券
    */
-  expectticket: function() {
-    wx.navigateTo({
-      url: '../expectticket/expectticket',
-    })
+  expectticket: function () {
+    var regInfo = wx.getStorageSync('regInfo');
+    var isReLogin = wx.getStorageSync('isReLogin');
+    
+    if (regInfo.authstatus == 1 && isReLogin == true) {
+      wx.navigateTo({
+        url: '../addticket/addticket',
+      })
+      wx.setStorageSync('isReLogin', false);
+      setTimeout(function () {
+        wx.showToast({
+          title: '重新登录时，先看看上次是否还有未添加完的卡券吧~~',
+          icon: 'none',
+          duration: 4000
+        })
+      }, 1000)
+    } else {
+      wx.navigateTo({
+        url: '../expectticket/expectticket',
+      })
+    }
   },
 
   /**
@@ -27,7 +44,6 @@ Page({
       url: '../addticket/addticket',
     })
   },
-
 
   /**
    * 点击我的券卡
@@ -41,7 +57,11 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    // 判断是否是第一次登录 如果是 先跳转至“添加卡券”界面 获取上次是否有为添加完的券 如果不是 则跳原界面
+    var isReLogin = wx.getStorageSync('isReLogin');
+    if (isReLogin == "" || isReLogin == undefined || isReLogin == null) {
+      wx.setStorageSync('isReLogin', true);
+    }
   },
 
   /**

@@ -29,7 +29,7 @@ App({
             var regInfo = wx.getStorageSync('regInfo'),
               wxopenid = wx.getStorageSync('wxopenid'),
               querywxopenidsUrl = api.querywxopenidsUrl,
-              cols = ['wxopenid', 'company', 'contact', 'phone', 'regdate'];
+              cols = ['wxopenid', 'company', 'contact', 'phone', 'regdate', 'authstatus'];
             // 返回是否存在此wxopenid的注册过的公司
             hasCompany = function (wxopenid, companys) {
               for (var i in companys) {

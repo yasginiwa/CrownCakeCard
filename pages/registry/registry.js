@@ -57,7 +57,8 @@ Page({
       company: e.detail.value.company,
       contact: e.detail.value.contact,
       phone: e.detail.value.phone,
-      regdate: today
+      regdate: today,
+      authstatus: 0
     };
 
     // 设置本地data数据
