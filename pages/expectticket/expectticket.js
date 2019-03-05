@@ -9,34 +9,55 @@ Page({
    */
   data: {
     expectBtnStatus: false,
-    expectname: '',
-    expectprice: '',
     expectnumbers: '',
     expectwaitstatus: false,
-    expectticket: {}
+    expectticket: {},
+    cover: ''
   },
 
   /**
-  * 卡券名称输入事件
-  */
-  ticketnameInput: function (e) {
-    var expectname = e.detail.value;
-    this.setData({
-      expectname: expectname
-    })
-
-    this.onInput();
-  },
-
-  /**
-   * 卡券价格输入事件
+   * 图片上传事件
    */
-  ticketpriceInput: function (e) {
-    var expectprice = e.detail.value;
-    this.setData({
-      expectprice: expectprice
+  uploadTicketCover: function() {
+    wx.showLoading({
+      title: '上传中...',
+      icon: 'none'
     })
-    this.onInput();
+    var that = this,
+      uploadUrl = api.uploadUrl;
+    wx.chooseImage({
+      success: function(res) {
+        const tempFilePaths = res.tempFilePaths
+        wx.uploadFile({
+          url: uploadUrl,
+          filePath: tempFilePaths[0],
+          name: 'cover',
+          success: function(res) {
+            wx.hideLoading();
+            wx.showToast({
+              title: '上传成功！',
+              image: '../../assets/success.png',
+              duration: 2000
+            })
+            var coverUrl = JSON.parse(res.data).coverUrl;
+            that.setData({
+              cover: coverUrl
+            })
+          },
+          fail: function(err) {
+            wx.hideLoading();
+            wx.showToast({
+              title: '上传失败~~',
+              image: '../../assets/fail.png',
+              duration: 2000
+            })
+          }
+        })
+      },
+      fail: function() {
+        wx.hideLoading();
+      }
+    })
   },
 
   /**
@@ -54,10 +75,8 @@ Page({
    * 监听输入事件
    */
   onInput: function () {
-    var expectname = this.data.expectname;
-    var expectprice = this.data.expectprice;
     var expectnumbers = this.data.expectnumbers;
-    if (expectname.length && expectprice.length && expectnumbers.length) {
+    if (expectnumbers.length) {
       this.setData({
         expectBtnStatus: true
       })
@@ -98,7 +117,8 @@ Page({
       expectnumbers = this.data.expectnumbers,
       expectdate = dateUtil.formatTime(new Date()),
       authstatus = 0, // 0 表示未审核 1表示审核成功
-      netbakeid = 0;
+      netbakeid = 0,
+      cover = (that.data.cover.length) ? that.data.cover : `${api.host}/upload/default.png`;
 
     wx.request({
       url: addexpectticketUrl,
@@ -106,12 +126,13 @@ Page({
       data: {
         wxopenid: wxopenid,
         company: company,
-        productname: productname,
-        price: price,
+        productname: 0,
+        price: 0,
         expectnumbers: expectnumbers,
         expectdate: expectdate,
         authstatus: authstatus,
-        netbakeid: netbakeid
+        netbakeid: netbakeid,
+        cover: cover
       },
       success: function (res) {
         wx.hideLoading();

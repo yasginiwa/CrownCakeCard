@@ -28,8 +28,6 @@ Page({
 
   },
 
-
-
   /**
    * 点击发放福利券
    */
@@ -71,14 +69,6 @@ Page({
     }
   },
 
-  /**
-   * 点击进入审核管理
-   */
-  onSupervise: function () {
-    wx.navigateTo({
-      url: '../login/login',
-    })
-  },
 
   /**
    * 生命周期函数--监听页面初次渲染完成

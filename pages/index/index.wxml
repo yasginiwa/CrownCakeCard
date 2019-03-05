@@ -1,7 +1,6 @@
 <!--pages/index/index.wxml-->
 <view class='banner'>
   <image src='../../assets/banner.png'></image>
-  <button class='supervise' bindlongpress='onSupervise'></button>
   <text>在线申领、发放企业员工福利券</text>
 </view>
 

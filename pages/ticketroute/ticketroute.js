@@ -24,11 +24,11 @@ Page({
       wx.setStorageSync('isReLogin', false);
       setTimeout(function () {
         wx.showToast({
-          title: '重新登录时，先看看上次是否还有未添加完的卡券吧~~',
+          title: '重新登录时，先看看是否还有未添加完的卡券吧~~',
           icon: 'none',
-          duration: 4000
+          duration: 3000
         })
-      }, 1000)
+      }, 2000)
     } else {
       wx.navigateTo({
         url: '../expectticket/expectticket',
@@ -57,11 +57,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    // 判断是否是第一次登录 如果是 先跳转至“添加卡券”界面 获取上次是否有为添加完的券 如果不是 则跳原界面
-    var isReLogin = wx.getStorageSync('isReLogin');
-    if (isReLogin == "" || isReLogin == undefined || isReLogin == null) {
-      wx.setStorageSync('isReLogin', true);
-    }
+
   },
 
   /**

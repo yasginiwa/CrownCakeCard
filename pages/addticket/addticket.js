@@ -42,7 +42,7 @@ Page({
           if (res.data.code == 1 && res.data.result.recordsets[0].length > 0) {
             resolve(res.data.result.recordsets[0][0]);
           } else {
-            if (!wx.getStorageSync('isReLogin')) {
+            if (!wx.getStorageSync('isReLogin') || res.data.result.recordsets[0][0] == undefined) {
             wx.hideLoading();
             wx.showToast({
               title: '请等待审核...',
@@ -55,13 +55,10 @@ Page({
                 image: '../../assets/warning.png',
                 duration: 2000
               })
-              wx.setStorageSync('isReLogin', false);
             }
-            reject('查询失败');
           }
         }
       })
-
     });
 
     //  请求已添加的卡券数

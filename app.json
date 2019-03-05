@@ -2,8 +2,6 @@
   "pages": [
     "pages/index/index",
     "pages/registry/registry",
-    "pages/login/login",
-    "pages/auth/auth",
     "pages/distributeticket/distributeticket",
     "pages/addticket/addticket",
     "pages/ticketroute/ticketroute",

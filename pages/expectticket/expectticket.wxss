@@ -17,7 +17,7 @@ page {
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
-  margin-top: 60rpx;
+  margin-top: 40rpx;
 }
 
 .desc .title {
@@ -67,32 +67,50 @@ page {
 }
 
 .expectcontent {
-  margin-top: 40rpx;
-  width: 500rpx;
+  margin-top: 20rpx;
+  width: 520rpx;
   font-size: 30rpx;
+
 }
 
-.expectcontent .ticketname {
-  border-bottom: solid #aaa 1rpx;
-  margin-bottom: 40rpx;
-  text-align: center;
+.expectcontent .cover {
+  display: flex;
+  flex-flow: row nowrap;
 }
 
-.expectcontent .ticketprice {
-  border-bottom: solid #aaa 1rpx;
-  margin-bottom: 36rpx;
-  text-align: center;
-  position: relative;
+.expectcontent .cover image{
+  width: 300rpx;
+  height: 191rpx;
 }
 
-.expectcontent .ticketprice text {
+
+.expectcontent .cover .right {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-end;
+  width: 200rpx;
+}
+
+.expectcontent .cover .right text {
+  font-size: 20rpx;
   color: #aaa;
-  position: absolute;
-  right: 0;
-  top: 0rpx;
+  margin-left: 20rpx;
+  margin-bottom: 10rpx;
+  text-align: left;
+}
+
+.expectcontent .cover .right button {
+  width: 120rpx;
+  height: 50rpx;
+  font-size: 28rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10rpx;
 }
 
 .expectcontent .ticketcounts {
+  margin-top: 50rpx;
   border-bottom: solid #aaa 1rpx;
   margin-bottom: 40rpx;
   text-align: center;
@@ -104,16 +122,17 @@ page {
   position: absolute;
   right: 0;
   top: 0rpx;
+  font-size: 28rpx
 }
 
 .phstyle {
-  font-size: 30rpx;
+  font-size: 28rpx;
   text-align: center;
   color: #aaa;
 }
 
 .add {
-  margin-top: 80rpx;
+  margin-top: 50rpx;
   width: 500rpx;
   background-color: #0079c0;
   color: white;
