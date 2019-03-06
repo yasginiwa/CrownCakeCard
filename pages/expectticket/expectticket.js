@@ -112,29 +112,24 @@ Page({
       addexpectticketUrl = api.addexpectticketUrl,
       wxopenid = wx.getStorageSync('wxopenid'),
       company = wx.getStorageSync('regInfo').company,
-      productname = this.data.expectname,
-      price = this.data.expectprice,
       expectnumbers = this.data.expectnumbers,
       expectdate = dateUtil.formatTime(new Date()),
       authstatus = 0, // 0 表示未审核 1表示审核成功
-      netbakeid = 0,
-      cover = (that.data.cover.length) ? that.data.cover : `${api.host}/upload/default.png`;
+      cover = (that.data.cover.length) ? that.data.cover : `${api.host}/upload/default.png`,
+      sqlParams = ['wxopenid', 'company', 'expectnumbers', 'expectdate', 'authstatus', 'cover'],
+      sqlValues = [wxopenid, company, expectnumbers, expectdate, authstatus, cover];
+
+      console.log(sqlValues);
 
     wx.request({
       url: addexpectticketUrl,
       method: 'POST',
       data: {
-        wxopenid: wxopenid,
-        company: company,
-        productname: 0,
-        price: 0,
-        expectnumbers: expectnumbers,
-        expectdate: expectdate,
-        authstatus: authstatus,
-        netbakeid: netbakeid,
-        cover: cover
+        sqlParams: sqlParams,
+        sqlValues: sqlValues
       },
       success: function (res) {
+        console.log(res);
         wx.hideLoading();
         if (res.data.code == 1) {
           wx.showToast({
