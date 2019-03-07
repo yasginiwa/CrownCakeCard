@@ -40,20 +40,19 @@ Page({
           condition: condition
         },
         success: function (res) {
-          console.log(res.data.result.recordsets[0]);
           if (res.data.result.recordsets[0].length > 0) {
             resolve(res.data.result.recordsets[0][0]);
           } else {
             if (!wx.getStorageSync('isReLogin')) {
               wx.hideLoading();
               wx.showToast({
-                title: '请等待审核...',
+                title: '请先申请卡券...',
                 image: '../../assets/warning.png',
                 duration: 2000
               })
             } else {
               wx.showToast({
-                title: '请先申请卡券...',
+                title: '请等待审核...',
                 image: '../../assets/warning.png',
                 duration: 2000
               })

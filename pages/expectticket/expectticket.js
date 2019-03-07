@@ -45,6 +45,7 @@ Page({
             })
           },
           fail: function(err) {
+            console.log(err);
             wx.hideLoading();
             wx.showToast({
               title: '上传失败~~',
@@ -120,7 +121,7 @@ Page({
       sqlParams = ['wxopenid', 'company', 'expectnumbers', 'expectdate', 'authstatus', 'cover'],
       sqlValues = [wxopenid, company, expectnumbers, expectdate, authstatus, cover];
 
-      console.log(sqlValues);
+      console.log(cover);
 
     wx.request({
       url: addexpectticketUrl,
