@@ -58,6 +58,7 @@ Page({
         wx.hideLoading();
       }
     })
+
   },
 
   /**
@@ -129,7 +130,6 @@ Page({
         sqlValues: sqlValues
       },
       success: function (res) {
-        console.log(res);
         wx.hideLoading();
         if (res.data.code == 1) {
           wx.showToast({

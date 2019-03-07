@@ -9,7 +9,7 @@
     <image src='../../assets/expectdate.png'></image>
     <text>{{item.expectdate}}({{item.expecttickets.length}}张)</text>
   </view>
-  <view class='cell' wx:for='{{item.expecttickets}}' wx:key=''>
+  <view bindtap='onTicketDetail' data-idx='{{item.t_id}}' class='cell' wx:for='{{item.expecttickets}}' wx:key=''>
     <image class='icon' src='../../assets/ticket.png'></image>
     <view class='content'>
       <text class='productname'>{{item.productname}}</text>
@@ -22,10 +22,10 @@
         <image class='status' src='../../assets/distributed.png' wx:if='{{item.distributestatus == 1}}'></image>
       </view>
     </view>
-    <button class='share' open-type='share' hover-class='none' wx:if='{{item.distributestatus == 0}}' data-idx='{{item.t_id}}'>
+    <button catchtap='onShareAppMessage' class='share' open-type='share' hover-class='none' wx:if='{{item.distributestatus == 0}}' data-idx='{{item.t_id}}'>
       <image class='shareimage' src='../../assets/send.png'></image>
     </button>
-    <image bindtap='onTicketDetail' class='arrow' src='../../assets/arrow.png' data-idx='{{item.t_id}}'></image>
+    <image class='arrow' src='../../assets/arrow.png'></image>
   </view>
 
 </view>

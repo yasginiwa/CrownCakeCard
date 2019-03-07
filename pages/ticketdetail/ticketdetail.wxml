@@ -1,6 +1,6 @@
 <!--pages/ticketdetail/ticketdetail.wxml-->
 <view class='section-top'>
-  <image src='../../assets/ticketdetail.png'></image>
+  <image src='{{ticket.cover}}'></image>
   <text class='name'>{{ticket.productname}}</text>
   <text class='hint'>结算时请出示此条码</text>
   <view class="barcode">

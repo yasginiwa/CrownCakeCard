@@ -15,7 +15,8 @@ Page({
     netbakeid: '',
     numbers: '',
     totalcount: 0,
-    addcount: 0
+    addcount: 0,
+    cover: ''
   },
 
   /**
@@ -39,16 +40,17 @@ Page({
           condition: condition
         },
         success: function (res) {
-          if (res.data.code == 1 && res.data.result.recordsets[0].length > 0) {
+          console.log(res.data.result.recordsets[0]);
+          if (res.data.result.recordsets[0].length > 0) {
             resolve(res.data.result.recordsets[0][0]);
           } else {
-            if (!wx.getStorageSync('isReLogin') || res.data.result.recordsets[0][0] == undefined) {
-            wx.hideLoading();
-            wx.showToast({
-              title: '请等待审核...',
-              image: '../../assets/warning.png',
-              duration: 2000
-            })
+            if (!wx.getStorageSync('isReLogin')) {
+              wx.hideLoading();
+              wx.showToast({
+                title: '请等待审核...',
+                image: '../../assets/warning.png',
+                duration: 2000
+              })
             } else {
               wx.showToast({
                 title: '请先申请卡券...',
@@ -99,7 +101,8 @@ Page({
       that.setData({
         totalcount: res.expectnumbers,
         expectdate: dateUtil.formatLocal(res.expectdate),
-        netbakeid: res.netbakeid
+        netbakeid: res.netbakeid,
+        cover: res.cover
       })
       // 总数存入本地存储
       wx.setStorageSync('totalcount', res.expectnumbers);
@@ -244,7 +247,8 @@ Page({
           price: ticket.price,
           distributestatus: 0, // 状态0为未分发 1为已分发
           distributedate: dateUtil.formatTime(new Date()),
-          expectdate: that.data.expectdate
+          expectdate: that.data.expectdate,
+          cover: that.data.cover
         },
         success: function (res) {
           success(res);

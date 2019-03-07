@@ -21,11 +21,31 @@ Page({
       title: '加载中...',
     })
 
+    //  查询券编号的券的封面信息
+    var queryTicketCover = function (ticket, successCb, failCb) {
+      var queryticketcoverUrl = api.queryticketcoverUrl,
+        ticketcode = ticket.ticketcode;
+      wx.request({
+        url: queryticketcoverUrl,
+        method: 'POST',
+        data: {
+          sqlParam: 'ticketcode',
+          sqlValue: ticketcode
+        },
+        success: function (res) {
+          successCb(res);
+        },
+        fail: function (err) {
+          failCb(err);
+        }
+      })
+    };
+
+
     var ticketcode = options.ticketcode;
     var that = this;
-    /**
-     * 查询券码
-     */
+
+    //  查询券码
     var now = dateUtil.formatTime(new Date());
     var ticketQueryUrl = api.ticketQueryUrl;
     var queryContent = {
@@ -48,17 +68,28 @@ Page({
         sign: sign,
         content: encContent
       },
-      success: function (res) {       
+      success: function (res) {
         var data = JSON.parse(res.data);
         var ticket = api.decryptContent(data.content);
-        ticket.price = ticket.price.toFixed(2);
+        
         // ticket.enddate = ticket.enddate.substring(0,11);
-        that.setData({
-          ticket: ticket,
-          code: ticket.ticketcode
-        })
-        barcode.barcode('barcode', ticket.ticketcode, 640, 200);
-        wx.hideLoading();
+        queryTicketCover(ticket, function (res) {
+          ticket.price = ticket.price.toFixed(2);
+          ticket.cover = res.data.result[0].cover;
+          that.setData({
+            ticket: ticket,
+            code: ticket.ticketcode
+          })
+          barcode.barcode('barcode', ticket.ticketcode, 640, 200);
+          wx.hideLoading();
+
+        }, function (err) {
+          wx.showToast({
+            title: '网络错误',
+            image: '../../assets/fail.png',
+            duration: 2000
+          })
+        });
       },
       fail: function (err) {
         wx.showToast({
@@ -68,6 +99,9 @@ Page({
         })
       }
     })
+
+
+
   },
 
   /**

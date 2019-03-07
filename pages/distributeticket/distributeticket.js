@@ -132,7 +132,7 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function() {
-
+    
   },
 
   /**
@@ -195,7 +195,7 @@ Page({
     return {
       title: `${ticket.company} 祝您生日快乐！`,
       path: `/pages/ticketdetail/ticketdetail?ticketcode=${ticket.ticketcode}`,
-      imageUrl: '../../assets/sendstaff.png'
+      imageUrl: `${ticket.cover}`
     }
 
 
