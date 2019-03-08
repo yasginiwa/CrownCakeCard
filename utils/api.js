@@ -1,10 +1,10 @@
 const crypto = requirePlugin('Crypto');
 var safeBase64 = require('../utils/safebase64.js')
 
-var host = 'https://ticketapi.hgsp.cn:10444';
+var host = 'http://192.168.0.172:10444';
 var ticketGenUrl = `${host}/icapi/tmticket`,
   ticketQueryUrl = `${host}/icapi/tmticketquery`,
-  getwxopenidUrl = `${host}/getwxopenid`,
+  getcrowncakecardwxopenidUrl = `${host}/getcrowncakecardwxopenid`,
   querywxopenidsUrl = `${host}/querywxopenids`,
   registryUrl = `${host}/registry`,
   updateregistryUrl = `${host}/updateregistry`,
@@ -66,7 +66,7 @@ module.exports = {
   host: host,
   ticketGenUrl: ticketGenUrl,
   ticketQueryUrl: ticketQueryUrl,
-  getwxopenidUrl: getwxopenidUrl,
+  getcrowncakecardwxopenidUrl: getcrowncakecardwxopenidUrl,
   querywxopenidsUrl: querywxopenidsUrl,
   registryUrl: registryUrl,
   updateregistryUrl: updateregistryUrl,

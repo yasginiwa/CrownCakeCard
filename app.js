@@ -14,18 +14,19 @@ App({
     var regInfo = wx.getStorageSync('regInfo');
 
     //  获取openid
-    var getwxopenidUrl = api.getwxopenidUrl;
+    var getcrowncakecardwxopenidUrl = api.getcrowncakecardwxopenidUrl;
     wx.login({
       success: function (res) {
         wx.request({
-          url: getwxopenidUrl,
+          url: getcrowncakecardwxopenidUrl,
           method: 'POST',
           data: {
             js_code: res.code
           },
-          success: function (res) {
+          success: function (result) {
+            console.log(result);
             wx.hideLoading();
-            wx.setStorageSync('wxopenid', res.data.result.wxopenid)
+            wx.setStorageSync('wxopenid', result.data.result.wxopenid)
 
             //  判断是否是第一次登录 如果是就去注册界面 如不是 则弹出欢迎界面 并请求公司数据存储到本地 
             
