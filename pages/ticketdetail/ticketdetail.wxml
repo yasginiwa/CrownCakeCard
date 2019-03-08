@@ -15,7 +15,7 @@
 <view class='left'></view>
 <text class='customername'>发券单位：{{ticket.customername}}</text>
 <text>卡券金额：{{ticket.price}}</text>
-<text class='validdate'>有效期至：{{ticket.enddate}}</text>
+<text class='validdate'>有效日期：{{ticket.startdate}} 至 {{ticket.enddate}}</text>
 </view>
 
 <view class='section-bottom'>

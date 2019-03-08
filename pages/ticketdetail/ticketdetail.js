@@ -76,6 +76,8 @@ Page({
         queryTicketCover(ticket, function (res) {
           ticket.price = ticket.price.toFixed(2);
           ticket.cover = res.data.result[0].cover;
+          ticket.startdate = dateUtil.formatLocalDate(ticket.startdate);
+          ticket.enddate = dateUtil.formatLocalDate(ticket.enddate);
           that.setData({
             ticket: ticket,
             code: ticket.ticketcode
