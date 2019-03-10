@@ -11,7 +11,8 @@ Page({
    */
   data: {
     addBtnStatus: false,
-    expectdate: '无',
+    limitstartdate: 'N/A',
+    limitenddate: 'N/A',
     netbakeid: '',
     numbers: '',
     totalcount: 0,
@@ -39,24 +40,15 @@ Page({
           sqlValues: sqlValues,
           condition: condition
         },
-        success: function (res) {
+        success: (res) => {
           if (res.data.result.recordsets[0].length > 0) {
             resolve(res.data.result.recordsets[0][0]);
           } else {
-            if (!wx.getStorageSync('isReLogin')) {
-              wx.hideLoading();
-              wx.showToast({
-                title: '请先申请卡券...',
-                image: '../../assets/warning.png',
-                duration: 2000
-              })
-            } else {
-              wx.showToast({
-                title: '请等待审核...',
-                image: '../../assets/warning.png',
-                duration: 2000
-              })
-            }
+            wx.showToast({
+              title: '请等待审核...',
+              image: '../../assets/warning.png',
+              duration: 2000
+            })
           }
         }
       })
@@ -101,7 +93,9 @@ Page({
         totalcount: res.expectnumbers,
         expectdate: dateUtil.formatLocal(res.expectdate),
         netbakeid: res.netbakeid,
-        cover: res.cover
+        cover: res.cover,
+        limitstartdate: dateUtil.formatLocalDate(res.limitstartdate),
+        limitenddate: dateUtil.formatLocalDate(res.limitenddate)
       })
       // 总数存入本地存储
       wx.setStorageSync('totalcount', res.expectnumbers);
@@ -192,6 +186,22 @@ Page({
         title: '超出总券数！',
         image: '../../assets/warning.png',
         mask: true,
+        duration: 2000
+      })
+      return;
+    }
+
+    //  比较日期
+    function compareDate(s1, s2) {
+      return ((new Date(s1.replace(/-/g, "\/"))) > (new Date(s2.replace(/-/g, "\/"))));
+    }
+    var now = dateUtil.formatTime(new Date());
+
+    //  如当前日期>截止日期
+    if (compareDate(now, this.data.limitenddate)) {
+      wx.showToast({
+        title: '添加卡券已逾期，请重新申领...',
+        image: '../../assets/warning.png',
         duration: 2000
       })
       return;

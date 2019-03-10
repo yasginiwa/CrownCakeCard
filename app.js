@@ -11,8 +11,6 @@ App({
       mask: true
     })
 
-    var regInfo = wx.getStorageSync('regInfo');
-
     //  获取openid
     var getcrowncakecardwxopenidUrl = api.getcrowncakecardwxopenidUrl;
     wx.login({
@@ -24,7 +22,6 @@ App({
             js_code: res.code
           },
           success: function (result) {
-            console.log(result);
             wx.hideLoading();
             wx.setStorageSync('wxopenid', result.data.result.wxopenid)
 
@@ -44,6 +41,7 @@ App({
               return null;
             };
 
+            var regInfo = wx.getStorageSync('regInfo');
             if (!regInfo) {
               wx.setStorageSync('isReLogin', true);
               wx.request({

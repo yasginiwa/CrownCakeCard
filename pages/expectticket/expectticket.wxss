@@ -50,7 +50,7 @@ page {
 }
 
 .waiting .desc text {
-  font-size: 35rpx;
+  font-size: 30rpx;
   margin-left: 20rpx;
 }
 
@@ -75,38 +75,39 @@ page {
 
 .expectcontent .cover {
   display: flex;
-  flex-flow: row nowrap;
+  flex-flow: column nowrap;
+  align-items: center;
 }
 
-.expectcontent .cover image{
-  width: 300rpx;
-  height: 191rpx;
+/* .expectcontent .cover image{
+  width: 400rpx;
+  height: 198rpx;
+} */
+
+.expectcontent .cover .sec-cover{
+  width: 400rpx;
+  height: 198rpx;
 }
 
 
 .expectcontent .cover .right {
   display: flex;
   flex-flow: column nowrap;
-  justify-content: flex-end;
-  width: 200rpx;
 }
 
 .expectcontent .cover .right text {
-  font-size: 20rpx;
+  font-size: 22rpx;
   color: #aaa;
-  margin-left: 20rpx;
-  margin-bottom: 10rpx;
-  text-align: left;
 }
 
 .expectcontent .cover .right button {
+  margin-top: 10rpx;
   width: 120rpx;
   height: 50rpx;
   font-size: 28rpx;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-right: 10rpx;
 }
 
 .expectcontent .ticketcounts {

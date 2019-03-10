@@ -30,10 +30,10 @@ page {
   margin-top: 10rpx;
 }
 
-.expectdate {
+.limitdate {
+  margin-top: 40rpx;
   font-size: 30rpx;
   color: #a0a0a0;
-  margin-top: 40rpx;
 }
 
 .desc {

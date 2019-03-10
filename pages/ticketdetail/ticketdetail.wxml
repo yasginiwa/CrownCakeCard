@@ -4,7 +4,7 @@
   <text class='name'>{{ticket.productname}}</text>
   <text class='hint'>结算时请出示此条码</text>
   <view class="barcode">
-    <canvas canvas-id="barcode" />
+    <canvas canvas-id="barcode"/>
     <view class="barnum">{{code}}</view>
   </view>
   <text class='desc'>{{ticket.description}}</text>
@@ -15,7 +15,7 @@
 <view class='left'></view>
 <text class='customername'>发券单位：{{ticket.customername}}</text>
 <text>卡券金额：{{ticket.price}}</text>
-<text class='validdate'>有效日期：{{ticket.startdate}} 至 {{ticket.enddate}}</text>
+<text class='validdate'>有效期限：{{ticket.startdate}} 至 {{ticket.enddate}}</text>
 </view>
 
 <view class='section-bottom'>

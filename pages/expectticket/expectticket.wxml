@@ -3,14 +3,14 @@
 
 <view class='desc'>
   <text class='title'>申领卡券</text>
-  <text class='content'>向皇冠公司申请合同约定数量的卡券。请务必在卡券添加完毕后再申领，以免遗忘造成卡券浪费！！！</text>
+  <text class='content'>向皇冠公司申请合同约定数量的卡券。</text>
 </view>
 
 <view class='waiting' wx:if='{{expectwaitstatus == true}}'>
 
   <view class='desc'>
     <image src='../../assets/waiting.png'></image>
-    <text>申领审核中...</text>
+    <text>审核中，通过后请点击「添加卡券」</text>
   </view>
 
   <view class='content'>
@@ -23,10 +23,12 @@
 
 <view class='expectcontent' wx:if='{{expectwaitstatus == false}}'>
   <view class='cover'>
-    <image src='../../assets/ticketdetail.png' wx:if='{{cover.length == 0}}'></image>
-    <image src='{{cover}}' wx:if='{{cover.length > 0}}'></image>
+  
+    <canvas class='sec-cover' canvas-id='coverCanv' wx:if='{{cover.length == 0}}'></canvas>
+    <canvas class='sec-cover' canvas-id='coverCanv' wx:if='{{cover.length > 0}}'></canvas>
+
     <view class='right'>
-      <text>上传自定义的券封面,未上传则为默认封面(左图)。尺寸推荐：400*255像素</text>
+      <text>上传自定义的券封面,未上传则为默认封面(如上图)。尺寸推荐：300*150像素</text>
       <button bindtap='uploadTicketCover'>上传</button>
     </view>
   </view>

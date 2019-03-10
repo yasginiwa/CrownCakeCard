@@ -45,7 +45,7 @@ function formatLocalDate(inputTime) {
   localTime = (new Date(inputTime)).toISOString();
   localTime = localTime.substr(0, localTime.lastIndexOf('.'));
   localTime = localTime.replace('T', ' ');
-  localDate = localTime.substring(0, 10);
+  var localDate = localTime.substring(0, 10);
   return localDate;
 }
 

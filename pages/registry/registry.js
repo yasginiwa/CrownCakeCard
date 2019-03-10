@@ -7,39 +7,13 @@ Page({
    * 页面的初始数据
    */
   data: {
-    registryInfo: [
-      {
-        desc: '公司名称',
-        placeH: '公司名称',
-        name: 'company',
-        focus: 'true',
-        type: 'text',
-        bindInput: 'companyInput'
-      },
-      {
-        desc: '联系人',
-        placeH: '福利券发放人',
-        name: 'contact',
-        focus: 'false',
-        type: 'text',
-        bindInput: 'contactInput'
-      },
-      {
-        desc: '手机',
-        placeH: '联系人手机号',
-        name: 'phone',
-        focus: 'false',
-        type: 'number',
-        bindInput: 'phoneInput'
-      }
-    ],
     regInfo: {},
     authstatus: 0,
     recievestatus: 0,
-    submitBtnStatus: false,
-    tmpCompany: '',
-    tmpContact: '',
-    tmpPhone: ''
+    btnDisable: true,
+    company: '',
+    contact: '',
+    phone: ''
   },
 
   /**
@@ -49,14 +23,14 @@ Page({
 
   },
 
-  registrySubmit: function (e) {
+  registrySubmit: function () {
     var wxopenid = wx.getStorageSync('wxopenid'),
       today = dateUtil.formatTime(new Date());
     var regInfo = {
       wxopenid: wxopenid,
-      company: e.detail.value.company,
-      contact: e.detail.value.contact,
-      phone: e.detail.value.phone,
+      company: this.data.company,
+      contact: this.data.contact,
+      phone: this.data.phone,
       regdate: today,
       authstatus: 0
     };
@@ -124,13 +98,17 @@ Page({
         })
       }
     })
+
+    //  如是注册用户 不存在重登录 直接设置isReLogin为false
+    wx.setStorageSync('isReLogin', false);
+
   },
   /**
    * 监听输入公司名称
    */
   companyInput: function (e) {
     this.setData({
-      tmpCompany: e.detail.value
+      company: e.detail.value
     })
 
     this.onInput();
@@ -141,7 +119,7 @@ Page({
    */
   contactInput: function (e) {
     this.setData({
-      tmpContact: e.detail.value
+      contact: e.detail.value
     })
 
     this.onInput();
@@ -152,7 +130,7 @@ Page({
    */
   phoneInput: function (e) {
     this.setData({
-      tmpPhone: e.detail.value
+      phone: e.detail.value
     })
 
     this.onInput();
@@ -162,16 +140,16 @@ Page({
    * 判断输入时的提交按钮状态
    */
   onInput: function () {
-    var company = this.data.tmpCompany;
-    var contact = this.data.tmpContact;
-    var phone = this.data.tmpPhone;
+    var company = this.data.company;
+    var contact = this.data.contact;
+    var phone = this.data.phone;
     if (company.length && contact.length && phone.length) {
       this.setData({
-        submitBtnStatus: true
+        btnDisable: false
       })
     } else {
       this.setData({
-        submitBtnStatus: false
+        btnDisable: true
       })
     }
   },

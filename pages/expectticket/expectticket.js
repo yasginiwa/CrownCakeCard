@@ -19,43 +19,57 @@ Page({
    * 图片上传事件
    */
   uploadTicketCover: function() {
+
     wx.showLoading({
       title: '上传中...',
       icon: 'none'
     })
-    var that = this,
-      uploadUrl = api.uploadUrl;
+
+    function uploadcover(cover) {
+      let uploadUrl = api.uploadUrl;
+      wx.uploadFile({
+        url: uploadUrl,
+        filePath: cover,
+        name: 'cover',
+        success: (res) => {
+          wx.hideLoading();
+          wx.showToast({
+            title: '上传成功！',
+            image: '../../assets/success.png',
+            duration: 2000
+          })
+          let coverUrl = JSON.parse(res.data).coverUrl;
+          // this.setData({
+          //   cover: coverUrl
+          // })
+        },
+        fail: (err) => {
+          wx.hideLoading();
+          wx.showToast({
+            title: '上传失败~~',
+            image: '../../assets/fail.png',
+            duration: 2000
+          })
+        }
+      })
+    }
+
+    let ctx = wx.createCanvasContext('coverCanv');
     wx.chooseImage({
-      success: function(res) {
-        const tempFilePaths = res.tempFilePaths
-        wx.uploadFile({
-          url: uploadUrl,
-          filePath: tempFilePaths[0],
-          name: 'cover',
-          success: function(res) {
-            wx.hideLoading();
-            wx.showToast({
-              title: '上传成功！',
-              image: '../../assets/success.png',
-              duration: 2000
-            })
-            var coverUrl = JSON.parse(res.data).coverUrl;
-            that.setData({
-              cover: coverUrl
-            })
-          },
-          fail: function(err) {
-            console.log(err);
-            wx.hideLoading();
-            wx.showToast({
-              title: '上传失败~~',
-              image: '../../assets/fail.png',
-              duration: 2000
-            })
-          }
-        })
+      success: (res) => {
+        const tempFilePaths = res.tempFilePaths;
+        ctx.drawImage(tempFilePaths[0], 0, 0, 400, 198);
+        ctx.drawImage('../../assets/waterprint.png', 130, 80, 50, 10);
+        ctx.draw(false, () => {
+          wx.canvasToTempFilePath({
+            canvasId: 'coverCanv',
+            success: (res) => {
+              uploadcover(res.tempFilePath);
+            }
+          }, this)
+        });
       },
-      fail: function() {
+      fail: (err) => {
         wx.hideLoading();
       }
     })
@@ -65,7 +79,7 @@ Page({
   /**
    * 卡券数量输入事件
    */
-  ticketcountsInput: function (e) {
+  ticketcountsInput: function(e) {
     var expectnumbers = e.detail.value;
     this.setData({
       expectnumbers: expectnumbers
@@ -76,7 +90,7 @@ Page({
   /**
    * 监听输入事件
    */
-  onInput: function () {
+  onInput: function() {
     var expectnumbers = this.data.expectnumbers;
     if (expectnumbers.length) {
       this.setData({
@@ -92,36 +106,33 @@ Page({
   /**
    * 点击申领卡券
    */
-  expectticket: function () {
-    var totalcount =  wx.getStorageSync('totalcount'),
+  expectticket: function() {
+    var totalcount = wx.getStorageSync('totalcount'),
       addcount = wx.getStorageSync('addcount');
 
-      if (addcount < totalcount) {
-        wx.showToast({
-          title: '卡券未添加完...',
-          image: '../../assets/warning.png',
-          duration: 2000,
-        })
-        return;
-      }
+    if (addcount < totalcount) {
+      wx.showToast({
+        title: '卡券未添加完...',
+        image: '../../assets/warning.png',
+        duration: 2000,
+      })
+      return;
+    }
 
     wx.showLoading({
       title: '申领中...',
       mask: true
     })
 
-    var that = this,
-      addexpectticketUrl = api.addexpectticketUrl,
+    var addexpectticketUrl = api.addexpectticketUrl,
       wxopenid = wx.getStorageSync('wxopenid'),
       company = wx.getStorageSync('regInfo').company,
       expectnumbers = this.data.expectnumbers,
       expectdate = dateUtil.formatTime(new Date()),
       authstatus = 0, // 0 表示未审核 1表示审核成功
-      cover = (that.data.cover.length) ? that.data.cover : `${api.host}/upload/default.png`,
+      cover = (this.data.cover.length) ? this.data.cover : `${api.host}/upload/default.png`,
       sqlParams = ['wxopenid', 'company', 'expectnumbers', 'expectdate', 'authstatus', 'cover'],
       sqlValues = [wxopenid, company, expectnumbers, expectdate, authstatus, cover];
-
-      console.log(cover);
 
     wx.request({
       url: addexpectticketUrl,
@@ -130,7 +141,7 @@ Page({
         sqlParams: sqlParams,
         sqlValues: sqlValues
       },
-      success: function (res) {
+      success: (res) => {
         wx.hideLoading();
         if (res.data.code == 1) {
           wx.showToast({
@@ -139,10 +150,10 @@ Page({
             mask: true,
             duration: 2000
           })
-          that.setData({
+          this.setData({
             expectwaitstatus: true
           })
-          that.onLoad();
+          this.onLoad();
         } else {
           wx.showToast({
             title: '申领失败！',
@@ -152,7 +163,7 @@ Page({
           })
         }
       },
-      fail: function (err) {
+      fail: (err) => {
         wx.showToast({
           title: '网络错误',
           image: '../../fail.png',
@@ -165,14 +176,22 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: function(options) {
     wx.showLoading({
       title: '加载中...',
       mask: true
     })
 
-    var that = this,
-      expectunauthUrl = api.expectunauthUrl,
+    let ctx = wx.createCanvasContext('coverCanv');
+    wx.getImageInfo({
+      src: '../../assets/ticketdetail.png',
+      success: (res) => {
+        ctx.drawImage(`../../${res.path}`, 0, 0, 200, 99);
+        ctx.draw()
+      }
+    })
+
+    var expectunauthUrl = api.expectunauthUrl,
       sqlParams = ['wxopenid', 'authstatus'],
       sqlValues = [wx.getStorageSync('wxopenid'), '0'],
       condition = 'expectdate';
@@ -184,23 +203,34 @@ Page({
         sqlValues: sqlValues,
         condition: condition
       },
-      success: function (res) {
+      success: (res) => {
         wx.hideLoading();
         if (res.data.result.recordsets[0].length == 0) {
-          that.setData({
+          this.setData({
             expectwaitstatus: false
           })
+
+          var isReLogin = wx.getStorageSync('isReLogin');
+          if (isReLogin == true) {
+            wx.showToast({
+              title: '先到「添加卡券」中，查看上次是否有未添加完的卡券~',
+              icon: 'none',
+              duration: 4000
+            })
+            wx.setStorageSync('isReLogin', false);
+          }
+
         } else {
           var expectticket = res.data.result.recordsets[0][0];
           var expectdate = dateUtil.formatLocal(expectticket.expectdate);
           expectticket.expectdate = expectdate;
-          that.setData({
+          this.setData({
             expectwaitstatus: true,
             expectticket: expectticket
           })
         }
       },
-      fail: function (err) {
+      fail: (err) => {
         wx.showToast({
           title: '网络错误',
           image: '../../fail.png',
@@ -213,35 +243,35 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
+  onReady: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
+  onShow: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () {
+  onHide: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
+  onUnload: function() {
 
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
+  onPullDownRefresh: function() {
     this.onLoad();
     wx.stopPullDownRefresh();
   },
@@ -249,14 +279,14 @@ Page({
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {
+  onReachBottom: function() {
 
   },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
 
   }
 })
