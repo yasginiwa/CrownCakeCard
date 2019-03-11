@@ -12,18 +12,19 @@ Page({
     expectnumbers: '',
     expectwaitstatus: false,
     expectticket: {},
-    cover: ''
+    cover: `${api.host}/upload/default.png`
   },
 
   /**
    * 图片上传事件
    */
-  uploadTicketCover: function() {
-
+  uploadTicketCover: function () {
     wx.showLoading({
       title: '上传中...',
       icon: 'none'
     })
+
+    let that = this;
 
     function uploadcover(cover) {
       let uploadUrl = api.uploadUrl;
@@ -38,10 +39,12 @@ Page({
             image: '../../assets/success.png',
             duration: 2000
           })
-          let coverUrl = JSON.parse(res.data).coverUrl;
-          // this.setData({
-          //   cover: coverUrl
-          // })
+
+          var coverUrl = JSON.parse(res.data).coverUrl;
+          that.setData({
+            cover: coverUrl
+          })
+
         },
         fail: (err) => {
           wx.hideLoading();
@@ -58,15 +61,15 @@ Page({
     wx.chooseImage({
       success: (res) => {
         const tempFilePaths = res.tempFilePaths;
-        ctx.drawImage(tempFilePaths[0], 0, 0, 400, 198);
-        ctx.drawImage('../../assets/waterprint.png', 130, 80, 50, 10);
+        ctx.drawImage(tempFilePaths[0], 0, 0, 500, 249);
+        ctx.drawImage('../../assets/waterprint.png', 370, 215, 100, 21);
         ctx.draw(false, () => {
           wx.canvasToTempFilePath({
             canvasId: 'coverCanv',
             success: (res) => {
               uploadcover(res.tempFilePath);
             }
-          }, this)
+          })
         });
       },
       fail: (err) => {
@@ -79,7 +82,7 @@ Page({
   /**
    * 卡券数量输入事件
    */
-  ticketcountsInput: function(e) {
+  ticketcountsInput: function (e) {
     var expectnumbers = e.detail.value;
     this.setData({
       expectnumbers: expectnumbers
@@ -90,9 +93,9 @@ Page({
   /**
    * 监听输入事件
    */
-  onInput: function() {
+  onInput: function () {
     var expectnumbers = this.data.expectnumbers;
-    if (expectnumbers.length) {
+    if (!isNaN(expectnumbers) && expectnumbers > 0 && expectnumbers.length) {
       this.setData({
         expectBtnStatus: true
       })
@@ -106,7 +109,7 @@ Page({
   /**
    * 点击申领卡券
    */
-  expectticket: function() {
+  expectticket: function () {
     var totalcount = wx.getStorageSync('totalcount'),
       addcount = wx.getStorageSync('addcount');
 
@@ -176,20 +179,16 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function(options) {
+  onLoad: function (options) {
     wx.showLoading({
       title: '加载中...',
       mask: true
     })
 
     let ctx = wx.createCanvasContext('coverCanv');
-    wx.getImageInfo({
-      src: '../../assets/ticketdetail.png',
-      success: (res) => {
-        ctx.drawImage(`../../${res.path}`, 0, 0, 200, 99);
-        ctx.draw()
-      }
-    })
+    ctx.drawImage('../../assets/ticketdetail.png', 0, 0, 500, 249);
+    ctx.draw()
+
 
     var expectunauthUrl = api.expectunauthUrl,
       sqlParams = ['wxopenid', 'authstatus'],
@@ -243,35 +242,35 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function() {
+  onReady: function () {
 
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function() {
+  onShow: function () {
 
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function() {
+  onHide: function () {
 
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function() {
+  onUnload: function () {
 
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function() {
+  onPullDownRefresh: function () {
     this.onLoad();
     wx.stopPullDownRefresh();
   },
@@ -279,14 +278,14 @@ Page({
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function() {
+  onReachBottom: function () {
 
   },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function() {
+  onShareAppMessage: function () {
 
   }
 })
