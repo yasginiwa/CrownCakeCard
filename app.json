@@ -19,5 +19,11 @@
       "version": "0.0.003",
       "provider": "wxf25d506ff81e19fb"
     }
+  },
+  "networkTimeout": {
+    "request": 10000,
+    "connectSocket": 10000,
+    "uploadFile": 10000,
+    "downloadFile": 10000
   }
 }

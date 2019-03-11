@@ -10,19 +10,19 @@ Page({
    */
   data: {
     ticket: {},
-    code: ''
+    code: '',
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: function(options) {
     wx.showLoading({
       title: '加载中...',
     })
 
     //  查询券编号的券的封面信息
-    var queryTicketCover = function (ticket, successCb, failCb) {
+    function queryTicketCover(ticket, successCb, failCb) {
       var queryticketcoverUrl = api.queryticketcoverUrl,
         ticketcode = ticket.ticketcode;
       wx.request({
@@ -32,18 +32,16 @@ Page({
           sqlParam: 'ticketcode',
           sqlValue: ticketcode
         },
-        success: function (res) {
+        success: (res) => {
           successCb(res);
         },
-        fail: function (err) {
+        fail: (err) => {
           failCb(err);
         }
       })
     };
 
-
     var ticketcode = options.ticketcode;
-    var that = this;
 
     //  查询券码
     var now = dateUtil.formatTime(new Date());
@@ -68,24 +66,23 @@ Page({
         sign: sign,
         content: encContent
       },
-      success: function (res) {
+      success: (res) => {
+        wx.hideLoading();
         var data = JSON.parse(res.data);
         var ticket = api.decryptContent(data.content);
-        
+
         // ticket.enddate = ticket.enddate.substring(0,11);
-        queryTicketCover(ticket, function (res) {
+        queryTicketCover(ticket, (res) => {
           ticket.price = ticket.price.toFixed(2);
           ticket.cover = res.data.result[0].cover;
           ticket.startdate = dateUtil.formatLocalDate(ticket.startdate);
           ticket.enddate = dateUtil.formatLocalDate(ticket.enddate);
-          that.setData({
+          this.setData({
             ticket: ticket,
             code: ticket.ticketcode
           })
           barcode.barcode('barcode', ticket.ticketcode, 640, 200);
-          wx.hideLoading();
-
-        }, function (err) {
+        }, (err) => {
           wx.showToast({
             title: '网络错误',
             image: '../../assets/fail.png',
@@ -93,7 +90,7 @@ Page({
           })
         });
       },
-      fail: function (err) {
+      fail: (err) => {
         wx.showToast({
           title: '网络错误',
           image: '../../assets/fail.png',
@@ -103,54 +100,55 @@ Page({
     })
 
 
+
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
+  onReady: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
+  onShow: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () {
+  onHide: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
+  onUnload: function() {
 
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
+  onPullDownRefresh: function() {
 
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {
+  onReachBottom: function() {
 
   },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
 
   }
 })
