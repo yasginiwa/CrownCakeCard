@@ -67,16 +67,17 @@ Page({
         content: encContent
       },
       success: (res) => {
-        wx.hideLoading();
         var data = JSON.parse(res.data);
         var ticket = api.decryptContent(data.content);
 
         // ticket.enddate = ticket.enddate.substring(0,11);
         queryTicketCover(ticket, (res) => {
+
+          wx.hideLoading();
           ticket.price = ticket.price.toFixed(2);
           ticket.cover = res.data.result[0].cover;
-          ticket.startdate = dateUtil.formatLocalDate(ticket.startdate);
-          ticket.enddate = dateUtil.formatLocalDate(ticket.enddate);
+          ticket.startdate = ticket.startdate.substring(0,10);
+          ticket.enddate = ticket.enddate.substring(0,10);
           this.setData({
             ticket: ticket,
             code: ticket.ticketcode
