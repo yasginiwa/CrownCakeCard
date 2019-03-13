@@ -25,6 +25,38 @@ Page({
    */
   onLoad: function (options) {
 
+    var that = this;
+    //  上传图片
+    function uploadcover(cover) {
+      let uploadUrl = api.uploadUrl;
+      wx.uploadFile({
+        url: uploadUrl,
+        filePath: cover,
+        name: 'cover',
+        success: (res) => {
+          wx.hideLoading();
+          wx.showToast({
+            title: '上传成功！',
+            image: '../../assets/success.png',
+            duration: 2000
+          })
+          var coverUrl = JSON.parse(res.data).coverUrl;
+          that.setData({
+            cover: coverUrl
+          })
+        },
+        fail: (err) => {
+          wx.hideLoading();
+          wx.showToast({
+            title: '上传失败~~',
+            image: '../../assets/fail.png',
+            duration: 2000
+          })
+        }
+      })
+    }
+
+
     //  请求卡券总数 查出最后一条申请卡券的记录
     var expectAuthRequest = new Promise(function (resolve, reject) {
       var that = this,
@@ -42,7 +74,22 @@ Page({
         },
         success: (res) => {
           if (res.data.result.recordsets[0].length > 0) {
-            resolve(res.data.result.recordsets[0][0]);
+            let expectticket = res.data.result.recordsets[0][0];
+            //  canvas画券封面
+            let ctx = wx.createCanvasContext('coverCanv');
+            ctx.drawImage('../../assets/ticketpattern.png', 0, 0, 400, 199);
+            ctx.setFontSize(22);
+            ctx.setFillStyle('white');
+            ctx.fillText(expectticket.productname, 120, 108);
+            ctx.draw(true, function () {
+              wx.canvasToTempFilePath({
+                canvasId: 'coverCanv',
+                success: (res) => {
+                  uploadcover(res.tempFilePath);
+                }
+              })
+            })
+            resolve(expectticket);
           } else {
             wx.showToast({
               title: '请等待审核...',
@@ -88,12 +135,12 @@ Page({
     })
     var that = this;
     // promise异步线程保证数据同步完成
-    expectAuthRequest.then(function (res) {
+    expectAuthRequest.then((res) => {
       that.setData({
         totalcount: res.expectnumbers,
         expectdate: dateUtil.formatLocal(res.expectdate),
         netbakeid: res.netbakeid,
-        cover: res.cover,
+        cover: this.data.cover,
         limitstartdate: dateUtil.formatLocalDate(res.limitstartdate),
         limitenddate: dateUtil.formatLocalDate(res.limitenddate)
       })
@@ -108,7 +155,7 @@ Page({
 
         // 总数存入本地存储
         wx.setStorageSync('addcount', res.addcount);
-      }, function (err) {
+      }, (err) => {
         wx.showToast({
           title: '加载失败...',
           image: '../../assets/fail.png',
@@ -315,6 +362,8 @@ Page({
         duration: 2000
       })
     })
+
+
 
   },
 

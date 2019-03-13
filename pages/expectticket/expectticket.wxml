@@ -24,12 +24,12 @@
 <view class='expectcontent' wx:if='{{expectwaitstatus == false}}'>
   <view class='cover'>
 
-    <image src='{{cover}}'></image>
+    <!-- <image src='{{cover}}'></image> -->
 
-    <view class='right'>
+    <!-- <view class='right'>
       <text>上传自定义的券封面,未上传则为默认封面(如上图)。尺寸推荐：400*200像素</text>
       <button bindtap='uploadTicketCover'>上传</button>
-    </view>
+    </view> -->
   </view>
   <view class='ticketcounts'>
     <input type='number' cursor-spacing='20' placeholder='0' placeholder-class='phstyle' bindinput='ticketcountsInput'></input>
@@ -38,4 +38,4 @@
   <button class='add' bindtap='expectticket' disabled='{{!expectBtnStatus}}'>申领卡券</button>
 </view>
 
-<canvas class='sec-cover' canvas-id='coverCanv'></canvas>
+<!-- <canvas class='sec-cover' canvas-id='coverCanv'></canvas> -->

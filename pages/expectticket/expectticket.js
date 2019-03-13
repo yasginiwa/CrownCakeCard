@@ -12,72 +12,72 @@ Page({
     expectnumbers: '',
     expectwaitstatus: false,
     expectticket: {},
-    cover: `${api.host}/upload/default.png`
+    // cover: `${api.host}/upload/default.png`
   },
 
   /**
    * 图片上传事件
    */
-  uploadTicketCover: function () {
-    wx.showLoading({
-      title: '上传中...',
-      icon: 'none'
-    })
+  // uploadTicketCover: function () {
+  //   wx.showLoading({
+  //     title: '上传中...',
+  //     icon: 'none'
+  //   })
 
-    let that = this;
+  //   let that = this;
 
-    function uploadcover(cover) {
-      let uploadUrl = api.uploadUrl;
-      wx.uploadFile({
-        url: uploadUrl,
-        filePath: cover,
-        name: 'cover',
-        success: (res) => {
-          wx.hideLoading();
-          wx.showToast({
-            title: '上传成功！',
-            image: '../../assets/success.png',
-            duration: 2000
-          })
+    // function uploadcover(cover) {
+    //   let uploadUrl = api.uploadUrl;
+    //   wx.uploadFile({
+    //     url: uploadUrl,
+    //     filePath: cover,
+    //     name: 'cover',
+    //     success: (res) => {
+    //       wx.hideLoading();
+    //       wx.showToast({
+    //         title: '上传成功！',
+    //         image: '../../assets/success.png',
+    //         duration: 2000
+    //       })
 
-          var coverUrl = JSON.parse(res.data).coverUrl;
-          that.setData({
-            cover: coverUrl
-          })
+    //       var coverUrl = JSON.parse(res.data).coverUrl;
+    //       that.setData({
+    //         cover: coverUrl
+    //       })
 
-        },
-        fail: (err) => {
-          wx.hideLoading();
-          wx.showToast({
-            title: '上传失败~~',
-            image: '../../assets/fail.png',
-            duration: 2000
-          })
-        }
-      })
-    }
+    //     },
+    //     fail: (err) => {
+    //       wx.hideLoading();
+    //       wx.showToast({
+    //         title: '上传失败~~',
+    //         image: '../../assets/fail.png',
+    //         duration: 2000
+    //       })
+    //     }
+    //   })
+    // }
 
-    let ctx = wx.createCanvasContext('coverCanv');
-    wx.chooseImage({
-      success: (res) => {
-        const tempFilePaths = res.tempFilePaths;
-        ctx.drawImage(tempFilePaths[0], 0, 0, 500, 249);
-        ctx.drawImage('../../assets/waterprint.png', 370, 215, 100, 21);
-        ctx.draw(false, () => {
-          wx.canvasToTempFilePath({
-            canvasId: 'coverCanv',
-            success: (res) => {
-              uploadcover(res.tempFilePath);
-            }
-          })
-        });
-      },
-      fail: (err) => {
-        wx.hideLoading();
-      }
-    })
+  //   let ctx = wx.createCanvasContext('coverCanv');
+  //   wx.chooseImage({
+  //     success: (res) => {
+  //       const tempFilePaths = res.tempFilePaths;
+  //       ctx.drawImage(tempFilePaths[0], 0, 0, 500, 249);
+  //       ctx.drawImage('../../assets/waterprint.png', 370, 215, 100, 21);
+  //       ctx.draw(false, () => {
+  //         wx.canvasToTempFilePath({
+  //           canvasId: 'coverCanv',
+  //           success: (res) => {
+  //             uploadcover(res.tempFilePath);
+  //           }
+  //         })
+  //       });
+  //     },
+  //     fail: (err) => {
+  //       wx.hideLoading();
+  //     }
+  //   })
 
-  },
+  // },
 
   /**
    * 卡券数量输入事件
@@ -133,9 +133,9 @@ Page({
       expectnumbers = this.data.expectnumbers,
       expectdate = dateUtil.formatTime(new Date()),
       authstatus = 0, // 0 表示未审核 1表示审核成功
-      cover = (this.data.cover.length) ? this.data.cover : `${api.host}/upload/default.png`,
-      sqlParams = ['wxopenid', 'company', 'expectnumbers', 'expectdate', 'authstatus', 'cover'],
-      sqlValues = [wxopenid, company, expectnumbers, expectdate, authstatus, cover];
+      // cover = (this.data.cover.length) ? this.data.cover : `${api.host}/upload/default.png`,
+      sqlParams = ['wxopenid', 'company', 'expectnumbers', 'expectdate', 'authstatus'],
+      sqlValues = [wxopenid, company, expectnumbers, expectdate, authstatus];
 
     wx.request({
       url: addexpectticketUrl,

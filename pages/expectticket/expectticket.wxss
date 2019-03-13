@@ -79,10 +79,10 @@ page {
   align-items: center;
 }
 
-.expectcontent .cover image{
+/* .expectcontent .cover image{
   width: 400rpx;
   height: 200rpx;
-}
+} */
 
 .expectcontent .cover .right {
   display: flex;
@@ -134,10 +134,10 @@ page {
   color: white;
 }
 
-.sec-cover{
+/* .sec-cover{
   position: absolute;
   left: -1000px;
   top: 0;
   width: 500px;
   height: 249px;
-}
+} */

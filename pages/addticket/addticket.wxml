@@ -1,4 +1,6 @@
 <!--pages/addticket/addticket.wxml-->
+
+<canvas canvas-id='coverCanv' class='coverCanv'></canvas>
 <image class='banner' src='../../assets/addbanner.png'></image>
 
 <view class='descrpt'>
@@ -23,3 +25,4 @@
   <image class='plus' src='../../assets/plus.png' bindtap='onPlus'></image>
 </view>
 <button class='add' wx:if='{{addcount != totalcount}}' bindtap='addtickets' disabled='{{!addBtnStatus}}'>添加卡券</button>
+

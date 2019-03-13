@@ -99,3 +99,11 @@ page {
   background-color: #0079c0;
   color: white;
 }
+
+.coverCanv {
+  position: absolute;
+  left: -1000px;
+  top: 0;
+  width: 500px;
+  height: 249px;
+}
