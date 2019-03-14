@@ -23,7 +23,7 @@ page {
 
 .section-top image {
   width: 500rpx;
-  height: 247rpx;
+  height: 250rpx;
   margin-top: 40rpx;
 }
 

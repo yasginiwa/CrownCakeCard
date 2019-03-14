@@ -195,7 +195,8 @@ Page({
     return {
       title: `${ticket.company} 祝您生日快乐！`,
       path: `/pages/ticketdetail/ticketdetail?ticketcode=${ticket.ticketcode}`,
-      imageUrl: `${ticket.cover}`
+      // imageUrl: `${ticket.cover}`
+      imageUrl: '../../assets/ticketpattern.png'
     }
 
 

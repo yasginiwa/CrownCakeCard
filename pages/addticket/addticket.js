@@ -28,10 +28,11 @@ Page({
     function drawCover(expectticket) {
       let that = this,
         ctx = wx.createCanvasContext('coverCanv');
-      ctx.drawImage('../../assets/ticketpattern.png', 0, 0, 400, 199);
+      ctx.drawImage('../../assets/ticketpattern.png', 0, 0, 250, 125);
       ctx.setFontSize(22);
       ctx.setFillStyle('white');
       ctx.fillText(expectticket.productname, 105, 108);
+      ctx.scale(2, 2);
       ctx.draw(false, function () {
         wx.canvasToTempFilePath({
           canvasId: 'coverCanv',
@@ -276,14 +277,18 @@ Page({
       return;
     }
 
-    //  比较日期
-    function compareDate(s1, s2) {
-      return ((new Date(s1.replace(/-/g, "\/"))) > (new Date(s2.replace(/-/g, "\/"))));
+    //  时间戳转字符串
+    function getTimeStamps(time) {
+      return time.valueOf();
     }
-    var now = dateUtil.formatTime(new Date());
+
+    // 当前时间
+    let now = new Date();
+
+    console.log()
 
     //  如当前日期>截止日期
-    if (compareDate(now, this.data.limitenddate)) {
+    if (getTimeStamps(now) > getTimeStamps(this.data.limitenddate)) {
       wx.showToast({
         title: '添加卡券已逾期，请重新申领...',
         image: '../../assets/warning.png',

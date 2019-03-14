@@ -72,8 +72,6 @@ Page({
 
         // ticket.enddate = ticket.enddate.substring(0,11);
         queryTicketCover(ticket, (res) => {
-
-          wx.hideLoading();
           ticket.price = ticket.price.toFixed(2);
           ticket.cover = res.data.result[0].cover;
           ticket.startdate = ticket.startdate.substring(0,10);
@@ -83,6 +81,7 @@ Page({
             code: ticket.ticketcode
           })
           barcode.barcode('barcode', ticket.ticketcode, 640, 200);
+          wx.hideLoading();
         }, (err) => {
           wx.showToast({
             title: '网络错误',
@@ -99,9 +98,6 @@ Page({
         })
       }
     })
-
-
-
   },
 
   /**
