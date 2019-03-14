@@ -22,7 +22,8 @@ var ticketGenUrl = `${host}/icapi/tmticket`,
   expectunauthUrl = `${host}/expectunauth`,
   expectauthUrl = `${host}/expectauth`,
   uploadUrl = `${host}/upload`,
-  queryticketcoverUrl = `${host}/queryticketcover`
+  queryticketcoverUrl = `${host}/queryticketcover`,
+  updateexpectticketcoverUrl = `${host}/updateexpectticketcover`,
   token = 'HGCakeECSell',
   appKey = 'SEdDYWtlT3JkZXJBbmRTZWxsMjAxOA==',
   signKey = 'BPe2XMzYP6UydzAuWiPuthAWVrMWkbmC';
@@ -85,6 +86,7 @@ module.exports = {
   expectauthUrl: expectauthUrl,
   uploadUrl: uploadUrl,
   queryticketcoverUrl: queryticketcoverUrl,
+  updateexpectticketcoverUrl: updateexpectticketcoverUrl,
   encryptContent: encryptContent,
   decryptContent: decryptContent
 };

@@ -24,10 +24,26 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    //  canvas画券封面
+    function drawCover(expectticket) {
+      let that = this,
+        ctx = wx.createCanvasContext('coverCanv');
+      ctx.drawImage('../../assets/ticketpattern.png', 0, 0, 400, 199);
+      ctx.setFontSize(22);
+      ctx.setFillStyle('white');
+      ctx.fillText(expectticket.productname, 105, 108);
+      ctx.draw(false, function () {
+        wx.canvasToTempFilePath({
+          canvasId: 'coverCanv',
+          success: (res) => {
+            uploadCover(res.tempFilePath, expectticket);
+          }
+        })
+      })
+    }
 
-    var that = this;
     //  上传图片
-    function uploadcover(cover) {
+    function uploadCover(cover, expectticket) {
       let uploadUrl = api.uploadUrl;
       wx.uploadFile({
         url: uploadUrl,
@@ -35,27 +51,59 @@ Page({
         name: 'cover',
         success: (res) => {
           wx.hideLoading();
-          wx.showToast({
-            title: '上传成功！',
-            image: '../../assets/success.png',
-            duration: 2000
-          })
+          // wx.showToast({
+          //   title: '上传成功！',
+          //   image: '../../assets/success.png',
+          //   duration: 2000
+          // })
           var coverUrl = JSON.parse(res.data).coverUrl;
           that.setData({
             cover: coverUrl
           })
+
+          updateCover(expectticket);
         },
         fail: (err) => {
           wx.hideLoading();
-          wx.showToast({
-            title: '上传失败~~',
-            image: '../../assets/fail.png',
-            duration: 2000
-          })
+          // wx.showToast({
+          //   title: '上传失败~~',
+          //   image: '../../assets/fail.png',
+          //   duration: 2000
+          // })
         }
       })
     }
 
+    //  更新申领图片封面
+    function updateCover(expectticket) {
+      let updateexpectticketcoverUrl = api.updateexpectticketcoverUrl,
+        sqlParam = 'cover',
+        sqlValue = that.data.cover,
+        rangeParam = 'e_id',
+        rangeValue = expectticket.e_id;
+      wx.request({
+        url: updateexpectticketcoverUrl,
+        method: 'POST',
+        data: {
+          sqlParam: sqlParam,
+          sqlValue: sqlValue,
+          rangeParam: rangeParam,
+          rangeValue: rangeValue
+        },
+        success: (res) => {
+          // wx.showToast({
+          //   title: '封面更新成功',
+          //   icon: 'none'
+          // })
+        },
+        fail: (err) => {
+          wx.showToast({
+            title: '网络错误',
+            icon: 'none'
+          })
+        }
+      })
+    }
 
     //  请求卡券总数 查出最后一条申请卡券的记录
     var expectAuthRequest = new Promise(function (resolve, reject) {
@@ -73,22 +121,8 @@ Page({
           condition: condition
         },
         success: (res) => {
-          if (res.data.result.recordsets[0].length > 0) {
-            let expectticket = res.data.result.recordsets[0][0];
-            //  canvas画券封面
-            let ctx = wx.createCanvasContext('coverCanv');
-            ctx.drawImage('../../assets/ticketpattern.png', 0, 0, 400, 199);
-            ctx.setFontSize(22);
-            ctx.setFillStyle('white');
-            ctx.fillText(expectticket.productname, 120, 108);
-            ctx.draw(true, function () {
-              wx.canvasToTempFilePath({
-                canvasId: 'coverCanv',
-                success: (res) => {
-                  uploadcover(res.tempFilePath);
-                }
-              })
-            })
+          let expectticket = res.data.result.recordsets[0][0];
+          if (expectticket) {
             resolve(expectticket);
           } else {
             wx.showToast({
@@ -140,13 +174,13 @@ Page({
         totalcount: res.expectnumbers,
         expectdate: dateUtil.formatLocal(res.expectdate),
         netbakeid: res.netbakeid,
-        cover: this.data.cover,
         limitstartdate: dateUtil.formatLocalDate(res.limitstartdate),
-        limitenddate: dateUtil.formatLocalDate(res.limitenddate)
+        limitenddate: dateUtil.formatLocalDate(res.limitenddate),
+        cover: res.cover
       })
+
       // 总数存入本地存储
       wx.setStorageSync('totalcount', res.expectnumbers);
-
       addCountRequest(res.expectdate, function (res) {
         wx.hideLoading();
         that.setData({
@@ -155,13 +189,17 @@ Page({
 
         // 总数存入本地存储
         wx.setStorageSync('addcount', res.addcount);
+
       }, (err) => {
         wx.showToast({
           title: '加载失败...',
           image: '../../assets/fail.png',
           duration: 2000
         })
-      });
+      })
+
+      if (res.cover != null) return;
+      drawCover(res);
     })
   },
 

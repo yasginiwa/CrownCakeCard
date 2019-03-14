@@ -15,7 +15,7 @@
       <text class='productname'>{{item.productname}}</text>
       <view class='detail'>
         <image class='noimg' src='../../assets/ticketno.png'></image>
-        <text class='no'>No. {{item.ticketno}}</text>
+        <text class='no'>{{item.ticketno}}</text>
         <image class='priceimg' src='../../assets/price.png'></image>
         <text class='price'>{{item.price}}</text>
         <image class='status' src='../../assets/undistributed.png' wx:if='{{item.distributestatus == 0}}'></image>

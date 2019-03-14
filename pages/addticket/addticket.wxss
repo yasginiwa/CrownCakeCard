@@ -104,6 +104,6 @@ page {
   position: absolute;
   left: -1000px;
   top: 0;
-  width: 500px;
-  height: 249px;
+  width: 400px;
+  height: 199px;
 }
