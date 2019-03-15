@@ -22,9 +22,31 @@ page {
 }
 
 .section-top image {
-  width: 500rpx;
-  height: 250rpx;
+  width: 560rpx;
+  height: 213rpx;
   margin-top: 40rpx;
+}
+
+.section-top .company {
+  font-size: 14rpx;
+  font-weight: bolder;
+  position: absolute;
+  left: 275rpx;
+  top: 126.5rpx;
+  background-image: linear-gradient(180deg, #f3e8bb, #edd474);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.section-top .ticketno {
+  font-size: 12rpx;
+  font-weight: bold;
+  left: 534rpx;
+  top: 238rpx;
+  position: absolute;
+  background-image: linear-gradient(180deg, #f3e8bb, #edd474);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .section-top .name {
@@ -94,27 +116,27 @@ page {
 }
 
 .section-middle:before {
-    display: block;
-    position: absolute;
-    content: "";
-    width:20rpx;
-    height:20rpx;
-    background-color:#0079C0;
-    border-radius:50%;
-    bottom: -10rpx;
-    left: -10rpx;
+  display: block;
+  position: absolute;
+  content: "";
+  width: 20rpx;
+  height: 20rpx;
+  background-color: #0079c0;
+  border-radius: 50%;
+  bottom: -10rpx;
+  left: -10rpx;
 }
 
 .section-middle:after {
-    display: block;
-    position: absolute;
-    content: "";
-    width:20rpx;
-    height:20rpx;
-    background-color:#0079C0;
-    border-radius:50%;
-    bottom: -10rpx;
-    right: -10rpx;
+  display: block;
+  position: absolute;
+  content: "";
+  width: 20rpx;
+  height: 20rpx;
+  background-color: #0079c0;
+  border-radius: 50%;
+  bottom: -10rpx;
+  right: -10rpx;
 }
 
 .section-bottom {

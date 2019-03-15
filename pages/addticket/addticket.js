@@ -25,86 +25,86 @@ Page({
    */
   onLoad: function (options) {
     //  canvas画券封面
-    function drawCover(expectticket) {
-      let that = this,
-        ctx = wx.createCanvasContext('coverCanv');
-      ctx.drawImage('../../assets/ticketpattern.png', 0, 0, 250, 125);
-      ctx.setFontSize(22);
-      ctx.setFillStyle('white');
-      ctx.fillText(expectticket.productname, 105, 108);
-      ctx.scale(2, 2);
-      ctx.draw(false, function () {
-        wx.canvasToTempFilePath({
-          canvasId: 'coverCanv',
-          success: (res) => {
-            uploadCover(res.tempFilePath, expectticket);
-          }
-        })
-      })
-    }
+    // function drawCover(expectticket) {
+    //   let that = this,
+    //     ctx = wx.createCanvasContext('coverCanv');
+    //   ctx.drawImage('../../assets/ticketpattern.png', 0, 0, 496, 189);
+    //   ctx.setFontSize(22);
+    //   ctx.setFillStyle('white');
+    //   ctx.fillText(expectticket.productname, 105, 108);
+    //   ctx.scale(2, 2);
+    //   ctx.draw(false, function () {
+    //     wx.canvasToTempFilePath({
+    //       canvasId: 'coverCanv',
+    //       success: (res) => {
+    //         uploadCover(res.tempFilePath, expectticket);
+    //       }
+    //     })
+    //   })
+    // }
 
     //  上传图片
-    function uploadCover(cover, expectticket) {
-      let uploadUrl = api.uploadUrl;
-      wx.uploadFile({
-        url: uploadUrl,
-        filePath: cover,
-        name: 'cover',
-        success: (res) => {
-          wx.hideLoading();
-          // wx.showToast({
-          //   title: '上传成功！',
-          //   image: '../../assets/success.png',
-          //   duration: 2000
-          // })
-          var coverUrl = JSON.parse(res.data).coverUrl;
-          that.setData({
-            cover: coverUrl
-          })
+    // function uploadCover(cover, expectticket) {
+    //   let uploadUrl = api.uploadUrl;
+    //   wx.uploadFile({
+    //     url: uploadUrl,
+    //     filePath: cover,
+    //     name: 'cover',
+    //     success: (res) => {
+    //       wx.hideLoading();
+    //       // wx.showToast({
+    //       //   title: '上传成功！',
+    //       //   image: '../../assets/success.png',
+    //       //   duration: 2000
+    //       // })
+    //       var coverUrl = JSON.parse(res.data).coverUrl;
+    //       that.setData({
+    //         cover: coverUrl
+    //       })
 
-          updateCover(expectticket);
-        },
-        fail: (err) => {
-          wx.hideLoading();
-          // wx.showToast({
-          //   title: '上传失败~~',
-          //   image: '../../assets/fail.png',
-          //   duration: 2000
-          // })
-        }
-      })
-    }
+    //       updateCover(expectticket);
+    //     },
+    //     fail: (err) => {
+    //       wx.hideLoading();
+    //       // wx.showToast({
+    //       //   title: '上传失败~~',
+    //       //   image: '../../assets/fail.png',
+    //       //   duration: 2000
+    //       // })
+    //     }
+    //   })
+    // }
 
     //  更新申领图片封面
-    function updateCover(expectticket) {
-      let updateexpectticketcoverUrl = api.updateexpectticketcoverUrl,
-        sqlParam = 'cover',
-        sqlValue = that.data.cover,
-        rangeParam = 'e_id',
-        rangeValue = expectticket.e_id;
-      wx.request({
-        url: updateexpectticketcoverUrl,
-        method: 'POST',
-        data: {
-          sqlParam: sqlParam,
-          sqlValue: sqlValue,
-          rangeParam: rangeParam,
-          rangeValue: rangeValue
-        },
-        success: (res) => {
-          // wx.showToast({
-          //   title: '封面更新成功',
-          //   icon: 'none'
-          // })
-        },
-        fail: (err) => {
-          wx.showToast({
-            title: '网络错误',
-            icon: 'none'
-          })
-        }
-      })
-    }
+    // function updateCover(expectticket) {
+    //   let updateexpectticketcoverUrl = api.updateexpectticketcoverUrl,
+    //     sqlParam = 'cover',
+    //     sqlValue = that.data.cover,
+    //     rangeParam = 'e_id',
+    //     rangeValue = expectticket.e_id;
+    //   wx.request({
+    //     url: updateexpectticketcoverUrl,
+    //     method: 'POST',
+    //     data: {
+    //       sqlParam: sqlParam,
+    //       sqlValue: sqlValue,
+    //       rangeParam: rangeParam,
+    //       rangeValue: rangeValue
+    //     },
+    //     success: (res) => {
+    //       // wx.showToast({
+    //       //   title: '封面更新成功',
+    //       //   icon: 'none'
+    //       // })
+    //     },
+    //     fail: (err) => {
+    //       wx.showToast({
+    //         title: '网络错误',
+    //         icon: 'none'
+    //       })
+    //     }
+    //   })
+    // }
 
     //  请求卡券总数 查出最后一条申请卡券的记录
     var expectAuthRequest = new Promise(function (resolve, reject) {
@@ -176,8 +176,7 @@ Page({
         expectdate: dateUtil.formatLocal(res.expectdate),
         netbakeid: res.netbakeid,
         limitstartdate: dateUtil.formatLocalDate(res.limitstartdate),
-        limitenddate: dateUtil.formatLocalDate(res.limitenddate),
-        cover: res.cover
+        limitenddate: dateUtil.formatLocalDate(res.limitenddate)
       })
 
       // 总数存入本地存储
@@ -199,8 +198,8 @@ Page({
         })
       })
 
-      if (res.cover != null) return;
-      drawCover(res);
+      // if (res.cover != null) return;
+      // drawCover(res);
     })
   },
 
@@ -277,15 +276,13 @@ Page({
       return;
     }
 
-    //  时间戳转字符串
+    //  获取时间戳
     function getTimeStamps(time) {
       return time.valueOf();
     }
 
     // 当前时间
     let now = new Date();
-
-    console.log()
 
     //  如当前日期>截止日期
     if (getTimeStamps(now) > getTimeStamps(this.data.limitenddate)) {
@@ -346,8 +343,7 @@ Page({
           price: ticket.price,
           distributestatus: 0, // 状态0为未分发 1为已分发
           distributedate: dateUtil.formatTime(new Date()),
-          expectdate: that.data.expectdate,
-          cover: that.data.cover
+          expectdate: that.data.expectdate
         },
         success: function (res) {
           success(res);

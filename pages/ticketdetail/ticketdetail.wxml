@@ -1,6 +1,8 @@
 <!--pages/ticketdetail/ticketdetail.wxml-->
 <view class='section-top'>
-  <image src='{{ticket.cover}}'></image>
+  <image src='../../assets/ticketpattern.png'></image>
+  <text class='company'>{{ticket.company}}</text>
+  <text class='ticketno'>编号:{{ticket.ticketno}}</text>
   <text class='name'>{{ticket.productname}}</text>
   <text class='hint'>结算时请出示此条码</text>
   <view class="barcode">
@@ -19,6 +21,6 @@
 </view>
 
 <view class='section-bottom'>
-  <text class='desc1'>本券仅限使用一次，不记名、不挂失、找零。</text>
+  <text class='desc1'>本券仅限使用一次，不记名、不挂失、不找零。</text>
   <text class='desc2'>此券最终解释权归武汉市玫隆皇冠食品有限公司所有。</text>
 </view>

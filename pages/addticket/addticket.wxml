@@ -1,6 +1,6 @@
 <!--pages/addticket/addticket.wxml-->
 
-<canvas canvas-id='coverCanv' class='coverCanv'></canvas>
+<!-- <canvas canvas-id='coverCanv' class='coverCanv'></canvas> -->
 <image class='banner' src='../../assets/addbanner.png'></image>
 
 <view class='descrpt'>

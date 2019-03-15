@@ -100,10 +100,10 @@ page {
   color: white;
 }
 
-.coverCanv {
+/* .coverCanv {
   position: absolute;
   left: -1000px;
   top: 0;
-  width: 500;
-  height: 250;
-}
+  width: 248;
+  height: 95;
+} */

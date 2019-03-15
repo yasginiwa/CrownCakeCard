@@ -22,11 +22,11 @@ Page({
     })
 
     //  查询券编号的券的封面信息
-    function queryTicketCover(ticket, successCb, failCb) {
-      var queryticketcoverUrl = api.queryticketcoverUrl,
+    function queryTicketDetail(ticket, successCb, failCb) {
+      var queryticketdetailUrl = api.queryticketdetailUrl,
         ticketcode = ticket.ticketcode;
       wx.request({
-        url: queryticketcoverUrl,
+        url: queryticketdetailUrl,
         method: 'POST',
         data: {
           sqlParam: 'ticketcode',
@@ -70,10 +70,10 @@ Page({
         var data = JSON.parse(res.data);
         var ticket = api.decryptContent(data.content);
 
-        // ticket.enddate = ticket.enddate.substring(0,11);
-        queryTicketCover(ticket, (res) => {
+        queryTicketDetail(ticket, (res) => {
           ticket.price = ticket.price.toFixed(2);
-          ticket.cover = res.data.result[0].cover;
+          ticket.company = res.data.result[0].company;
+          ticket.ticketno = res.data.result[0].ticketno;
           ticket.startdate = ticket.startdate.substring(0,10);
           ticket.enddate = ticket.enddate.substring(0,10);
           this.setData({
