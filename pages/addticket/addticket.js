@@ -276,18 +276,29 @@ Page({
       return;
     }
 
-    //  获取时间戳
-    function getTimeStamps(time) {
-      return time.valueOf();
+    function compareDate(date1, date2) {
+      var result = false;
+      if (date1.getFullYear() > date2.getFullYear()) {
+        result = true;
+      } else if (date1.getFullYear() == date2.getFullYear()) {
+        if (date1.getMonth() > date2.getMonth()) {
+          result = true;
+        } else if (date1.getMonth() == date2.getMonth()) {
+          if (date1.getDate() > date2.getDate()) {
+            result = true;
+          }
+        }
+      }
+      return result;
     }
 
     // 当前时间
-    let now = new Date();
+    let now = dateUtil.formatDate(new Date());
 
-    //  如当前日期>截止日期
-    if (getTimeStamps(now) > getTimeStamps(this.data.limitenddate)) {
+    //  如果当前时间大于添加期限截止时间 弹框逾期 直接返回
+    if (compareDate(new Date(now), new Date(this.data.limitenddate))) {
       wx.showToast({
-        title: '添加卡券已逾期，请重新申领...',
+        title: '时间逾期，无法添加...',
         image: '../../assets/warning.png',
         duration: 2000
       })
@@ -401,9 +412,6 @@ Page({
         duration: 2000
       })
     })
-
-
-
   },
 
   /**

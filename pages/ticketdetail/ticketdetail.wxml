@@ -4,10 +4,13 @@
   <text class='company'>{{ticket.company}}</text>
   <text class='ticketno'>编号:{{ticket.ticketno}}</text>
   <text class='name'>{{ticket.productname}}</text>
-  <text class='hint'>结算时请出示此条码</text>
+  <text class='hint'>结算时请出示此码</text>
   <view class="barcode">
-    <canvas canvas-id="barcode" />
+    <canvas canvas-id="barcode"/>
     <view class="barnum">{{code}}</view>
+  </view>
+  <view class="qrcode">
+    <canvas canvas-id="qrcode" />
   </view>
   <text class='desc'>{{ticket.description}}</text>
 </view>

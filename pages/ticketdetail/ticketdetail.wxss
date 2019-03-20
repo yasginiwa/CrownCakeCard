@@ -12,7 +12,6 @@ page {
   margin-top: 5%;
   background-color: white;
   width: 88%;
-  height: 70%;
   border-top-left-radius: 20rpx;
   border-top-right-radius: 20rpx;
   display: flex;
@@ -63,7 +62,6 @@ page {
 
 .section-top .barcode {
   display: flex;
-  height: 260rpx;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -72,8 +70,8 @@ page {
 
 .section-top .barnum {
   width: 670rpx;
-  height: 100rpx;
-  line-height: 100rpx;
+  height: 40rpx;
+  line-height: 40rpx;
   font-size: 38rpx;
   font-weight: bold;
   text-align: center;
@@ -81,16 +79,27 @@ page {
   white-space: nowrap;
 }
 
-.section-top .desc {
-  color: #f26700;
-  font-size: 34rpx;
-  margin-bottom: 10rpx;
-  letter-spacing: 5rpx;
+.section-top .qrcode {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 
 .barcode > canvas {
   width: 640rpx;
-  height: 200rpx;
+  height: 120rpx;
+}
+
+.qrcode > canvas {
+  width: 240rpx;
+  height: 240rpx;
+}
+
+.section-top .desc {
+  color: #f26700;
+  font-size: 34rpx;
+  letter-spacing: 5rpx;
 }
 
 .section-middle {

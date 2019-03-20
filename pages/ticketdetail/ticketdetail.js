@@ -3,6 +3,7 @@ const api = require('../../utils/api.js');
 const dateUtil = require('../../utils/util.js');
 var urlSafeBase64 = require('../../utils/safebase64.js');
 var barcode = require('../../utils/qrcode/index.js');
+var qrcode = require('../../utils/qrcode/index.js');
 Page({
 
   /**
@@ -80,7 +81,8 @@ Page({
             ticket: ticket,
             code: ticket.ticketcode
           })
-          barcode.barcode('barcode', ticket.ticketcode, 640, 200);
+          barcode.barcode('barcode', ticket.ticketcode, 640, 180);
+          qrcode.qrcode('qrcode', ticket.ticketcode, 240, 240);
           wx.hideLoading();
         }, (err) => {
           wx.showToast({
