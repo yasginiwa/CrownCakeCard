@@ -4,13 +4,12 @@ page {
   background-color: #0079c0;
   display: flex;
   flex-flow: column nowrap;
-  justify-content: center;
   align-items: center;
 }
 
 .section-top {
-  margin-top: 5%;
   background-color: white;
+  margin-top: 34rpx;
   width: 88%;
   border-top-left-radius: 20rpx;
   border-top-right-radius: 20rpx;
@@ -100,11 +99,12 @@ page {
   color: #f26700;
   font-size: 34rpx;
   letter-spacing: 5rpx;
+  position: relative;
+  top: -10rpx;
 }
 
 .section-middle {
   width: 88%;
-  height: 70%;
   background-color: white;
   display: flex;
   flex-flow: column nowrap;
@@ -151,7 +151,6 @@ page {
 .section-bottom {
   backdrop-filter: white;
   width: 88%;
-  height: 40%;
   color: #aaa;
   background-color: white;
   font-size: 26rpx;
