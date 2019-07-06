@@ -182,11 +182,14 @@ Page({
     var wxopenid = wx.getStorageSync('wxopenid');
     var content = {
       'productid': this.data.netbakeid,
-      'customername': '皇冠蛋糕',
+      'startdate': this.data.limitstartdate,
+      'enddate': this.data.limitenddate,
       'datasource': 11,
       'timestamp': now,
       'wxopenid': wxopenid
     };
+
+
     var ticketGenUrl = api.ticketGenUrl;
     var encContent = urlSafeBase64.encode(api.encryptContent(content));
     var sign = api.sign(content);

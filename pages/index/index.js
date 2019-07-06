@@ -13,8 +13,8 @@ Page({
     operations: [
       {
         image: '../../assets/ticketdetail.png',
-        name: '发放福利券',
-        desc: '福利发放人员入口(需注册认证)',
+        name: '发放礼品券',
+        desc: '发放人员入口(首次使用需注册)',
         indicator: '../../assets/arrow.png',
         tap: 'onDistributeTicket'
       }

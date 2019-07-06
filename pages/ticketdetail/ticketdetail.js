@@ -70,7 +70,6 @@ Page({
       success: (res) => {
         var data = JSON.parse(res.data);
         var ticket = api.decryptContent(data.content);
-
         queryTicketDetail(ticket, (res) => {
           ticket.price = ticket.price.toFixed(2);
           ticket.company = res.data.result[0].company;

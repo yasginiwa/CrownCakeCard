@@ -15,8 +15,8 @@ page {
 }
 
 .banner image {
-  height: 350rpx;
-  width: 600rpx;
+  height: 314rpx;
+  width: 455rpx;
 }
 
 .banner .supervise {

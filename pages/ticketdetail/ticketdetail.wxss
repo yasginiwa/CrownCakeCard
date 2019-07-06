@@ -21,7 +21,7 @@ page {
 
 .section-top image {
   width: 560rpx;
-  height: 213rpx;
+  height: 283rpx;
   margin-top: 40rpx;
 }
 

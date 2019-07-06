@@ -174,8 +174,8 @@ Page({
     //  弹出确认转发对话框
     setTimeout(function(){
       wx.showModal({
-        title: '确认是否转发给员工',
-        content: '如点"取消"，请及时撤回微信消息...',
+        title: '确认转发给顾客',
+        content: '点击"取消"，请及时撤回微信消息...',
         success: function (res) {
           if (res.confirm) { //  点击确定
             //  请求刷新状态
@@ -193,7 +193,7 @@ Page({
     }, 500)
 
     return {
-      title: `${ticket.company} 送您一张福利券！`,
+      title: '皇冠蛋糕赠您一张礼品券',
       path: `/pages/ticketdetail/ticketdetail?ticketcode=${ticket.ticketcode}`,
       imageUrl: '../../assets/sendstaff.png'
     }

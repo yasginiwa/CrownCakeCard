@@ -1,7 +1,7 @@
 <!--pages/index/index.wxml-->
 <view class='banner'>
   <image src='../../assets/banner.png'></image>
-  <text>在线申领、发放企业员工福利券</text>
+  <text>在线申领、发放皇冠「幸福礼品券」</text>
 </view>
 
   <view class='tableView'>

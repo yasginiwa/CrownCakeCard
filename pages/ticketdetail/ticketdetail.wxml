@@ -1,8 +1,8 @@
 <!--pages/ticketdetail/ticketdetail.wxml-->
 <view class='section-top'>
   <image src='../../assets/ticketpattern.png'></image>
-  <text class='company'>{{ticket.company}}</text>
-  <text class='ticketno'>编号:{{ticket.ticketno}}</text>
+  <!-- <text class='company'>{{ticket.company}}</text>
+  <text class='ticketno'>编号:{{ticket.ticketno}}</text> -->
   <text class='name'>{{ticket.productname}}</text>
   <text class='hint'>结算时请出示此码</text>
   <view class="barcode">
@@ -18,7 +18,6 @@
 
 <view class='section-middle'>
   <view class='left'></view>
-  <text class='customername'>发券单位：{{ticket.customername}}</text>
   <text>卡券金额：{{ticket.price}}</text>
   <text class='validdate'>有效期限：{{ticket.startdate}} 至 {{ticket.enddate}}</text>
 </view>
