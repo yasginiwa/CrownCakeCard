@@ -53,10 +53,20 @@ page {
   font-size: 36rpx;
 }
 
+.section-top .desc1 {
+  margin-top: 10rpx;
+  font-size: 28rpx;
+}
+
+.section-top .desc2 {
+  margin-top: 10rpx;
+  font-size: 28rpx;
+}
+
 .section-top .hint {
   margin-top: 10rpx;
   color: #aaa;
-  font-size: 30rpx;
+  font-size: 28rpx;
 }
 
 .section-top .barcode {

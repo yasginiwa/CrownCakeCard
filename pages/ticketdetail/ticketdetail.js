@@ -68,14 +68,18 @@ Page({
         content: encContent
       },
       success: (res) => {
+
         var data = JSON.parse(res.data);
         var ticket = api.decryptContent(data.content);
+
         queryTicketDetail(ticket, (res) => {
           ticket.price = ticket.price.toFixed(2);
           ticket.company = res.data.result[0].company;
           ticket.ticketno = res.data.result[0].ticketno;
-          ticket.startdate = ticket.startdate.substring(0,10);
-          ticket.enddate = ticket.enddate.substring(0,10);
+          ticket.startdate = ticket.startdate.substring(10, 0);
+          ticket.enddate = ticket.enddate.substring(10, 0);
+          ticket.desc1 = res.data.result[0].desc1;
+          ticket.desc2 = res.data.result[0].desc2;
           this.setData({
             ticket: ticket,
             code: ticket.ticketcode

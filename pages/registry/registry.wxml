@@ -20,12 +20,12 @@
 </view>
 
 <view class='sec2'>
-  <text>皇冠蛋糕卡券客户注册</text>
+  <text>皇冠蛋糕卡券门店注册</text>
 </view>
 
 <view class='sec3'>
   <view class='profile'>
-    <input bindinput='companyInput' placeholder='企业名称' focus='true' placeholder-class='phstyle'></input>
+    <input bindinput='companyInput' placeholder='门店名称' focus='true' placeholder-class='phstyle'></input>
   </view>
 
   <view class='profile'>
@@ -41,7 +41,7 @@
   <button bindtap='registrySubmit' disabled='{{btnDisable}}' type='default'>注 册</button>
 
   <view class='notice'>
-    <text>● 注册信息提交后无法更改，请仔细核对!</text>
-    <text>● 注册信息如填错或更换微信号，请联系本公司客服！</text>
+    <text>● 注册信息会导致券生成错误，请仔细核对!</text>
+    <text>● 如有疑问，请联系公司信息部！</text>
   </view>
 </view>

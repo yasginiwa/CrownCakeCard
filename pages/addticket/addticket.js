@@ -1,7 +1,7 @@
 // pages/addticket/addticket.js
 
 const api = require('../../utils/api.js');
-const dateUtil = require('../../utils/util.js');
+let dateUtil = require('../../utils/util.js');
 var urlSafeBase64 = require('../../utils/safebase64.js');
 
 Page({
@@ -13,6 +13,8 @@ Page({
     addBtnStatus: false,
     limitstartdate: 'N/A',
     limitenddate: 'N/A',
+    desc1: '',
+    desc2: '',
     netbakeid: '',
     numbers: '',
     totalcount: 0,
@@ -89,12 +91,16 @@ Page({
     var that = this;
     // promise异步线程保证数据同步完成
     expectAuthRequest.then((res) => {
+
+      console.log(res);     
       that.setData({
         totalcount: res.expectnumbers,
         expectdate: dateUtil.formatLocal(res.expectdate),
         netbakeid: res.netbakeid,
         limitstartdate: dateUtil.formatLocalDate(res.limitstartdate),
-        limitenddate: dateUtil.formatLocalDate(res.limitenddate)
+        limitenddate: dateUtil.formatLocalDate(res.limitenddate),
+        desc1: res.desc1,
+        desc2: res.desc2
       })
 
       // 总数存入本地存储
@@ -182,13 +188,14 @@ Page({
     var wxopenid = wx.getStorageSync('wxopenid');
     var content = {
       'productid': this.data.netbakeid,
-      'startdate': this.data.limitstartdate,
-      'enddate': this.data.limitenddate,
+      'startdate': dateUtil.formatLocal(this.data.limitstartdate),
+      'enddate': dateUtil.formatLocal(this.data.limitenddate),
       'datasource': 11,
       'timestamp': now,
       'wxopenid': wxopenid
     };
 
+console.log(content);
 
     var ticketGenUrl = api.ticketGenUrl;
     var encContent = urlSafeBase64.encode(api.encryptContent(content));
@@ -233,8 +240,11 @@ Page({
         price: ticket.price,
         distributestatus: 0, // 状态0为未分发 1为已分发
         distributedate: dateUtil.formatTime(new Date()),
-        expectdate: this.data.expectdate
+        expectdate: this.data.expectdate,
+        desc1: this.data.desc1,
+        desc2: this.data.desc2
       },
+ 
       success: function (res) {
         success(res);
       },
