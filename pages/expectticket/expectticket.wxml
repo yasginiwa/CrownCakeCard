@@ -3,7 +3,7 @@
 
 <view class='desc'>
   <text class='title'>申领卡券</text>
-  <text class='content'>向皇冠公司申请合同约定数量的卡券。</text>
+  <text class='content'>向玫隆皇冠总部申请约定数量的卡券。</text>
 </view>
 
 <view class='waiting' wx:if='{{expectwaitstatus == true}}'>
@@ -14,7 +14,7 @@
   </view>
 
   <view class='content'>
-    <text>公司名称：{{expectticket.company}}</text>
+    <text>门店名称：{{expectticket.company}}</text>
     <text>卡券数量：{{expectticket.expectnumbers}} 张</text>
     <text>申请日期：{{expectticket.expectdate}}</text>
   </view>

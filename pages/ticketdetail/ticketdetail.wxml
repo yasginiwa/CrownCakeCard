@@ -5,7 +5,9 @@
   <text class='ticketno'>编号:{{ticket.ticketno}}</text> -->
   <text class='name'>{{ticket.productname}}</text>
   <text wx:if='{{ticket.desc1}}' class='desc1'>{{ticket.desc1}}</text>
-  <text wx:if='{{ticket.desc1}}' class='desc2'>{{ticket.desc2}}</text>
+  <text wx:if='{{ticket.desc2}}' class='desc2'>{{ticket.desc2}}</text>
+  <text wx:if='{{ticket.desc3}}' class='desc3'>{{ticket.desc3}}</text>
+  <text wx:if='{{ticket.desc4}}' class='desc4'>{{ticket.desc4}}</text>
   <text class='hint'>结算时请出示此码</text>
   <!-- <view class="barcode">
     <canvas canvas-id="barcode"/>

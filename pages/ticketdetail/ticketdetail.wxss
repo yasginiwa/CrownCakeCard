@@ -63,6 +63,16 @@ page {
   font-size: 28rpx;
 }
 
+.section-top .desc3 {
+  margin-top: 10rpx;
+  font-size: 28rpx;
+}
+
+.section-top .desc4 {
+  margin-top: 10rpx;
+  font-size: 28rpx;
+}
+
 .section-top .hint {
   margin-top: 10rpx;
   color: #aaa;

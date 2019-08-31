@@ -34,6 +34,7 @@ Page({
           sqlValue: ticketcode
         },
         success: (res) => {
+          console.log(res);
           successCb(res);
         },
         fail: (err) => {
@@ -80,6 +81,8 @@ Page({
           ticket.enddate = ticket.enddate.substring(10, 0);
           ticket.desc1 = res.data.result[0].desc1;
           ticket.desc2 = res.data.result[0].desc2;
+          ticket.desc3 = res.data.result[0].desc3;
+          ticket.desc4 = res.data.result[0].desc4;
           this.setData({
             ticket: ticket,
             code: ticket.ticketcode
